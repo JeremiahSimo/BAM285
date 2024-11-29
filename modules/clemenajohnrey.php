@@ -56,18 +56,22 @@ $education = [
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php echo $name; ?> - Portfolio</title>
     <style>
+        /* Global Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
             color: #333;
+            scroll-behavior: smooth;
         }
         header {
-            background-color: #333;
+            background: linear-gradient(to right, #4e73df, #1cc88a);
             color: white;
             text-align: center;
             padding: 50px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out;
         }
         header h1 {
             margin: 0;
@@ -76,7 +80,10 @@ $education = [
         header p {
             margin-top: 5px;
             font-size: 1.2em;
+            font-weight: 300;
         }
+
+        /* Container and Layout */
         .container {
             width: 80%;
             margin: 30px auto;
@@ -84,15 +91,19 @@ $education = [
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1.5s ease-out;
         }
         .section-title {
             font-size: 1.8em;
             margin-bottom: 10px;
             color: #333;
+            font-weight: 600;
         }
         .section-content {
             margin-bottom: 20px;
         }
+
+        /* Section Styles */
         .skills, .projects, .experience, .education, .contact {
             margin-bottom: 30px;
         }
@@ -106,23 +117,25 @@ $education = [
             padding: 10px;
             border-radius: 4px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
         }
-        .skills li {
-            font-size: 1.1em;
-        }
-        .projects li, .experience li, .education li {
-            font-size: 1em;
+        .skills li:hover, .projects li:hover, .experience li:hover, .education li:hover {
+            transform: scale(1.05);
         }
         .projects li a {
             text-decoration: none;
             color: #333;
             font-weight: bold;
+            transition: color 0.3s ease;
         }
         .projects li a:hover {
+            color: #4e73df;
             text-decoration: underline;
         }
+
+        /* Buttons */
         .button {
-            background-color: #333;
+            background-color: #4e73df;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -130,16 +143,20 @@ $education = [
             text-decoration: none;
             display: inline-block;
             margin-top: 10px;
+            transition: background-color 0.3s ease;
         }
         .button:hover {
-            background-color: #555;
+            background-color: #2e59d9;
         }
+
+        /* Footer */
         footer {
             text-align: center;
             background-color: #333;
             color: white;
             padding: 20px 0;
             margin-top: 30px;
+            animation: fadeIn 2s ease-out;
         }
         footer a {
             color: #f4f4f4;
@@ -149,7 +166,20 @@ $education = [
         footer a:hover {
             text-decoration: underline;
         }
-        /* Responsive design */
+
+        /* Animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             .container {
                 width: 90%;
@@ -251,4 +281,5 @@ $education = [
 
 </body>
 </html>
+
 
