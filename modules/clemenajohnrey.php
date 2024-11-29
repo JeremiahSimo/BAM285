@@ -3,8 +3,8 @@
 $name = "John Rey Q. Clemeña";
 $title = "BSIT Student";
 $email = "john@example.com";  
-$phone = "(123) 456-7890";    
-$github = "https://github.com/johnrey"; 
+$phone = "09154536207";    
+$github = "https://github.com/johnjohn1012"; 
 $linkedin = "https://www.linkedin.com/in/johnrey"; 
 $projects = [
     [
