@@ -1,4 +1,10 @@
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -27,6 +33,23 @@
             color: #007bff;
             font-weight: bold;
         }
+        .social-links {
+            margin-top: 20px;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        .social-links a:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -34,5 +57,9 @@
         <h1>About Me</h1>
         <p>Hello! My name is <span class="highlight">Junel C. Baterna</span>. I am a <span class="highlight">3rd-year college student</span> currently pursuing a degree in <span class="highlight">BSIT (Bachelor of Science in Information Technology)</span> with a major in <span class="highlight">Business Analytics</span>.</p>
         <p>I am passionate about technology, data analysis, and leveraging insights to solve business challenges.</p>
+        <div class="social-links">
+            <a href="https://www.facebook.com/junel.baterna" target="_blank">Follow me on Facebook</a>
+        </div>
     </div>
 </body>
+</html>
