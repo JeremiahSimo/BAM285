@@ -1,10 +1,9 @@
 <?php
-
 $name = "John Rey Q. Clemeña";
 $title = "BSIT Student";
 $email = "john@example.com";  
-$phone = "09154536207";    
-$github = "https://github.com/johnjohn1012"; 
+$phone = "(123) 456-7890";    
+$github = "https://github.com/johnrey"; 
 $linkedin = "https://www.linkedin.com/in/johnrey"; 
 $projects = [
     [
@@ -21,6 +20,30 @@ $projects = [
         'title' => 'Project 3',
         'description' => 'A brief description of Project 3',
         'link' => '#'
+    ],
+];
+
+$experience = [
+    [
+        'title' => 'Intern - Web Developer',
+        'company' => 'Tech Innovations Co.',
+        'duration' => 'June 2023 - August 2023',
+        'description' => 'Developed and maintained websites for small businesses using PHP and MySQL.'
+    ],
+    [
+        'title' => 'Freelancer - Web Developer',
+        'company' => 'Self-employed',
+        'duration' => 'January 2022 - Present',
+        'description' => 'Worked on various freelance projects, including e-commerce sites, personal blogs, and company portfolios.'
+    ],
+];
+
+$education = [
+    [
+        'degree' => 'Bachelor of Science in Information Technology',
+        'institution' => 'University of Example',
+        'graduation' => '2024',
+        'description' => 'Pursuing a degree in Information Technology with a focus on web development and programming.'
     ],
 ];
 ?>
@@ -65,24 +88,51 @@ $projects = [
         .section-title {
             font-size: 1.8em;
             margin-bottom: 10px;
+            color: #333;
         }
         .section-content {
             margin-bottom: 20px;
         }
-        .projects ul {
+        .skills, .projects, .experience, .education, .contact {
+            margin-bottom: 30px;
+        }
+        .skills ul, .projects ul, .experience ul, .education ul {
             list-style-type: none;
             padding: 0;
         }
-        .projects li {
+        .skills li, .projects li, .experience li, .education li {
             background-color: #f9f9f9;
             margin: 10px 0;
             padding: 10px;
             border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .skills li {
+            font-size: 1.1em;
+        }
+        .projects li, .experience li, .education li {
+            font-size: 1em;
         }
         .projects li a {
             text-decoration: none;
             color: #333;
             font-weight: bold;
+        }
+        .projects li a:hover {
+            text-decoration: underline;
+        }
+        .button {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: #555;
         }
         footer {
             text-align: center;
@@ -98,6 +148,15 @@ $projects = [
         }
         footer a:hover {
             text-decoration: underline;
+        }
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+            header h1 {
+                font-size: 2em;
+            }
         }
     </style>
 </head>
@@ -144,6 +203,34 @@ $projects = [
         </div>
     </section>
 
+    <section class="experience">
+        <h2 class="section-title">Experience</h2>
+        <div class="section-content">
+            <ul>
+                <?php foreach ($experience as $job): ?>
+                    <li>
+                        <strong><?php echo $job['title']; ?></strong> at <em><?php echo $job['company']; ?></em> (<?php echo $job['duration']; ?>)
+                        <p><?php echo $job['description']; ?></p>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </section>
+
+    <section class="education">
+        <h2 class="section-title">Education</h2>
+        <div class="section-content">
+            <ul>
+                <?php foreach ($education as $edu): ?>
+                    <li>
+                        <strong><?php echo $edu['degree']; ?></strong> from <em><?php echo $edu['institution']; ?></em> (Graduating in <?php echo $edu['graduation']; ?>)
+                        <p><?php echo $edu['description']; ?></p>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </section>
+
     <section class="contact">
         <h2 class="section-title">Contact</h2>
         <div class="section-content">
@@ -153,6 +240,7 @@ $projects = [
                 <li>Phone: <?php echo $phone; ?></li>
             </ul>
             <p>Feel free to connect with me on <a href="<?php echo $github; ?>" target="_blank">GitHub</a> or <a href="<?php echo $linkedin; ?>" target="_blank">LinkedIn</a>.</p>
+            <a href="mailto:<?php echo $email; ?>" class="button">Contact Me</a>
         </div>
     </section>
 </div>
@@ -163,3 +251,4 @@ $projects = [
 
 </body>
 </html>
+
