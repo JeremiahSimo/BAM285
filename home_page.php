@@ -111,7 +111,7 @@ footer {
                             include 'modules/tokyo.php';
                             break;
                             
-                        case 'panong':
+                        case 'caamiño':
                           include 'modules/panong2.php';
                           break;
 
