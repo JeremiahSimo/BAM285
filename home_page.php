@@ -111,7 +111,7 @@ footer {
                             break;
 
                             case 'sumanda':
-                              include 'sumanda.php';
+                              include 'modules/sumanda.php';
                               break;
 
             }
