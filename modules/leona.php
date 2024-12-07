@@ -8,6 +8,9 @@
             $course = "Information Technology";
             $school = "PHINMA COC";
 
+
             echo "<p style='color: #555; font-size: 18px; margin: 10px 0;'>Hello, I'm <span style='font-weight: bold; color: #00796b;'>$name</span>, a <span style='font-weight: bold; color: #00796b;'>$year</span>-year $course student at <span style='font-weight: bold; color: #00796b;'>$school</span>.</p>";
+            <p>Email: honeyfaithleona </p>
+            <p>Number: 09261148360</p>
         ?>
     </div>
