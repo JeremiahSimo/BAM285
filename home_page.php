@@ -90,7 +90,7 @@ footer {
     </ul>
   </nav>
   
-  <article>
+    <article>
    <!-- content area -->
     <?php
         if (isset($_GET['page'])){
