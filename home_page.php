@@ -109,13 +109,13 @@ footer {
                         
                         case 'tokyo':
                             include 'modules/tokyo.php';
-                            break;
+                            break;  
                             
                         case 'caamiño':
                           include 'modules/panong2.php';
                           break;
                           case 'amorin':
-                            include 'modules/amorin.php';
+                            include 'modules/Amorin.php';
                             break;
 
 
