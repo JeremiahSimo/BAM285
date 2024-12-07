@@ -111,9 +111,10 @@ footer {
                             include 'tokyo.php';
                             break;
 
-                        case 'My_Profile' :   
-                        include 'modules/junel.php'
-                          break;
+                            case 'My Profile':
+                              include 'junel.php';
+                              break;
+  
             }
 
         }
