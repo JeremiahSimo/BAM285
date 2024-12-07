@@ -101,19 +101,19 @@ footer {
 
             switch ($page){
                 case 'london':
-                    include 'london.php';
+                    include 'module/london.php';
                     break;
                     
                     case 'paris':
-                        include 'paris.php';
+                        include 'module/paris.php';
                         break;
                         
                         case 'tokyo':
-                            include 'tokyo.php';
+                            include 'module/tokyo.php';
                             break;
 
                             case 'andrea':
-                              include 'andrea.php';
+                              include 'modules/andrea.php';
                               break;
 
             }
