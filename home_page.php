@@ -87,7 +87,7 @@ footer {
       <li><a href="home_page.php?page=london">London</a></li>
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
-      <li><a href="home_page.php?page=My_profile">My Profile</a></li>
+      <li><a href="home_page.php?page=My profile">My Profile</a></li>
 
     </ul>
   </nav>
