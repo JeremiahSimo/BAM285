@@ -1,17 +1,39 @@
+<?php
+ include "includes/connection.php";
 
-              <h5 class="card-title">Registration Form</h5>
+ if(isset($_POST["btn_submit"])){
+    $name=$_POST["input_fullname"];
+    $email=$_POST["input_email"];
+    $address=$_POST["input_address"];
+
+    $sql = "INSERT INTO user_registration (user_name, user_email, user_address)
+VALUES (' $name', '$email', '$address')";
+
+if ($conn->query($sql) === TRUE) {
+  echo "New record created successfully";
+} else {
+  echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+$conn->close();
+ }
+
+?>
+             
+             
+             <h5 class="card-title">Registration Form</h5>
 
               <!-- Floating Labels Form -->
-              <form class="row g-3">
+              <form class="row g-3" method="POST" action="index_admin.php?page=registration_form">
                 <div class="col-md-12">
                   <div class="form-floating">
-                    <input type="text" class="form-control" id="floatingName" placeholder="Your Name">
+                    <input type="text" class="form-control" id="floatingName" name="input_fullname"placeholder="Your Name">
                     <label for="floatingName">Your Name</label>
                   </div>
                 </div>
                 <div class="col-md-10">
                   <div class="form-floating">
-                    <input type="email" class="form-control" id="floatingEmail" placeholder="Your Email">
+                    <input type="email" class="form-control" id="floatingEmail" name="input_email"placeholder="Your Email">
                     <label for="floatingEmail">Your Email</label>
                   </div>
                 </div>
@@ -23,7 +45,7 @@
                 </div>
                 <div class="col-12">
                   <div class="form-floating">
-                    <textarea class="form-control" placeholder="Address" id="floatingTextarea" style="height: 100px;"></textarea>
+                    <textarea class="form-control" placeholder="Address" id="floatingTextarea" name="input_address" style="height: 100px;"></textarea>
                     <label for="floatingTextarea">Address</label>
                   </div>
                 </div>
@@ -52,7 +74,7 @@
                   </div>
                 </div>
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" name="btn_submit" class="btn btn-primary">Submit</button>
                   <button type="reset" class="btn btn-secondary">Reset</button>
                 </div>
               </form><!-- End floating Labels Form -->
