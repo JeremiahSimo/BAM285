@@ -91,27 +91,33 @@ footer {
   </nav>
   
   <article>
-   <!-- content area -->
+
     <?php
-        if (isset($_GET['page'])){
-            $page=$_GET['page'];
-
-            switch ($page){
-                case 'london':
-                    include 'london.php';
-                    break;
-                    
-                    case 'paris':
-                        include 'paris.php';
-                        break;
-                        
-                        case 'tokyo':
-                            include 'tokyo.php';
-                            break;
-
-            }
-
+       if (isset($_GET['page'])) {
+        $page = $_GET['page'];
+    
+        switch ($page) {
+            case 'london':
+                include 'london.php';
+                break;
+    
+            case 'paris':
+                include 'paris.php';
+                break;
+    
+            case 'tokyo':
+                include 'tokyo.php';
+                break;
+    
+            case 'tan': 
+                include 'tan.php';
+                break;
         }
+    }
+    
+      
+
+    
     ?>
   </article>
 </section>
