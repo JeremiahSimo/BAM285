@@ -88,6 +88,7 @@ footer {
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
       <li><a href="home_page.php?page=panong">Panong</a></li>
+      <li><a href="home_page.php?page=Arazo">Arazo</a></li>
     </ul>
   </nav>
   
@@ -113,6 +114,10 @@ footer {
                         case 'panong':
                           include 'modules/panong2.php';
                           break;
+
+                          case 'Arazo':
+                            include 'modules/Arazo.php';
+                            break;
 
 
             }
