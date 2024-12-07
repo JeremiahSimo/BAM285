@@ -112,7 +112,7 @@ footer {
                             break;
 
                             case 'My Profile':
-                              include 'junel.php';
+                              include 'modules/junel.php';
                               break;
   
             }
