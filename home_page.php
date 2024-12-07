@@ -110,7 +110,7 @@ footer {
                             include 'tokyo.php';
                             break;
 
-                            case 'Caamiño':
+                            case 'caamiño':
                               include 'modules/caamiño.php';
                               break;
 
