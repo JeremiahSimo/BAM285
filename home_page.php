@@ -86,7 +86,7 @@ footer {
       <li><a href="home_page.php?page=london">london</a></li>
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
-      <li><a href="home_page.php?page=johansson">My Personal Info</a></li>
+      <li><a href="home_page.php?page=fabrea">My Personal Info</a></li>
     </ul>
   </nav>
   
@@ -108,8 +108,8 @@ footer {
                         case 'tokyo':
                             include 'modules/tokyo.php';
                             break;
-                        case 'johansson':
-                            include 'modules/johansson.php';
+                        case 'fabrea':
+                            include 'modules/fabrea.php';
                             break;
 
             }
