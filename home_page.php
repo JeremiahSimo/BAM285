@@ -106,8 +106,8 @@ footer {
                         include 'modules/paris.php';
                         break;
                         
-                        case 'Dayadaya':
-                            include 'modules/Dayadaya.php';
+                        case 'dayadaya':
+                            include 'modules/dayadaya.php';
                             break;
 
             }
