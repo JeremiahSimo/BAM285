@@ -111,7 +111,7 @@ footer {
                             break;
 
                             case 'Caamiño':
-                              include 'caamiño.php';
+                              include 'modules/caamiño.php';
                               break;
 
             }
