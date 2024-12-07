@@ -111,7 +111,7 @@ footer {
                             break;
                             
                         case 'caparas':
-                          include 'modules/caparas.php';
+                          include 'modules/caparas2.php';
                           break;
 
 
