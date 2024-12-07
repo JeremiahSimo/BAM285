@@ -107,7 +107,7 @@ footer {
                         break;
                         
                         case 'tokyo':
-                            include 'modules/okyo.php';
+                            include 'modules/tokyo.php';
                             break;
 
                             case 'medequiso':
