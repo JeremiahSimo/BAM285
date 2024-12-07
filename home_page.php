@@ -87,6 +87,7 @@ footer {
       <li><a href="home_page.php?page=london">London</a></li>
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
+      <li><a href="home_page.php?page=damloan">damloan</a></li>
     </ul>
   </nav>
   
@@ -98,16 +99,20 @@ footer {
 
             switch ($page){
                 case 'london':
-                    include 'london.php';
+                    include 'modules/london.php';
                     break;
                     
                     case 'paris':
-                        include 'paris.php';
+                        include 'modules/paris.php';
                         break;
                         
                         case 'tokyo':
-                            include 'tokyo.php';
+                            include 'modules/tokyo.php';
                             break;
+                            case 'damloan':
+                                include 'modules/damloan.php';
+                                break;
+    
 
             }
 
