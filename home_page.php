@@ -73,7 +73,7 @@ footer {
 </head>
 <body>
 
-<h2>JESSE RAY MORCILLOS</h2>
+<h2>ABAS ANDRE </h2>
 <p>In this example, we have created a header, two columns/boxes and a footer. On smaller screens, the columns will stack on top of each other.</p>
 <p>Resize the browser window to see the responsive effect (you will learn more about this in our next chapter - HTML Responsive.)</p>
 
@@ -87,6 +87,7 @@ footer {
       <li><a href="home_page.php?page=london">London</a></li>
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
+      <li><a href="home_page.php?page=ABAS">ABAS</a></li>
     </ul>
   </nav>
   
@@ -98,15 +99,18 @@ footer {
 
             switch ($page){
                 case 'london':
-                    include 'london.php';
+                    include 'modules/london.php';
                     break;
                     
                     case 'paris':
-                        include 'paris.php';
+                        include 'modules/paris.php';
                         break;
                         
                         case 'tokyo':
-                            include 'tokyo.php';
+                            include 'modules/tokyo.php';
+                            break;
+                        case 'ABAS':
+                            include 'modules/ABAS.php';
                             break;
 
             }
