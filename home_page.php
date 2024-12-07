@@ -110,8 +110,8 @@ footer {
                             include 'modules/tokyo.php';
                             break;
                             
-                        case 'Saarenas':
-                          include 'modules/Saarenas.php';
+                        case 'saarenas':
+                          include 'modules/saarenas.php';
                           break;
 
 
