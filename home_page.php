@@ -109,7 +109,7 @@ footer {
                         case 'tokyo':
                             include 'modules/tokyo.php';
                             break;
-                            case 'tokyo':
+                            case 'lusdoc':
                               include 'modules/lusdoc.php';
                               break;
 
