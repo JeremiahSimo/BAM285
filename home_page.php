@@ -14,7 +14,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Style the header */
 header {
   background-color: #666;
   padding: 30px;
@@ -23,16 +22,15 @@ header {
   color: white;
 }
 
-/* Create two columns/boxes that floats next to each other */
 nav {
   float: left;
   width: 30%;
-  height: 300px; /* only for demonstration, should be removed */
+  height: 300px; 
   background: #ccc;
   padding: 20px;
 }
 
-/* Style the list inside the menu */
+
 nav ul {
   list-style-type: none;
   padding: 0;
@@ -43,10 +41,9 @@ article {
   padding: 20px;
   width: 70%;
   background-color: #f1f1f1;
-  height: 300px; /* only for demonstration, should be removed */
+  height: 300px; 
 }
 
-/* Clear floats after the columns */
 section::after {
   content: "";
   display: table;
@@ -62,7 +59,6 @@ footer {
 }
 
 
-/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
 @media (max-width: 600px) {
   nav, article {
     width: 100%;
@@ -87,26 +83,27 @@ footer {
       <li><a href="home_page.php?page=london">London</a></li>
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
+      <li><a href="home_page.php?page=simons">Simon</a></li>
+
     </ul>
   </nav>
   
   <article>
-   <!-- content area -->
     <?php
         if (isset($_GET['page'])){
             $page=$_GET['page'];
 
             switch ($page){
                 case 'london':
-                    include 'london.php';
+                    include 'modules/london.php';
                     break;
                     
                     case 'paris':
-                        include 'paris.php';
+                        include 'modules/paris.php';
                         break;
                         
-                        case 'tokyo':
-                            include 'tokyo.php';
+                        case 'simons':
+                            include 'modules/simons.php';
                             break;
 
             }
