@@ -111,7 +111,7 @@ footer {
                             break;
 
                             case 'mangondato':
-                              include 'mangondato.php';
+                              include 'modules/mangondato.php';
                               break;
 
             }
