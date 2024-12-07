@@ -87,7 +87,7 @@ footer {
       <li><a href="home_page.php?page=london">London</a></li>
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
-      <li><a href="home_page.php?page=panong">Panong</a></li>
+      <li><a href="home_page.php?page=castillo">castillo</a></li>
     </ul>
   </nav>
   
@@ -110,8 +110,8 @@ footer {
                             include 'modules/tokyo.php';
                             break;
                             
-                        case 'caamiño':
-                          include 'modules/panong2.php';
+                        case 'castillo':
+                          include 'modules/castillo.php';
                           break;
 
 
