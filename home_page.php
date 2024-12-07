@@ -111,7 +111,7 @@ footer {
                             include 'modules/tokyo.php';
                             break;
 
-                            case 'My Profile':
+                            case 'My profile':
                               include 'modules/Junel.php';
                               break;
   
