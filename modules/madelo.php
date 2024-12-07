@@ -7,44 +7,59 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            background-image: url('https://source.unsplash.com/random/1600x900');
+            background-size: cover;
+            background-position: center;
             margin: 0;
             padding: 0;
             color: #333;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .container {
-            width: 80%;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
+            width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
         }
         h1 {
             text-align: center;
-            color: #2c3e50;
-        }
-        .profile-info {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 20px;
-            font-size: 18px;
-        }
-        .profile-info strong {
             color: #2980b9;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
-        .profile-info p {
-            margin: 0;
-            color: #555;
+        .form-group {
+            margin-bottom: 20px;
         }
-        .profile-info .label {
-            font-weight: bold;
+        .form-group label {
+            display: block;
+            font-size: 16px;
             color: #2980b9;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: #2980b9;
         }
         .footer {
             text-align: center;
-            margin-top: 30px;
             font-size: 14px;
+            margin-top: 30px;
             color: #aaa;
         }
     </style>
@@ -53,23 +68,24 @@
 
     <div class="container">
         <h1>Profile Information</h1>
-        <div class="profile-info">
-            <div class="label">Name:</div>
-            <div>Carl Vinncent D. Madelo</div>
-
-            <div class="label">Age:</div>
-            <div>21</div>
-
-            <div class="label">Occupation:</div>
-            <div>Software Developer</div>
-
-            <div class="label">Address:</div>
-            <div>Zone 9, Macanhan, Carmen, CDO</div>
-        </div>
-        <div class="footer">
-            <p>&copy; 2024 Carl Vinncent D. Madelo. All Rights Reserved.</p>
-        </div>
-    </div>
-
+        <form>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" value="Carl Vinncent D. Madelo" disabled>
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="text" id="age" value="21" disabled>
+            </div>
+            <div class="form-group">
+                <label for="occupation">Occupation:</label>
+                <input type="text" id="occupation" value="Software Developer" disabled>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" value="Zone 9, Macanhan, Carmen, CDO" disabled>
+            </div>
+        </form>
+       
 </body>
 </html>
