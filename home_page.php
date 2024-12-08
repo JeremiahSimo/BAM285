@@ -87,6 +87,9 @@ footer {
       <li><a href="home_page.php?page=london">London</a></li>
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
+      <li><a href="home_page.php?page=panong">Panong</a></li>
+      <li><a href="home_page.php?page=Arazo">Arazo</a></li>
+      <li><a href="home_page.php?page=Clemena">Clemena</a></li>
     </ul>
   </nav>
   
