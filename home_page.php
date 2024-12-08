@@ -12,6 +12,8 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 /* Style the header */
@@ -27,9 +29,9 @@ header {
 nav {
   float: left;
   width: 30%;
-  height: 300px; /* only for demonstration, should be removed */
   background: #ccc;
   padding: 20px;
+  min-height: calc(100vh - 130px); /* Adjusted for header and footer height */
 }
 
 /* Style the list inside the menu */
@@ -43,7 +45,7 @@ article {
   padding: 20px;
   width: 70%;
   background-color: #f1f1f1;
-  height: 300px; /* only for demonstration, should be removed */
+  min-height: calc(100vh - 130px); /* Adjusted for header and footer height */
 }
 
 /* Clear floats after the columns */
@@ -59,8 +61,10 @@ footer {
   padding: 10px;
   text-align: center;
   color: white;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
-
 
 /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
 @media (max-width: 600px) {
@@ -129,4 +133,5 @@ footer {
 
 </body>
 </html>
+
 
