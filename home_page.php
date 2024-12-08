@@ -109,6 +109,10 @@ footer {
                             include 'tokyo.php';
                             break;
 
+                         case 'Clemena':
+                            include 'modules/clemenajohnrey.php';
+                            break;
+
             }
 
         }
