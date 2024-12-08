@@ -1,40 +1,40 @@
 <?php
 $name = "John Rey Q. Clemeña";
-$title = "BSIT Student";
+$title = "BSIT Third-Year Student - Major in Business Informatics";
 $email = "john@example.com";  
 $phone = "(123) 456-7890";    
 $github = "https://github.com/johnrey"; 
 $linkedin = "https://www.linkedin.com/in/johnrey"; 
 $projects = [
     [
-        'title' => 'Project 1',
-        'description' => 'A brief description of Project 1',
+        'title' => 'Inventory Management System',
+        'description' => 'A web-based inventory system designed to streamline operations for small and medium-sized businesses.',
         'link' => '#'
     ],
     [
-        'title' => 'Project 2',
-        'description' => 'A brief description of Project 2',
+        'title' => 'Business Analytics Dashboard',
+        'description' => 'Created an interactive dashboard to visualize key performance metrics for a retail business.',
         'link' => '#'
     ],
     [
-        'title' => 'Project 3',
-        'description' => 'A brief description of Project 3',
+        'title' => 'E-Commerce Platform',
+        'description' => 'Developed a fully functional e-commerce platform with integrated payment processing.',
         'link' => '#'
     ],
 ];
 
 $experience = [
     [
-        'title' => 'Intern - Web Developer',
+        'title' => 'Intern - Business Solutions Developer',
         'company' => 'Tech Innovations Co.',
         'duration' => 'June 2023 - August 2023',
-        'description' => 'Developed and maintained websites for small businesses using PHP and MySQL.'
+        'description' => 'Worked on developing software solutions that integrate business processes with technology.'
     ],
     [
-        'title' => 'Freelancer - Web Developer',
+        'title' => 'Freelancer - Web and Business Developer',
         'company' => 'Self-employed',
         'duration' => 'January 2022 - Present',
-        'description' => 'Worked on various freelance projects, including e-commerce sites, personal blogs, and company portfolios.'
+        'description' => 'Delivered web applications and business tools for startups and local enterprises.'
     ],
 ];
 
@@ -42,8 +42,8 @@ $education = [
     [
         'degree' => 'Bachelor of Science in Information Technology',
         'institution' => 'University of Example',
-        'graduation' => '2024',
-        'description' => 'Pursuing a degree in Information Technology with a focus on web development and programming.'
+        'graduation' => '2025',
+        'description' => 'Specializing in Business Informatics, focusing on the intersection of technology and business processes.'
     ],
 ];
 ?>
@@ -66,7 +66,7 @@ $education = [
             scroll-behavior: smooth;
         }
         header {
-            background: linear-gradient(to right, #4e73df, #1cc88a);
+            background-color: #5a5c5e;
             color: white;
             text-align: center;
             padding: 50px 20px;
@@ -83,7 +83,6 @@ $education = [
             font-weight: 300;
         }
 
-        /* Container and Layout */
         .container {
             width: 80%;
             margin: 30px auto;
@@ -103,7 +102,6 @@ $education = [
             margin-bottom: 20px;
         }
 
-        /* Section Styles */
         .skills, .projects, .experience, .education, .contact {
             margin-bottom: 30px;
         }
@@ -133,7 +131,6 @@ $education = [
             text-decoration: underline;
         }
 
-        /* Buttons */
         .button {
             background-color: #4e73df;
             color: white;
@@ -149,7 +146,6 @@ $education = [
             background-color: #2e59d9;
         }
 
-        /* Footer */
         footer {
             text-align: center;
             background-color: #333;
@@ -167,7 +163,6 @@ $education = [
             text-decoration: underline;
         }
 
-        /* Animation */
         @keyframes fadeIn {
             0% {
                 opacity: 0;
@@ -179,7 +174,6 @@ $education = [
             }
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             .container {
                 width: 90%;
@@ -201,7 +195,7 @@ $education = [
     <section class="about">
         <h2 class="section-title">About Me</h2>
         <div class="section-content">
-            <p>Hello! I am <?php echo $name; ?>, currently a BSIT student passionate about web development, programming, and technology. I am actively learning and building projects to enhance my skills and contribute to the tech community.</p>
+            <p>Hello! I am <?php echo $name; ?>, a third-year BSIT student majoring in Business Informatics. I have a strong passion for combining technology with business processes to create innovative solutions and drive efficiency in various industries.</p>
         </div>
     </section>
 
@@ -212,9 +206,10 @@ $education = [
                 <li>PHP, HTML, CSS, JavaScript</li>
                 <li>MySQL, PostgreSQL</li>
                 <li>Frameworks: Laravel, Bootstrap</li>
+                <li>Data Analysis and Visualization</li>
+                <li>Business Process Optimization</li>
                 <li>Version Control: Git, GitHub</li>
-                <li>Problem-solving and debugging</li>
-                <li>Responsive Web Design</li>
+                <li>Project Management Tools: Trello, Asana</li>
             </ul>
         </div>
     </section>
