@@ -66,7 +66,7 @@ $education = [
             scroll-behavior: smooth;
         }
         header {
-            background: linear-gradient(to right, #4e73df, #1cc88a);
+            background-color: #666;
             color: white;
             text-align: center;
             padding: 50px 20px;

@@ -91,37 +91,96 @@ footer {
       <li><a href="home_page.php?page=london">London</a></li>
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
-      <li><a href="home_page.php?page=panong">Panong</a></li>
+      <li><a href="home_page.php?page=panong2">Panong2</a></li>
       <li><a href="home_page.php?page=Arazo">Arazo</a></li>
-      <li><a href="home_page.php?page=Clemena">Clemena</a></li>
+      <li><a href="home_page.php?page=andrea">Andrea</a></li>
+      <li><a href="home_page.php?page=baanan">Baanan</a></li>
+      <li><a href="home_page.php?page=caamino">Caamiño</a></li>
+      <li><a href="home_page.php?page=clemenajohnrey">Clemena</a></li>
+      <li><a href="home_page.php?page=decena">Decena</a></li>
+      <li><a href="home_page.php?page=doble">Doble</a></li>
+      <li><a href="home_page.php?page=galarpe">Galarpe</a></li>
+      <li><a href="home_page.php?page=jabulan">Jabulan</a></li>
+      <li><a href="home_page.php?page=lipao">Lipao</a></li>
+      <li><a href="home_page.php?page=magpantay">Magpantay</a></li>
+      <li><a href="home_page.php?page=MORCILLOS">Morcillos</a></li>
+      <li><a href="home_page.php?page=MORCILLOS2">Morcillos2</a></li>
+      <li><a href="home_page.php?page=sumanda">Sumanda</a></li>
+      <li><a href="home_page.php?page=taroy">Taroy</a></li>
+      <li><a href="home_page.php?page=baterna">Baterna</a></li>
     </ul>
   </nav>
   
   <article>
-   <!-- content area -->
+    <!-- content area -->
     <?php
         if (isset($_GET['page'])){
-            $page=$_GET['page'];
+            $page = $_GET['page'];
 
             switch ($page){
                 case 'london':
-                    include 'london.php';
+                    include 'modules/london.php';
                     break;
-                    
-                    case 'paris':
-                        include 'paris.php';
-                        break;
-                        
-                        case 'tokyo':
-                            include 'tokyo.php';
-                            break;
-
-                         case 'Clemena':
-                            include 'modules/clemenajohnrey.php';
-                            break;
-
+                case 'paris':
+                    include 'modules/paris.php';
+                    break;
+                case 'tokyo':
+                    include 'modules/tokyo.php';
+                    break;
+                case 'Arazo':
+                    include 'modules/Arazo.php';
+                    break;
+                case 'andrea':
+                    include 'modules/andrea.php';
+                    break;
+                case 'baanan':
+                    include 'modules/baanan.php';
+                    break;
+                case 'caamino':
+                    include 'modules/caamiño.php';
+                    break;
+                case 'clemenajohnrey':
+                    include 'modules/clemenajohnrey.php';
+                    break;
+                case 'decena':
+                    include 'modules/decena.php';
+                    break;
+                case 'doble':
+                    include 'modules/doble.php';
+                    break;
+                case 'galarpe':
+                    include 'modules/galarpe.php';
+                    break;
+                case 'jabulan':
+                    include 'modules/jabulan.php';
+                    break;
+                case 'lipao':
+                    include 'modules/lipao.php';
+                    break;
+                case 'magpantay':
+                    include 'modules/magpantay.php';
+                    break;
+                case 'MORCILLOS':
+                    include 'modules/MORCILLOS.php';
+                    break;
+                case 'MORCILLOS2':
+                    include 'modules/MORCILLOS2.php';
+                    break;
+                case 'panong2':
+                    include 'modules/panong2.php';
+                    break;
+                case 'sumanda':
+                    include 'modules/sumanda.php';
+                    break;
+                case 'taroy':
+                    include 'modules/taroy.php';
+                    break;
+                    case 'baterna':
+                      include 'modules/Baterna.php';
+                      break;
+                default:
+                    echo "Page not found.";
             }
-
         }
     ?>
   </article>
@@ -133,5 +192,3 @@ footer {
 
 </body>
 </html>
-
-
