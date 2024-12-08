@@ -89,6 +89,7 @@ footer {
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
       <li><a href="home_page.php?page=panong">Panong</a></li>
       <li><a href="home_page.php?page=magpantay">Magpantay</a></li>
+       <li><a href="home_page.php?page=clemena">Clemeña</a></li>
     </ul>
   </nav>
   
@@ -120,6 +121,10 @@ footer {
 
                           case 'magpantay':
                             include 'modules/magpantay.php';
+                            break;
+
+                            case 'clemena':
+                            include 'modules/clemenajohnrey.php';
                             break;
 
 
