@@ -275,9 +275,7 @@ $education = [
     </section>
 </div>
 
-<footer>
-    <p>&copy; <?php echo date("Y"); ?> John Rey Q. Clemeña. All rights reserved.</p>
-</footer>
+
 
 </body>
 </html>
