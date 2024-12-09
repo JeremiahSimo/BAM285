@@ -95,6 +95,7 @@ footer {
       <li><a href="home_page.php?page=magpantay">Magpantay</a></li>
        <li><a href="home_page.php?page=clemena">Clemeña</a></li>
        <li><a href="home_page.php?page=Arazo">Arazo</a></li>
+       <li><a href="home_page.php?page=Baterna">Junel</a></li>
     </ul>
   </nav>
   
@@ -135,6 +136,11 @@ footer {
                             case 'Arazo':
                               include 'modules/Arazo.php';
                               break;
+
+                              case 'Baterna':
+                                include 'modules/Baterna.php';
+                                break;
+  
 
 
             }
