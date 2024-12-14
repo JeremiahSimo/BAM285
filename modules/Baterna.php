@@ -100,7 +100,7 @@ input[type="submit"]:hover {
     $email = $_POST["email"];
     $amount = $_POST["loan_amount"];
     $year = $_POST["loan_term"]; 
-    $rate = $_POST["interest_rate"]
+    $rate = $_POST["interest_rate"];
     $address = $_POST["purpose"]; 
 
     // Your database insert code
