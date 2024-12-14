@@ -1,5 +1,5 @@
 <?php
-include "../includes/MyConnection.php"; // Correct the path if necessary
+include "../includes/MyConnection.php"; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["name"];
