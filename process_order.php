@@ -20,6 +20,12 @@ try {
         $cake_id = $_POST['cake_id'];
         $quantity = $_POST['quantity'];
 
+        // Validate email if provided
+        if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo "Invalid email format.";
+            exit;
+        }
+
         // Fetch the price of the selected cake
         $stmt = $pdo->prepare("SELECT price FROM cakes WHERE cake_id = ?");
         $stmt->execute([$cake_id]);
@@ -48,11 +54,14 @@ try {
         $stmt = $pdo->prepare("INSERT INTO order_details (order_id, cake_id, quantity, price) VALUES (?, ?, ?, ?)");
         $stmt->execute([$order_id, $cake_id, $quantity, $price]);
 
+        // Redirect or show confirmation
         echo "Order placed successfully!";
     }
 } catch (PDOException $e) {
-    echo "Database error: " . $e->getMessage();
+    error_log($e->getMessage(), 3, '/var/log/cake_order_errors.log');
+    echo "Database error. Please try again later.";
 } catch (Exception $e) {
+    error_log($e->getMessage(), 3, '/var/log/cake_order_errors.log');
     echo "Error: " . $e->getMessage();
 }
 ?>
