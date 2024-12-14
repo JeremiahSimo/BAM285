@@ -12,9 +12,11 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-/* Style the header */
+
 header {
   background-color: #666;
   padding: 30px;
@@ -23,16 +25,16 @@ header {
   color: white;
 }
 
-/* Create two columns/boxes that floats next to each other */
+
 nav {
   float: left;
   width: 30%;
-  height: 300px; /* only for demonstration, should be removed */
   background: #ccc;
   padding: 20px;
+  min-height: calc(100vh - 130px);
 }
 
-/* Style the list inside the menu */
+
 nav ul {
   list-style-type: none;
   padding: 0;
@@ -43,26 +45,28 @@ article {
   padding: 20px;
   width: 70%;
   background-color: #f1f1f1;
-  height: 300px; /* only for demonstration, should be removed */
+  min-height: calc(100vh - 130px); 
 }
 
-/* Clear floats after the columns */
+
 section::after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* Style the footer */
+
 footer {
   background-color: #777;
   padding: 10px;
   text-align: center;
   color: white;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 
 
-/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
 @media (max-width: 600px) {
   nav, article {
     width: 100%;
@@ -88,11 +92,18 @@ footer {
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
       <li><a href="home_page.php?page=panong">Panong</a></li>
+      <li><a href="home_page.php?page=magpantay">Magpantay</a></li>
+       <li><a href="home_page.php?page=clemena">Clemeña</a></li>
+       <li><a href="home_page.php?page=Arazo">Arazo</a></li>
+       <li><a href="home_page.php?page=Baterna">Junel</a></li>
     </ul>
   </nav>
   
   <article>
    <!-- content area -->
+
+
+
     <?php
         if (isset($_GET['page'])){
             $page=$_GET['page'];
@@ -109,9 +120,29 @@ footer {
                         case 'tokyo':
                             include 'modules/tokyo.php';
                             break;
-                            case 'panong':
-                              include 'modules/panong2.php';
+                            
+                        case 'caamiño':
+                          include 'modules/panong2.php';
+                          break;
+
+                          case 'magpantay':
+                            include 'modules/magpantay.php';
+                            break;
+
+                            case 'clemena':
+                            include 'modules/clemenajohnrey.php';
+                            break;
+
+                            case 'Arazo':
+                              include 'modules/Arazo.php';
                               break;
+
+                              case 'Baterna':
+                                include 'modules/Baterna.php';
+                                break;
+  
+
+
             }
 
         }
