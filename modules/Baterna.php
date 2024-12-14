@@ -1,8 +1,6 @@
 <?php
 include "../includes/MyConnection.php"; 
 
-$message = ""; // Variable to store the success or error message
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["name"];
     $email = $_POST["email"];
@@ -11,20 +9,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rate = $_POST["interest_rate"];
     $address = $_POST["purpose"];
 
-    // Database insert code
-    $sql = "INSERT INTO loans (name, email, loan_amount, loan_term, loan_rate, loan_purpose, application_date) 
-            VALUES ('$name', '$email', '$amount', '$year','$rate', '$address')";
+    // Corrected database insert query
+    $sql = "INSERT INTO loans (name, email, loan_amount, loan_term, interest_rate, purpose, application_date) 
+            VALUES ('$name', '$email', '$amount', '$year', '$rate', '$address', NOW())";
 
     if ($conn->query($sql) === TRUE) {
-        $message = "Your loan application has been submitted successfully!";
+        echo "<script>alert('Your loan application has been submitted successfully!');</script>";
     } else {
-        $message = "Error: " . $conn->error;
+        echo "<script>alert('Error: " . $conn->error . "');</script>";
     }
 
     // Close the connection after processing
     $conn->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
