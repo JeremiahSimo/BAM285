@@ -1,0 +1,27 @@
+public class ChristmasTree {
+    public static void main(String[] args) {
+        int height = 10; // You can adjust the height of the tree here
+
+        for (int i = 0; i < height; i++) {
+            // Print spaces before stars
+            for (int j = height - i; j > 1; j--) {
+                System.out.print(" ");
+            }
+
+            // Print stars
+            for (int j = 0; j <= i * 2; j++) {
+                System.out.print("*");
+            }
+
+            System.out.println();
+        }
+
+        // Print the trunk of the tree
+        for (int i = 0; i < height / 3; i++) {
+            for (int j = 0; j < height - 1; j++) {
+                System.out.print(" ");
+            }
+            System.out.println("*");
+        }
+    }
+}
