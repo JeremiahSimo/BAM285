@@ -363,7 +363,12 @@
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'registration_form' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
+        <li>
+            <a href="index_admin.php?page=registration_form" class="<?php echo ($_GET['page'] ?? '') === 'registration_form'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Registration Form</span>
+            </a>
+          </li>
           <li>
             <a href="forms-elements.html">
               <i class="bi bi-circle"></i><span>Form Elements</span>
@@ -391,15 +396,16 @@
         <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+        <ul id="tables-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'display_members' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
           <li>
             <a href="index_admin.php?page=sendlove">
               <i class="bi bi-circle"></i><span>Send love form</span>
             </a>
           </li>
+         
           <li>
-            <a href="index_admin.php?page=registration_form" class="active">
-              <i class="bi bi-circle"></i><span>Registration Form</span>
+            <a href="index_admin.php?page=display_members" class="<?php echo ($_GET['page'] ?? '') === 'display_members'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Registered Members List</span>
             </a>
           </li>
           <li>
@@ -559,6 +565,10 @@
                                 case 'register':
                                   include 'modules/register.php';
                                   break;
+                                  case 'display_members':
+                                    include 'modules/registered_member.php';
+                                    break;
+  
 
             }
 
