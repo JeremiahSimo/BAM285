@@ -91,3 +91,31 @@ input[type="submit"]:hover {
 
 </body>
 </html>
+<?php
+ include "includes/MyConnection.php";
+
+ if (isset($_POST["btn_submit"])) {
+    // Collect raw form data from POST
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $amount = $_POST["loan_amount"];
+    $year = $_POST["loan_term"]; 
+    $rate = $_POST["interest_rate"]
+    $address = $_POST["purpose"]; 
+
+    // Your database insert code
+    $sql = "INSERT INTO loans (name, email, loan_amount, loan_term, loan_rate, loan_purpose, application_date) 
+            VALUES ('$name', '$email', '$amount', '$year','$rate', '$address')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+}
+
+
+?>
+       
