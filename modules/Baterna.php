@@ -1,6 +1,8 @@
 <?php
 include "../includes/MyConnection.php"; 
 
+$message = ""; // Variable to store the success or error message
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["name"];
     $email = $_POST["email"];
@@ -9,14 +11,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rate = $_POST["interest_rate"];
     $address = $_POST["purpose"];
 
-    // Your database insert code
+    // Database insert code
     $sql = "INSERT INTO loans (name, email, loan_amount, loan_term, loan_rate, loan_purpose, application_date) 
             VALUES ('$name', '$email', '$amount', '$year','$rate', '$address')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Your loan application has been submitted successfully!');</script>";
+        $message = "Your loan application has been submitted successfully!";
     } else {
-        echo "<script>alert('Error: " . $conn->error . "');</script>";
+        $message = "Error: " . $conn->error;
     }
 
     // Close the connection after processing
@@ -31,66 +33,90 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loan Application Form</title>
     <link rel="stylesheet" href="styles.css"> <!-- Optional: For styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            text-align: center;
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            border-radius: 4px;
+            width: 90%;
+        }
+
+        .success {
+            background-color: #4CAF50;
+        }
+
+        .error {
+            background-color: #f44336;
+        }
+    </style>
 </head>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 40px;
-    background-color: #f4f4f9;
-}
-
-h1 {
-    text-align: center;
-    color: #4CAF50;
-}
-
-form {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-label {
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    display: inline-block;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="number"],
-textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0 20px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-textarea {
-    resize: vertical;
-}
-
-input[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
-</style>
 <body>
     <h1>Loan Application Form</h1>
+
+    <?php if (!empty($message)): ?>
+        <div class="message <?php echo ($conn->error) ? 'error' : 'success'; ?>">
+            <?php echo $message; ?>
+        </div>
+    <?php endif; ?>
 
     <form action="" method="POST">
         <label for="name">Full Name:</label><br>
@@ -113,6 +139,5 @@ input[type="submit"]:hover {
 
         <input type="submit" value="Submit Application">
     </form>
-
 </body>
 </html>
