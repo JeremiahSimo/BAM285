@@ -88,6 +88,8 @@ footer {
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
       <li><a href="home_page.php?page=lipao">Lipao</a></li>
+      <li><a href="home_page.php?page=morcillos">Morcillos Form</a></li>
+      <li><a href="home_page.php?page=panong">Panong Form</a></li>
     </ul>
   </nav>
   
@@ -113,6 +115,16 @@ footer {
                             case 'lipao' :
                               include 'modules/lipao.php' ;
                               break;
+
+                              case 'morcillos' :
+                                include 'modules/morcillos_forms.php';
+                                break;
+
+                                case 'panong' :
+                                  include 'modules/panong_forms.php';
+                                  break;
+
+                              
 
             }
 
