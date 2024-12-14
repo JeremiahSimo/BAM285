@@ -92,10 +92,11 @@ input[type="submit"]:hover {
 </body>
 </html>
 <?php
- include "includes/MyConnection.php";
+include "../includes/MyConnection.php";
+
 
  if (isset($_POST["btn_submit"])) {
-    // Collect raw form data from POST
+    
     $name = $_POST["name"];
     $email = $_POST["email"];
     $amount = $_POST["loan_amount"];
