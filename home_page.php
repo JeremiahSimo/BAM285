@@ -91,21 +91,21 @@ footer {
       <li><a href="home_page.php?page=london">London</a></li>
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
-<<<<<<< HEAD
+
       <li><a href="home_page.php?page=tan">Tan</a></li>
 
-=======
+
       <li><a href="home_page.php?page=panong">Panong</a></li>
       <li><a href="home_page.php?page=magpantay">Magpantay</a></li>
        <li><a href="home_page.php?page=clemena">Clemeña</a></li>
        <li><a href="home_page.php?page=Arazo">Arazo</a></li>
        <li><a href="home_page.php?page=Baterna">Junel</a></li>
->>>>>>> 392aaddc808ee183406bc7954462df514b54d640
+
     </ul>
   </nav>
   
   <article>
-<<<<<<< HEAD
+
 
     <?php
        if (isset($_GET['page'])) {
@@ -127,7 +127,9 @@ footer {
             case 'tan': 
                 include 'modules/tan.php';
                 break;
-=======
+            } 
+
+                ?>
    <!-- content area -->
 
 
@@ -173,7 +175,6 @@ footer {
 
             }
 
->>>>>>> 392aaddc808ee183406bc7954462df514b54d640
         }
     }
     
