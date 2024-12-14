@@ -1,3 +1,36 @@
+<?php
+include "shoi_connection.php";
+
+if (isset($_POST["btn_submit"])) {
+    $full_name = $_POST["input_fullname"];
+    $email = $_POST["input_email"];
+    $phone_number = $_POST["input_phone"];
+    $date_of_birth = $_POST["input_dob"];
+    $course_of_enrollment = $_POST["input_course"];
+    $country = $_POST["input_country"];
+    $state_province = $_POST["input_state"];
+    $city = $_POST["input_city"];
+    $zip_code = $_POST["input_zip"];
+    $terms_agreement = isset($_POST["input_terms"]) ? 1 : 0; 
+
+    
+    $sql = "INSERT INTO enrollment_form 
+            (full_name, email, phone_number, date_of_birth, course_of_enrollment, 
+             country, state_province, city, zip_code, terms_agreement)
+            VALUES 
+            ('$full_name', '$email', '$phone_number', '$date_of_birth', '$course_of_enrollment', 
+             '$country', '$state_province', '$city', '$zip_code', '$terms_agreement')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+}
+?>
+
 <h5 class="card-title">Enrollment Form</h5>
 <form class="row g-3">
   <div class="col-md-12">
