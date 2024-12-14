@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2024 at 12:01 PM
+-- Generation Time: Dec 14, 2024 at 01:55 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,35 +24,43 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_registration`
+-- Table structure for table `employee_registration`
 --
 
-CREATE TABLE `user_registration` (
-  `id` int(11) NOT NULL,
-  `user_name` varchar(255) NOT NULL,
-  `user_email` varchar(255) NOT NULL,
-  `user_address` text NOT NULL
+CREATE TABLE `employee_registration` (
+  `employee_id` int(11) NOT NULL,
+  `employee_name` varchar(100) NOT NULL,
+  `employee_email` varchar(100) NOT NULL,
+  `employee_position` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employee_registration`
+--
+
+INSERT INTO `employee_registration` (`employee_id`, `employee_name`, `employee_email`, `employee_position`) VALUES
+(1, 'sad', 'alexlynquinto84@gmail.com', 'dsadsad'),
+(2, 'hjgvhjgjgj', 'alexlynquinto84@gmail.com', 'gjgjj');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `user_registration`
+-- Indexes for table `employee_registration`
 --
-ALTER TABLE `user_registration`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `employee_registration`
+  ADD PRIMARY KEY (`employee_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `user_registration`
+-- AUTO_INCREMENT for table `employee_registration`
 --
-ALTER TABLE `user_registration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `employee_registration`
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
