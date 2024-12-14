@@ -56,4 +56,4 @@
     <button type="submit" class="btn btn-primary">Enroll</button>
     <button type="reset" class="btn btn-secondary">Reset</button>
   </div>
-</form><!-- End Enrollment Form -->
+</form>
