@@ -3,63 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            text-align: center;
-        }
-        h1 {
-            font-size: 2rem;
-            color: #333;
-        }
-        p {
-            font-size: 1rem;
-            color: #666;
-            line-height: 1.6;
-        }
-        .highlight {
-            color: #007bff;
-            font-weight: bold;
-        }
-        .social-links {
-            margin-top: 20px;
-        }
-        .social-links a {
-            display: inline-block;
-            margin: 0 10px;
-            text-decoration: none;
-            color: #fff;
-            background-color: #007bff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-        }
-        .social-links a:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>Loan Application Form</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Optional: For styling -->
 </head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    background-color: #f4f4f9;
+}
+
+h1 {
+    text-align: center;
+    color: #4CAF50;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer; 
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+</style>
 <body>
-    <div class="container">
-        <h1>About Me</h1>
-        <p>Hello! My name is <span class="highlight">Junel C. Baterna</span>. I am a <span class="highlight">3rd-year college student</span> currently pursuing a degree in <span class="highlight">BSIT (Bachelor of Science in Information Technology)</span> with a major in <span class="highlight">Business Analytics</span>.</p>
-        <p>I am passionate about technology, data analysis, and leveraging insights to solve business challenges.</p>
-        <div class="social-links">
-            <a href="https://www.facebook.com/junel.baterna" target="_blank">Follow me on Facebook</a>
-        </div>
-    </div>
+    <h1>Loan Application Form</h1>
+
+  
+    <form action="process_loan.php" method="POST">
+        <label for="name">Full Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="loan_amount">Loan Amount ($):</label><br>
+        <input type="number" id="loan_amount" name="loan_amount" required><br><br>
+
+        <label for="loan_term">Loan Term (Years):</label><br>
+        <input type="number" id="loan_term" name="loan_term" required><br><br>
+
+        <label for="interest_rate">Interest Rate (%):</label><br>
+        <input type="number" id="interest_rate" name="interest_rate" step="0.1" required><br><br>
+
+        <label for="purpose">Purpose of Loan:</label><br>
+        <textarea id="purpose" name="purpose" rows="4" required></textarea><br><br>
+
+        <input type="submit" value="Submit Application">
+    </form>
+
 </body>
 </html>
