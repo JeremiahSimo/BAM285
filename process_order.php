@@ -7,7 +7,7 @@ $password = ''; // Adjust as per your MySQL setup
 
 try {
     // Create a new PDO connection
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo = new PDO("mysql:host=$host;dbname=$cake_order_db", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Check if the form is submitted
