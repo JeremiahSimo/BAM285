@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2024 at 02:48 PM
+-- Generation Time: Dec 15, 2024 at 03:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -32,6 +32,20 @@ CREATE TABLE `employee_registration` (
   `employee_name` varchar(100) NOT NULL,
   `employee_email` varchar(100) NOT NULL,
   `employee_position` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_inventory`
+--
+
+CREATE TABLE `product_inventory` (
+  `product_id` int(11) NOT NULL,
+  `product_name` varchar(100) NOT NULL,
+  `product_price` decimal(10,2) NOT NULL,
+  `product_quantity` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -86,6 +100,12 @@ ALTER TABLE `employee_registration`
   ADD PRIMARY KEY (`employee_id`);
 
 --
+-- Indexes for table `product_inventory`
+--
+ALTER TABLE `product_inventory`
+  ADD PRIMARY KEY (`product_id`);
+
+--
 -- Indexes for table `student_registration`
 --
 ALTER TABLE `student_registration`
@@ -107,6 +127,12 @@ ALTER TABLE `user_registration`
 --
 ALTER TABLE `employee_registration`
   MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `product_inventory`
+--
+ALTER TABLE `product_inventory`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `student_registration`
