@@ -116,17 +116,6 @@ footer {
 
             switch ($page){
                 case 'london':
-<<<<<<< HEAD
-                    include 'module/london.php';
-                    break;
-                    
-                    case 'paris':
-                        include 'module/paris.php';
-                        break;
-                        
-                        case 'tokyo':
-                            include 'module/tokyo.php';
-=======
                     include 'modules/london.php';
                     break;
                     
@@ -136,7 +125,6 @@ footer {
                         
                         case 'tokyo':
                             include 'modules/tokyo.php';
->>>>>>> 27411fa8aacd73fff39989013b7c8bc8855ececc
                             break;
                             
                         case 'caamiño':
@@ -158,8 +146,6 @@ footer {
                               case 'Baterna':
                                 include 'modules/Baterna.php';
                                 break;
-  
-
 
                             case 'andrea':
                               include 'modules/andrea.php';
