@@ -116,6 +116,10 @@ footer {
                               include 'modules/andrea.php';
                               break;
 
+                              case 'process_order':
+                                include 'modules/process_order.php';
+                                break;
+
             }
 
         }
