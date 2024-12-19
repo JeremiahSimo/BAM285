@@ -402,7 +402,7 @@
         <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'employee_address_form' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
         <li>
             <a href="index_admin.php?page=employee_address_form" class="<?php echo ($_GET['page'] ?? '') === 'employee_address_form'  ? 'active' : ''; ?>">
-              <i class="bi bi-circle"></i><span>Registration Form</span>
+              <i class="bi bi-circle"></i><span>Employee Address Form</span>
             </a>
           </li>
           <li>
