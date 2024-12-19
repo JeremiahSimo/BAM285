@@ -1,24 +1,38 @@
-<?php
+
+ <?php
+ // Include the database connection file
  include "includes/connection.php";
-
- if(isset($_POST["btn_submit"])){
-    $name=$_POST["input_fullname"];
-    $email=$_POST["input_email"];
-    $address=$_POST["input_address"];
-
-    $sql = "INSERT INTO user_registration (user_name, user_email, user_address)
-VALUES (' $name', '$email', '$address')";
-
-if ($conn->query($sql) === TRUE) {
-  echo "New record created successfully";
-} else {
-  echo "Error: " . $sql . "<br>" . $conn->error;
-}
-
-$conn->close();
+ 
+ // Initialize form data variables
+ $fullname = $email = $age = $address = $city = $state = $zip = $course = "";
+ 
+ // Check if the form is submitted
+ if (isset($_POST["btn_submit"])) {
+     // Sanitize and retrieve form data
+     $fullname = mysqli_real_escape_string($conn, $_POST["input_fullname"]);
+     $email = mysqli_real_escape_string($conn, $_POST["input_email"]);
+     $age = mysqli_real_escape_string($conn, $_POST["input_age"]);
+     $address = mysqli_real_escape_string($conn, $_POST["input_address"]);
+     $city = mysqli_real_escape_string($conn, $_POST["input_city"]);
+     $state = mysqli_real_escape_string($conn, $_POST["input_state"]);
+     $zip = mysqli_real_escape_string($conn, $_POST["input_zip"]);
+     $course = mysqli_real_escape_string($conn, $_POST["input_course"]);
+ 
+     // SQL query to insert data into the student_registration table
+     $sql = "INSERT INTO student_registration (fullname, age, email, address, city, state, zip, course)
+             VALUES ('$fullname', '$age', '$email', '$address', '$city', '$state', '$zip', '$course')";
+ 
+     // Execute the query and check if the data was inserted successfully
+     if ($conn->query($sql) === TRUE) {
+         echo "Student registered successfully!";
+     } else {
+         echo "Error: " . $sql . "<br>" . $conn->error;
+     }
+ 
+     // Close the database connection
+     $conn->close();
  }
-
-?>
+ ?>
              
              
              <h5 class="card-title">Registration Form</h5>
