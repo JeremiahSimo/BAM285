@@ -470,6 +470,12 @@
             </a>
           </li>
 
+          <li>
+            <a href="index_admin.php?page=registered_pass" class="<?php echo ($_GET['page'] ?? '') === 'registered_pass'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Passport Information Form</span>
+            </a>
+          </li>
+
         </ul>
       
       </li>
@@ -637,6 +643,10 @@
                                         case 'passport':
                                           include 'modules/passport_application.php';
                                           break;
+
+                                          case 'registered_pass':
+                                            include 'modules/registered_pass.php';
+                                            break;
   
 
             }

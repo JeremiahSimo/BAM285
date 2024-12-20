@@ -93,8 +93,8 @@
 
             <div class="form-group">
                 <label for="state">State</label>
-                <select id="state" name="state" required>
-                    <option value="">Select your state</option>
+                <select id="state" name="state" requireSd>
+                    <option value="">Select your state</option~>
                     <option value="CA">California</option>
                     <option value="NY">New York</option>
                     <option value="TX">Texas</option>

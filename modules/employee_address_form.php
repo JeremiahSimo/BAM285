@@ -1,5 +1,5 @@
 <?php
-include "connection1.php";
+include "includes/connection.php";
 
 if (isset($_POST["btn_submit"])) {
     $name = $_POST["input_fullname"];
@@ -9,7 +9,7 @@ if (isset($_POST["btn_submit"])) {
     $zip = $_POST["input_zip"];
 
     // Use prepared statements to avoid SQL injection
-    $stmt = $conn->prepare("INSERT INTO employees (user_name, user_email, user_st_address, user_city, user_zip) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO employees (user_name, user_email, user_st.address, user_city, user_zip) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $name, $email, $address, $city, $zip);
 
     if ($stmt->execute()) {
