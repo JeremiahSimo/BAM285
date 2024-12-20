@@ -407,8 +407,17 @@
               <i class="bi bi-circle"></i><span>Personal information form</span>
             </a>
           </li>
+          li>
+            <a href="index_admin.php?page=reservation">
+              <i class="bi bi-circle"></i><span>Reservation Form</span>
+            </a>
+          </li>
         </ul>
-      
+        li>
+            <a href="index_admin.php?page=display1">
+              <i class="bi bi-circle"></i><span>Display</span>
+            </a>
+          </li>
       </li>
      <!-- End Tables Nav -->
 
@@ -559,6 +568,13 @@
                                 case 'register':
                                   include 'modules/register.php';
                                   break;
+                                  case 'Reservation form':
+                                    include 'modules/reservation_form.php';
+                                    break;
+                                    case 'display':
+                                      include 'modules/display1.php';
+                                      break;
+                          
 
             }
 
