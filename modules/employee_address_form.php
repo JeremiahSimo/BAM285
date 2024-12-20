@@ -1,5 +1,5 @@
 <?php
- include "includes/connection.php";
+ include "connection1.php";
 
  if(isset($_POST["btn_submit"])){
     $name=$_POST["input_fullname"];
@@ -8,7 +8,7 @@
     $city=$_POST["input_city"];
     $zip=$_POST["input_zip"];
 
-    $sql = "INSERT INTO user_registration (user_name, user_email, user_st.address, user_city, user_zip)
+    $sql = "INSERT INTO employees (user_name, user_email, user_st.address, user_city, user_zip)
 VALUES ('$name', '$email', '$address', '$city', '$zip')";
 
 if ($conn->query($sql) === TRUE) {
@@ -49,8 +49,8 @@ $conn->close();
 
     <div class="col-md-6">
                   <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingAddress" name="input_st.address"placeholder="Street Address">
-                    <label for="floatingPassword">Street Address:</label>
+                    <input type="text" class="form-control" id="floatingAddress" name="input_st.address"placeholder="Street Address">
+                    <label for="floatingAddress">Street Address:</label>
                   </div>
                 </div>
 
