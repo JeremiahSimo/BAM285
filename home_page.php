@@ -87,7 +87,11 @@ footer {
       <li><a href="home_page.php?page=london">London</a></li>
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
+<<<<<<< HEAD
       <li><a href="home_page.php?page=timbal">timbal</a></li>
+=======
+      <li><a href="home_page.php?page=moneth">magpulong</a></li>
+>>>>>>> 8a90a023bd492ec093280e1a367293e05f8ec595
     </ul>
   </nav>
   
@@ -110,8 +114,13 @@ footer {
                             include 'modules/tokyo.php';
                             break;
 
+<<<<<<< HEAD
                             case 'timbal':
                               include 'modules/timbal.php';
+=======
+                            case 'moneth':
+                              include 'modules/moneth.php';
+>>>>>>> 8a90a023bd492ec093280e1a367293e05f8ec595
                               break;
 
             }
