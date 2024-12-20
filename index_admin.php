@@ -556,9 +556,7 @@
                               case 'sendlove':
                                 include 'modules/form.php';
                                 break;
-                                case 'register':
-                                  include 'modules/register.php';
-                                  break;
+                                
 
             }
 
