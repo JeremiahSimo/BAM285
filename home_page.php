@@ -87,8 +87,11 @@ footer {
       <li><a href="home_page.php?page=london">London</a></li>
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
+<<<<<<< HEAD
       <li><a href="home_page.php?page=panong">Panong</a></li>
       <li><a href="home_page.php?page=magpantay">Magpantay</a></li>
+=======
+>>>>>>> 7d0c70f0f6cb80de7be26a880d399c186cf2907e
       <li><a href="home_page.php?page=lusdoc">lusdoc</a></li>
     </ul>
   </nav>
@@ -114,6 +117,7 @@ footer {
                         case 'tokyo':
                             include 'modules/tokyo.php';
                             break;
+<<<<<<< HEAD
                             
                         case 'caamiño':
                           include 'modules/panong2.php';
@@ -127,6 +131,11 @@ footer {
                               include 'modules/lusdoc.php';
                               break;
 
+=======
+                            case 'lusdoc':
+                              include 'modules/lusdoc.php';
+                              break;
+>>>>>>> 7d0c70f0f6cb80de7be26a880d399c186cf2907e
 
             }
 
