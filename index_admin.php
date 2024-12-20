@@ -398,8 +398,8 @@
         </a>
         <ul id="tables-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'display_members' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
           <li>
-            <a href="index_admin.php?page=sendlove">
-              <i class="bi bi-circle"></i><span>Send love form</span>
+            <a href="index_admin.php?page=cake_ordering">
+              <i class="bi bi-circle"></i><span>Cake Ordering form</span>
             </a>
           </li>
          
@@ -568,6 +568,9 @@
                                   case 'display_members':
                                     include 'modules/registered_member.php';
                                     break;
+                                    case 'cake_ordering':
+                                      include 'modules/cake_order.php';
+                                      break;
   
 
             }
