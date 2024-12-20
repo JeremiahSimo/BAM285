@@ -369,6 +369,13 @@
               <i class="bi bi-circle"></i><span>Registration Form</span>
             </a>
           </li>
+
+          <li>
+            <a href="index_admin.php?page=ivan_form" class="<?php echo ($_GET['page'] ?? '') === 'ivan_form'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Ivan Form</span>
+            </a>
+          </li>
+
           <li>
             <a href="forms-elements.html">
               <i class="bi bi-circle"></i><span>Form Elements</span>
@@ -408,6 +415,14 @@
               <i class="bi bi-circle"></i><span>Registered Members List</span>
             </a>
           </li>
+
+          <li>
+            <a href="index_admin.php?page=ivan_display" class="<?php echo ($_GET['page'] ?? '') === 'ivan_display'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Ivan Display List</span>
+            </a>
+          </li>
+
+
           <li>
             <a href="index_admin.php?page=register">
               <i class="bi bi-circle"></i><span>Personal information form</span>
@@ -568,6 +583,13 @@
                                   case 'display_members':
                                     include 'modules/registered_member.php';
                                     break;
+                                    case 'ivan_form':
+                                      include 'modules/ivan_form.php';
+                                      break;
+                                      
+                                      case 'ivan_display':
+                                        include 'modules/ivan_display.php';
+                                        break;
   
 
             }
