@@ -363,12 +363,20 @@
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'employee_address_form' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
+        <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'employee_address_form'  ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
+        
         <li>
             <a href="index_admin.php?page=employee_address_form" class="<?php echo ($_GET['page'] ?? '') === 'employee_address_form'  ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Employee Address Form</span>
             </a>
           </li>
+
+          <li>
+            <a href="index_admin.php?page=passport" class="<?php echo ($_GET['page'] ?? '') === 'passport'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Passport Form</span>
+            </a>
+          </li>
+
           <li>
             <a href="forms-elements.html">
               <i class="bi bi-circle"></i><span>Form Elements</span>
@@ -625,6 +633,10 @@
                                       case 'address_form':
                                         include 'modules/addresses_form.php';
                                         break;
+
+                                        case 'passport':
+                                          include 'modules/passport_application.php';
+                                          break;
   
 
             }
