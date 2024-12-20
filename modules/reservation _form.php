@@ -44,24 +44,25 @@
 </head>
 <body>
 
-    <form action="connect3.php" method="POST">
-        <h2>Reservation Form</h2>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+<form action="connect3.php" method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="rsv_name" required>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="rsv_email" required>
 
-        <label for="phone">Phone:</label>
-        <input type="text" id="phone" name="phone" required>
+    <label for="phone">Phone:</label>
+    <input type="text" id="phone" name="rsv_phone" required>
 
-        <label for="date">Reservation Date:</label>
-        <input type="date" id="date" name="date" required>
+    <label for="date">Reservation Date:</label>
+    <input type="date" id="date" name="rsv_date" required>
 
-        <label for="time">Reservation Time:</label>
-        <input type="time" id="time" name="time" required>
+    <label for="time">Reservation Time:</label>
+    <input type="time" id="time" name="rsv_time" required>
 
-        <button type="submit">Submit</button>
+    <button type="submit">Submit</button>
+</form>
+
     </form>
 </body>
 </html>
