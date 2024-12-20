@@ -1,7 +1,7 @@
 <?php
 // Database connection credentials
 $host = 'localhost';
-$dbname = 'cake_order_db'; // Name of your database
+$dbname = 'cake_shop'; // Name of your database
 $username = 'root'; // Change if different
 $password = ''; // Change if needed
 
