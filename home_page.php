@@ -12,11 +12,17 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+<<<<<<< HEAD
   margin: 0;
   padding: 0;
 }
 
 
+=======
+}
+
+/* Style the header */
+>>>>>>> 47e7c50186db8ae6fbd97a74ae51ce6595da5062
 header {
   background-color: #666;
   padding: 30px;
@@ -25,6 +31,7 @@ header {
   color: white;
 }
 
+<<<<<<< HEAD
 
 nav {
   float: left;
@@ -35,6 +42,18 @@ nav {
 }
 
 
+=======
+/* Create two columns/boxes that floats next to each other */
+nav {
+  float: left;
+  width: 30%;
+  height: 300px; /* only for demonstration, should be removed */
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+>>>>>>> 47e7c50186db8ae6fbd97a74ae51ce6595da5062
 nav ul {
   list-style-type: none;
   padding: 0;
@@ -45,28 +64,46 @@ article {
   padding: 20px;
   width: 70%;
   background-color: #f1f1f1;
+<<<<<<< HEAD
   min-height: calc(100vh - 130px); 
 }
 
 
+=======
+  height: 300px; /* only for demonstration, should be removed */
+}
+
+/* Clear floats after the columns */
+>>>>>>> 47e7c50186db8ae6fbd97a74ae51ce6595da5062
 section::after {
   content: "";
   display: table;
   clear: both;
 }
 
+<<<<<<< HEAD
 
+=======
+/* Style the footer */
+>>>>>>> 47e7c50186db8ae6fbd97a74ae51ce6595da5062
 footer {
   background-color: #777;
   padding: 10px;
   text-align: center;
   color: white;
+<<<<<<< HEAD
   position: relative;
   bottom: 0;
   width: 100%;
 }
 
 
+=======
+}
+
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+>>>>>>> 47e7c50186db8ae6fbd97a74ae51ce6595da5062
 @media (max-width: 600px) {
   nav, article {
     width: 100%;
@@ -93,6 +130,7 @@ footer {
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <li><a href="home_page.php?page=timbal">timbal</a></li>
 =======
       <li><a href="home_page.php?page=moneth">magpulong</a></li>
@@ -117,6 +155,15 @@ footer {
 
 
 
+=======
+      <li><a href="home_page.php?page=panong">Panong</a></li>
+      <li><a href="home_page.php?page=Arazo">Arazo</a></li>
+    </ul>
+  </nav>
+  
+  <article>
+   <!-- content area -->
+>>>>>>> 47e7c50186db8ae6fbd97a74ae51ce6595da5062
     <?php
         if (isset($_GET['page'])){
             $page=$_GET['page'];
@@ -134,6 +181,7 @@ footer {
                             include 'modules/tokyo.php';
                             break;
                             
+<<<<<<< HEAD
                         case 'caamiño':
                           include 'modules/panong2.php';
                           break;
@@ -170,6 +218,16 @@ footer {
                               include 'modules/moneth.php';
 >>>>>>> 8a90a023bd492ec093280e1a367293e05f8ec595
                               break;
+=======
+                        case 'panong':
+                          include 'modules/panong2.php';
+                          break;
+
+                          case 'Arazo':
+                            include 'modules/Arazo.php';
+                            break;
+
+>>>>>>> 47e7c50186db8ae6fbd97a74ae51ce6595da5062
 
             }
 

@@ -363,12 +363,34 @@
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'registration_form' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
+        <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'registration_form' || ($_GET['page'] ?? '') === 'student_registration_form' || ($_GET['page'] ?? '') === 'employee_registration_form' || ($_GET['page'] ?? '') === 'product_registration_form' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
+
         <li>
             <a href="index_admin.php?page=registration_form" class="<?php echo ($_GET['page'] ?? '') === 'registration_form'  ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Registration Form</span>
             </a>
           </li>
+
+          
+          <li>
+            <a href="index_admin.php?page=student_registration_form" class="<?php echo ($_GET['page'] ?? '') === 'student_registration_form'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Student Registration Form</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="index_admin.php?page=employee_registration_form" class="<?php echo ($_GET['page'] ?? '') === 'employee_registration_form'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Employee Registration Form</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="index_admin.php?page=product_registration_form" class="<?php echo ($_GET['page'] ?? '') === 'product_registration_form'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Product Registration Form</span>
+            </a>
+          </li>
+
+      <!--
           <li>
             <a href="forms-elements.html">
               <i class="bi bi-circle"></i><span>Form Elements</span>
@@ -389,6 +411,10 @@
               <i class="bi bi-circle"></i><span>Form Validation</span>
             </a>
           </li>
+        -->
+
+
+
         </ul>
       </li><!-- End Forms Nav -->
 
@@ -396,12 +422,16 @@
         <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="tables-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'display_members' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
+
+        <ul id="tables-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'display_members' || ($_GET['page'] ?? '') === 'student_registration_display' || ($_GET['page'] ?? '') === 'employee_registration_display' || ($_GET['page'] ?? '') === 'product_inventory_display'? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
+<!--
           <li>
             <a href="index_admin.php?page=cake_ordering">
               <i class="bi bi-circle"></i><span>Cake Ordering form</span>
             </a>
           </li>
+
+-->
          
           <li>
             <a href="index_admin.php?page=display_members" class="<?php echo ($_GET['page'] ?? '') === 'display_members'  ? 'active' : ''; ?>">
@@ -409,10 +439,36 @@
             </a>
           </li>
           <li>
+
+          <li>
+            <a href="index_admin.php?page=student_registration_display" class="<?php echo ($_GET['page'] ?? '') === 'student_registration_display'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Student Registration List</span>
+            </a>
+          </li>
+
+
+          <li>
+            <a href="index_admin.php?page=employee_registration_display" class="<?php echo ($_GET['page'] ?? '') === 'employee_registration_display'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Employee Registration List</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="index_admin.php?page=product_inventory_display" class="<?php echo ($_GET['page'] ?? '') === 'product_inventory_display'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Product Registration List</span>
+            </a>
+          </li>
+
+
+
+        <!--
+          <li>
             <a href="index_admin.php?page=register">
               <i class="bi bi-circle"></i><span>Personal information form</span>
             </a>
           </li>
+        -->
+
         </ul>
       
       </li>
@@ -557,7 +613,7 @@
                             include 'modules/tokyo.php';
                             break;
                             case 'registration_form':
-                              include 'modules/registration_form.php';
+                              include 'modules/registrations_form.php';
                               break;
                               case 'sendlove':
                                 include 'modules/form.php';
@@ -565,13 +621,48 @@
                                 case 'register':
                                   include 'modules/register.php';
                                   break;
+
                                   case 'display_members':
-                                    include 'modules/registered_member.php';
+                                    include 'modules/registered_display.php';
                                     break;
+<<<<<<< HEAD
                                     case 'cake_ordering':
                                       include 'modules/cake_order.php';
                                       break;
   
+=======
+
+                                    
+                                  case 'student_registration_display':
+                                    include 'modules/student_registration_display.php';
+                                    break;
+
+
+                                    case 'student_registration_form':
+                                      include 'modules/student_registration_form.php';
+                                      break;
+
+
+                                      case 'employee_registration_display':
+                                        include 'modules/employee_registration_display.php';
+                                        break;
+    
+    
+                                        case 'employee_registration_form':
+                                          include 'modules/employee_registration_form.php';
+                                          break;
+
+                                          case 'product_inventory_display':
+                                            include 'modules/product_display.php';
+                                            break;
+        
+        
+                                            case 'product_registration_form':
+                                              include 'modules/product_form.php';
+                                              break;
+    
+                                  
+>>>>>>> 47e7c50186db8ae6fbd97a74ae51ce6595da5062
 
             }
 
