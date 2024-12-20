@@ -2,25 +2,31 @@
 include "includes/connection.php";
 
 if (isset($_POST["btn_submit"])) {
+    // Sanitize and capture the form inputs
     $name = $_POST["name"];
     $email = $_POST["email"];
     $number = $_POST["number"];
     $program = $_POST["program"];
     $level = $_POST["level"];
     $specialization = $_POST["specialization"];
+    $created_at = date('Y-m-d H:i:s'); // Get the current timestamp
 
-    $sql = "INSERT INTO students (user_name, user_email, user_number, user_program, user_level, user_specialization)
-    VALUES ('$name', '$email', '$number', '$program', '$level', '$specialization')";
+    // Prepare the SQL query
+    $sql = "INSERT INTO students (name, email, number, program, level, specialization, created_at) 
+            VALUES ('$name', '$email', '$number', '$program', '$level', '$specialization', '$created_at')";
 
+    // Execute the query and check for success
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 
+    // Close the database connection
     $conn->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +74,8 @@ if (isset($_POST["btn_submit"])) {
 <body>
 
 <h2 style="text-align: center;">New Students Form</h2>
-<form action="" method="post">
+<form action="" method="post" action="index_admin.php?page=formmae">
+
     <label for="name">Full Name:</label>
     <input type="text" id="name" name="name" placeholder="Enter your name" required>
 

@@ -372,6 +372,13 @@
           </li>
 
           <li>
+            <a href="index_admin.php?page=student_form" class="<?php echo ($_GET['page'] ?? '') === 'student_form'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Student Form</span>
+            </a>
+          </li>
+
+
+          <li>
             <a href="index_admin.php?page=passport" class="<?php echo ($_GET['page'] ?? '') === 'passport'  ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Passport Form</span>
             </a>
@@ -475,6 +482,14 @@
               <i class="bi bi-circle"></i><span>Passport Information Form</span>
             </a>
           </li>
+
+
+          <li>
+            <a href="index_admin.php?page=student_forms" class="<?php echo ($_GET['page'] ?? '') === 'student_forms'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Student Information Form</span>
+            </a>
+          </li>
+
 
         </ul>
       
@@ -647,6 +662,14 @@
                                           case 'registered_pass':
                                             include 'modules/registered_pass.php';
                                             break;
+
+                                            case 'student_form':
+                                              include 'modules/formmae.php';
+                                              break;
+
+                                              case 'student_forms':
+                                                include 'modules/new_student.php';
+                                                break;
   
 
             }
