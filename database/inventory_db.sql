@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2024 at 03:01 AM
+-- Generation Time: Dec 20, 2024 at 10:54 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -60,13 +60,6 @@ CREATE TABLE `student_registration` (
   `student_email` varchar(100) NOT NULL,
   `student_course` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `student_registration`
---
-
-INSERT INTO `student_registration` (`student_id`, `student_name`, `student_email`, `student_course`) VALUES
-(7, 'ddsgjhghjgdsadsa', 'dasdasdasdasdsa@gmail.com', 'dasdasddsaddsadas');
 
 -- --------------------------------------------------------
 
