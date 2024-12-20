@@ -92,16 +92,22 @@ footer {
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <li><a href="home_page.php?page=lipao">Lipao</a></li>
       <li><a href="home_page.php?page=morcillos">Morcillos Form</a></li>
       <li><a href="home_page.php?page=panong">Panong Form</a></li>
 =======
+=======
+>>>>>>> 606ae2b26ac88e92b36e4544ff2d2f126c548b20
       <li><a href="home_page.php?page=panong">Panong</a></li>
       <li><a href="home_page.php?page=magpantay">Magpantay</a></li>
        <li><a href="home_page.php?page=clemena">Clemeña</a></li>
        <li><a href="home_page.php?page=Arazo">Arazo</a></li>
        <li><a href="home_page.php?page=Baterna">Junel</a></li>
+<<<<<<< HEAD
 >>>>>>> 27411fa8aacd73fff39989013b7c8bc8855ececc
+=======
+>>>>>>> 606ae2b26ac88e92b36e4544ff2d2f126c548b20
     </ul>
   </nav>
   
@@ -128,6 +134,7 @@ footer {
                             break;
                             
 <<<<<<< HEAD
+<<<<<<< HEAD
                             case 'lipao' :
                               include 'modules/lipao.php' ;
                               break;
@@ -142,6 +149,8 @@ footer {
 
                               
 =======
+=======
+>>>>>>> 606ae2b26ac88e92b36e4544ff2d2f126c548b20
                         case 'caamiño':
                           include 'modules/panong2.php';
                           break;
@@ -163,7 +172,10 @@ footer {
                                 break;
   
 
+<<<<<<< HEAD
 >>>>>>> 27411fa8aacd73fff39989013b7c8bc8855ececc
+=======
+>>>>>>> 606ae2b26ac88e92b36e4544ff2d2f126c548b20
 
             }
 
