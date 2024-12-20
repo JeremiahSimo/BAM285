@@ -3,7 +3,7 @@
 $host = 'localhost';
 $username = 'root';
 $password = '';
-$database = 'school_management';
+$database = 'registration_db';
 
 
 $conn = new mysqli($host, $username, $password, $database);
