@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2024 at 10:42 AM
+-- Generation Time: Dec 20, 2024 at 10:43 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -24,37 +24,35 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `students`
+-- Table structure for table `applications`
 --
 
-CREATE TABLE `students` (
+CREATE TABLE `applications` (
   `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `number` varchar(15) NOT NULL,
-  `program` varchar(50) NOT NULL,
-  `level` varchar(20) NOT NULL,
-  `specialization` varchar(50) NOT NULL,
+  `first_name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `birth_date` date DEFAULT NULL,
+  `passport_type` varchar(50) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `students`
+-- Dumping data for table `applications`
 --
 
-INSERT INTO `students` (`id`, `name`, `email`, `number`, `program`, `level`, `specialization`, `created_at`) VALUES
-(1, 'mae bini', 'vanjaminmagpantay@gmail.com', '324', 'it', '23', 'dsad', '2024-12-20 01:25:28'),
-(2, 'mae bini', 'vanjaminmagpantay@gmail.com', '324', 'it', '23', 'dsad', '2024-12-20 01:25:34'),
-(3, 'mae bini', 'vanjaminmagpantay@gmail.com', '324', 'it', '23', 'dsad', '2024-12-20 01:25:48');
+INSERT INTO `applications` (`id`, `first_name`, `last_name`, `email`, `birth_date`, `passport_type`, `created_at`) VALUES
+(7, 'step', 'sumanda', 'vaca.magpantay.coc@phinmaed.com', '2024-12-19', 'Official', '2024-12-19 03:24:12'),
+(8, 'Van', 'Jamin', 'vanjaminmagpantay@gmail.com', '2024-12-20', 'Official', '2024-12-20 05:15:29');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `students`
+-- Indexes for table `applications`
 --
-ALTER TABLE `students`
+ALTER TABLE `applications`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -62,10 +60,10 @@ ALTER TABLE `students`
 --
 
 --
--- AUTO_INCREMENT for table `students`
+-- AUTO_INCREMENT for table `applications`
 --
-ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `applications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
