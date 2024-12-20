@@ -363,10 +363,10 @@
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'registration_form' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
+        <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'employee_address_form' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
         <li>
-            <a href="index_admin.php?page=registration_form" class="<?php echo ($_GET['page'] ?? '') === 'registration_form'  ? 'active' : ''; ?>">
-              <i class="bi bi-circle"></i><span>Registration Form</span>
+            <a href="index_admin.php?page=employee_address_form" class="<?php echo ($_GET['page'] ?? '') === 'employee_address_form'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Employee Address Form</span>
             </a>
           </li>
           <li>
@@ -395,7 +395,7 @@
 
 
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -426,7 +426,7 @@
             </a>
           </li>
         </ul>
-      </li>
+      </li> -->
 
 
 
@@ -455,6 +455,13 @@
               <i class="bi bi-circle"></i><span>Personal information form</span>
             </a>
           </li>
+
+          <li>
+            <a href="index_admin.php?page=address_form" class="<?php echo ($_GET['page'] ?? '') === 'address_form'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Employee Address Form</span>
+            </a>
+          </li>
+
         </ul>
       
       </li>
@@ -504,7 +511,7 @@
             </a>
           </li>
         </ul>
-      </li><!-- End Icons Nav -->
+      </li>End Icons Nav
 
       <li class="nav-heading">Pages</li>
 
@@ -614,6 +621,10 @@
                                     case 'employee_address_form':
                                       include 'modules/employee_address_form.php';
                                       break;
+
+                                      case 'address_form':
+                                        include 'modules/addresses_form.php';
+                                        break;
   
 
             }
