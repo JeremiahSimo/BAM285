@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2024 at 10:43 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Dec 20, 2024 at 12:25 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,8 +42,8 @@ CREATE TABLE `applications` (
 --
 
 INSERT INTO `applications` (`id`, `first_name`, `last_name`, `email`, `birth_date`, `passport_type`, `created_at`) VALUES
-(7, 'step', 'sumanda', 'vaca.magpantay.coc@phinmaed.com', '2024-12-19', 'Official', '2024-12-19 03:24:12'),
-(8, 'Van', 'Jamin', 'vanjaminmagpantay@gmail.com', '2024-12-20', 'Official', '2024-12-20 05:15:29');
+(7, 'step', 'sumanda', 'vaca.magpantay.coc@phinmaed.com', '2024-12-19', 'Official', '2024-12-18 20:24:12'),
+(8, 'Van', 'Jamin', 'vanjaminmagpantay@gmail.com', '2024-12-20', 'Official', '2024-12-19 22:15:29');
 
 --
 -- Indexes for dumped tables
@@ -53,7 +53,8 @@ INSERT INTO `applications` (`id`, `first_name`, `last_name`, `email`, `birth_dat
 -- Indexes for table `applications`
 --
 ALTER TABLE `applications`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
