@@ -3,25 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href = "style.css">
-   
+    <link rel="stylesheet" href="style1.css">
+    <link href='https://fonts.googleapis.com/css?family=Cantarell:400,700' rel='stylesheet' type='text/css'>
+    <title>File Request Form</title>
 </head>
 <body>
-<div id="svg_wrap"></div>
 
-<h1>Online Job Application</h1>
-<section>
-<form method="post" action="connect.php">
-    <input type="text" placeholder="Firstname" name="Firstname" />
-    <input type="text" placeholder="Surname" name="Surname" />
-    <input type="date" placeholder="Birthdate" name="Birthdate" />
-    <input type="text" placeholder="Street" name="Street" />
-    <input type="text" placeholder="City" name="City" />
-    <input type="text" placeholder="Mobile" name="Mobile" />
-    <button class="button"    type="submit">Submit</button>
-</form>
+  <div id='formContainer'>
+    <div id='formHeader'>
+      <h3>File Request Form</h3>
+    </div>
+    <form id='formBody' class='fileRequestForm FlowupLabels' method="POST" action="connect1.php">
+      <p class='rf_notice'>Your information will be kept private and is only collected to satisfy our burning curiosity.</p>
+      
+      <div class='fl_wrap'>
+        <label class='fl_label' for='rf_name'>Name:</label>
+        <input class='fl_input' type='text' id='rf_name' name="rf_name" required />
+      </div>
+      <div class='fl_wrap'>
+        <label class='fl_label' for='rf_email'>Email:</label>
+        <input class='fl_input' type='email' id='rf_email' name="rf_email" required />
+      </div>
+      <div class='fl_wrap'>
+        <label class='fl_label' for='rf_company'>Company:</label>
+        <input class='fl_input' type='text' id='rf_company' name="rf_company" required />
+      </div>
+      <div class='fl_wrap'>
+        <label class='fl_label' for='rf_phone'>Phone:</label>
+        <input class='fl_input' type='tel' id='rf_phone' name="rf_phone" required />
+      </div>
+      <p>
+        <input class='rf_submit' type='submit' value='Send' />
+      </p>
+    </form>
+  </div>
 
-</section>
-  
 </body>
 </html>
