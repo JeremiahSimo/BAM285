@@ -15,7 +15,9 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -363,38 +365,41 @@
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-<<<<<<< HEAD
-        <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'registration_form' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
-=======
-        <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'registration_form' || ($_GET['page'] ?? '') === 'student_registration_form' || ($_GET['page'] ?? '') === 'employee_registration_form' || ($_GET['page'] ?? '') === 'product_registration_form' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
+        <<<<<<< HEAD <ul id="forms-nav"
+          class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'registration_form' ? 'show' : ''; ?>"
+          data-bs-parent="#sidebar-nav">
+          =======
+          <ul id="forms-nav"
+            class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'registration_form' || ($_GET['page'] ?? '') === 'student_registration_form' || ($_GET['page'] ?? '') === 'employee_registration_form' || ($_GET['page'] ?? '') === 'product_registration_form' ? 'show' : ''; ?>"
+            data-bs-parent="#sidebar-nav">
 
->>>>>>> 081e3436b52e1be8c3cdb893e2039d82a4ee3878
-        <li>
-            <a href="index_admin.php?page=registration_form" class="<?php echo ($_GET['page'] ?? '') === 'registration_form'  ? 'active' : ''; ?>">
-              <i class="bi bi-circle"></i><span>Registration Form</span>
-            </a>
-          </li>
-<<<<<<< HEAD
-=======
+            >>>>>>> 081e3436b52e1be8c3cdb893e2039d82a4ee3878
+            <li>
+              <a href="index_admin.php?page=registration_form"
+                class="<?php echo ($_GET['page'] ?? '') === 'registration_form' ? 'active' : ''; ?>">
+                <i class="bi bi-circle"></i><span>Registration Form</span>
+              </a>
+            </li>
+            <<<<<<< HEAD=======<li>
+              <a href="index_admin.php?page=student_registration_form"
+                class="<?php echo ($_GET['page'] ?? '') === 'student_registration_form' ? 'active' : ''; ?>">
+                <i class="bi bi-circle"></i><span>Student Registration Form</span>
+              </a>
+      </li>
 
-          
-          <li>
-            <a href="index_admin.php?page=student_registration_form" class="<?php echo ($_GET['page'] ?? '') === 'student_registration_form'  ? 'active' : ''; ?>">
-              <i class="bi bi-circle"></i><span>Student Registration Form</span>
-            </a>
-          </li>
+      <li>
+        <a href="index_admin.php?page=employee_registration_form"
+          class="<?php echo ($_GET['page'] ?? '') === 'employee_registration_form' ? 'active' : ''; ?>">
+          <i class="bi bi-circle"></i><span>Employee Registration Form</span>
+        </a>
+      </li>
 
-          <li>
-            <a href="index_admin.php?page=employee_registration_form" class="<?php echo ($_GET['page'] ?? '') === 'employee_registration_form'  ? 'active' : ''; ?>">
-              <i class="bi bi-circle"></i><span>Employee Registration Form</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="index_admin.php?page=product_registration_form" class="<?php echo ($_GET['page'] ?? '') === 'product_registration_form'  ? 'active' : ''; ?>">
-              <i class="bi bi-circle"></i><span>Product Registration Form</span>
-            </a>
-          </li>
+      <li>
+        <a href="index_admin.php?page=product_registration_form"
+          class="<?php echo ($_GET['page'] ?? '') === 'product_registration_form' ? 'active' : ''; ?>">
+          <i class="bi bi-circle"></i><span>Product Registration Form</span>
+        </a>
+      </li>
 
       <!--
 >>>>>>> 081e3436b52e1be8c3cdb893e2039d82a4ee3878
@@ -422,19 +427,22 @@
 
 
 
-        </ul>
-      </li><!-- End Forms Nav -->
+    </ul>
+    </li><!-- End Forms Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-<<<<<<< HEAD
-        <ul id="tables-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'display_members' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
-=======
+    <li class="nav-item">
+      <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <<<<<<< HEAD <ul id="tables-nav"
+        class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'display_members' ? 'show' : ''; ?>"
+        data-bs-parent="#sidebar-nav">
+        =======
 
-        <ul id="tables-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'display_members' || ($_GET['page'] ?? '') === 'student_registration_display' || ($_GET['page'] ?? '') === 'employee_registration_display' || ($_GET['page'] ?? '') === 'product_inventory_display'? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
-<!--
+        <ul id="tables-nav"
+          class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'display_members' || ($_GET['page'] ?? '') === 'student_registration_display' || ($_GET['page'] ?? '') === 'employee_registration_display' || ($_GET['page'] ?? '') === 'product_inventory_display' ? 'show' : ''; ?>"
+          data-bs-parent="#sidebar-nav">
+          <!--
 >>>>>>> 081e3436b52e1be8c3cdb893e2039d82a4ee3878
           <li>
             <a href="index_admin.php?page=sendlove">
@@ -445,37 +453,41 @@
 =======
 
 -->
->>>>>>> 081e3436b52e1be8c3cdb893e2039d82a4ee3878
-         
+          >>>>>>> 081e3436b52e1be8c3cdb893e2039d82a4ee3878
+
           <li>
-            <a href="index_admin.php?page=display_members" class="<?php echo ($_GET['page'] ?? '') === 'display_members'  ? 'active' : ''; ?>">
+            <a href="index_admin.php?page=display_members"
+              class="<?php echo ($_GET['page'] ?? '') === 'display_members' ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Registered Members List</span>
             </a>
           </li>
           <li>
 
           <li>
-            <a href="index_admin.php?page=student_registration_display" class="<?php echo ($_GET['page'] ?? '') === 'student_registration_display'  ? 'active' : ''; ?>">
+            <a href="index_admin.php?page=student_registration_display"
+              class="<?php echo ($_GET['page'] ?? '') === 'student_registration_display' ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Student Registration List</span>
             </a>
           </li>
 
 
           <li>
-            <a href="index_admin.php?page=employee_registration_display" class="<?php echo ($_GET['page'] ?? '') === 'employee_registration_display'  ? 'active' : ''; ?>">
+            <a href="index_admin.php?page=employee_registration_display"
+              class="<?php echo ($_GET['page'] ?? '') === 'employee_registration_display' ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Employee Registration List</span>
             </a>
           </li>
 
           <li>
-            <a href="index_admin.php?page=product_inventory_display" class="<?php echo ($_GET['page'] ?? '') === 'product_inventory_display'  ? 'active' : ''; ?>">
+            <a href="index_admin.php?page=product_inventory_display"
+              class="<?php echo ($_GET['page'] ?? '') === 'product_inventory_display' ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Product Registration List</span>
             </a>
           </li>
 
 
 
-        <!--
+          <!--
           <li>
             <a href="index_admin.php?page=register">
               <i class="bi bi-circle"></i><span>Personal information form</span>
@@ -484,106 +496,106 @@
         -->
 
         </ul>
-      
-      </li>
-     <!-- End Tables Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="">
-              <i class="bi bi-circle"></i><span>Chart.js</span>
-            </a>
-          </li>
-          <li>
-            <a href="charts-apexcharts.html">
-              <i class="bi bi-circle"></i><span>ApexCharts</span>
-            </a>
-          </li>
-          <li>
-            <a href="charts-echarts.html">
-              <i class="bi bi-circle"></i><span>ECharts</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Charts Nav -->
+    </li>
+    <!-- End Tables Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-gem"></i><span>Icons</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="icons-bootstrap.html">
-              <i class="bi bi-circle"></i><span>Bootstrap Icons</span>
-            </a>
-          </li>
-          <li>
-            <a href="icons-remix.html">
-              <i class="bi bi-circle"></i><span>Remix Icons</span>
-            </a>
-          </li>
-          <li>
-            <a href="icons-boxicons.html">
-              <i class="bi bi-circle"></i><span>Boxicons</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Icons Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="">
+            <i class="bi bi-circle"></i><span>Chart.js</span>
+          </a>
+        </li>
+        <li>
+          <a href="charts-apexcharts.html">
+            <i class="bi bi-circle"></i><span>ApexCharts</span>
+          </a>
+        </li>
+        <li>
+          <a href="charts-echarts.html">
+            <i class="bi bi-circle"></i><span>ECharts</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Charts Nav -->
 
-      <li class="nav-heading">Pages</li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-gem"></i><span>Icons</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="icons-bootstrap.html">
+            <i class="bi bi-circle"></i><span>Bootstrap Icons</span>
+          </a>
+        </li>
+        <li>
+          <a href="icons-remix.html">
+            <i class="bi bi-circle"></i><span>Remix Icons</span>
+          </a>
+        </li>
+        <li>
+          <a href="icons-boxicons.html">
+            <i class="bi bi-circle"></i><span>Boxicons</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Icons Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
+    <li class="nav-heading">Pages</li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-faq.html">
-          <i class="bi bi-question-circle"></i>
-          <span>F.A.Q</span>
-        </a>
-      </li><!-- End F.A.Q Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="users-profile.html">
+        <i class="bi bi-person"></i>
+        <span>Profile</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index_admin.php?page=london">
-          <i class="bi bi-envelope"></i>
-          <span>London</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="pages-faq.html">
+        <i class="bi bi-question-circle"></i>
+        <span>F.A.Q</span>
+      </a>
+    </li><!-- End F.A.Q Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index_admin.php?page=paris">
-          <i class="bi bi-card-list"></i>
-          <span>paris</span>
-        </a>
-      </li><!-- End Register Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="index_admin.php?page=london">
+        <i class="bi bi-envelope"></i>
+        <span>London</span>
+      </a>
+    </li><!-- End Contact Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index_admin.php?page=tokyo">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>tokyo</span>
-        </a>
-      </li><!-- End Login Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="index_admin.php?page=paris">
+        <i class="bi bi-card-list"></i>
+        <span>paris</span>
+      </a>
+    </li><!-- End Register Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-error-404.html">
-          <i class="bi bi-dash-circle"></i>
-          <span>Error 404</span>
-        </a>
-      </li><!-- End Error 404 Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="index_admin.php?page=tokyo">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>tokyo</span>
+      </a>
+    </li><!-- End Login Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-blank.html">
-          <i class="bi bi-file-earmark"></i>
-          <span>Blank</span>
-        </a>
-      </li><!-- End Blank Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="pages-error-404.html">
+        <i class="bi bi-dash-circle"></i>
+        <span>Error 404</span>
+      </a>
+    </li><!-- End Error 404 Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="pages-blank.html">
+        <i class="bi bi-file-earmark"></i>
+        <span>Blank</span>
+      </a>
+    </li><!-- End Blank Page Nav -->
 
     </ul>
 
@@ -608,77 +620,77 @@
 
           <div class="card">
             <div class="card-body">
-             
-                  <!-- content area -->
-                  <?php
-        if (isset($_GET['page'])){
-            $page=$_GET['page'];
 
-            switch ($page){
-                case 'london':
+              <!-- content area -->
+              <?php
+              if (isset($_GET['page'])) {
+                $page = $_GET['page'];
+
+                switch ($page) {
+                  case 'london':
                     include 'modules/london.php';
                     break;
-                    
-                    case 'paris':
-                        include 'modules/paris.php';
-                        break;
-                        
-                        case 'tokyo':
-                            include 'modules/tokyo.php';
-                            break;
-                            case 'registration_form':
-                              include 'modules/registrations_form.php';
-                              break;
-                              case 'sendlove':
-                                include 'modules/form.php';
-                                break;
-                                case 'register':
-                                  include 'modules/register.php';
-                                  break;
-                                  case 'display_members':
-                                    include 'modules/registered_member.php';
-                                    break;
-  
 
-                                  case 'display_members':
-                                    include 'modules/registered_display.php';
-                                    break;
+                  case 'paris':
+                    include 'modules/paris.php';
+                    break;
 
-                                    
-                                  case 'student_registration_display':
-                                    include 'modules/student_registration_display.php';
-                                    break;
+                  case 'tokyo':
+                    include 'modules/tokyo.php';
+                    break;
+                  case 'registration_form':
+                    include 'modules/registrations_form.php';
+                    break;
+                  case 'sendlove':
+                    include 'modules/form.php';
+                    break;
+                  case 'register':
+                    include 'modules/register.php';
+                    break;
+                  case 'display_members':
+                    include 'modules/registered_member.php';
+                    break;
 
 
-                                    case 'student_registration_form':
-                                      include 'modules/student_registration_form.php';
-                                      break;
+                  case 'display_members':
+                    include 'modules/registered_display.php';
+                    break;
 
 
-                                      case 'employee_registration_display':
-                                        include 'modules/employee_registration_display.php';
-                                        break;
-    
-    
-                                        case 'employee_registration_form':
-                                          include 'modules/employee_registration_form.php';
-                                          break;
+                  case 'student_registration_display':
+                    include 'modules/student_registration_display.php';
+                    break;
 
-                                          case 'product_inventory_display':
-                                            include 'modules/product_display.php';
-                                            break;
-        
-        
-                                            case 'product_registration_form':
-                                              include 'modules/product_form.php';
-                                              break;
-    
-                                  
 
-            }
+                  case 'student_registration_form':
+                    include 'modules/student_registration_form.php';
+                    break;
 
-        }
-    ?>
+
+                  case 'employee_registration_display':
+                    include 'modules/employee_registration_display.php';
+                    break;
+
+
+                  case 'employee_registration_form':
+                    include 'modules/employee_registration_form.php';
+                    break;
+
+                  case 'product_inventory_display':
+                    include 'modules/product_display.php';
+                    break;
+
+
+                  case 'product_registration_form':
+                    include 'modules/product_form.php';
+                    break;
+
+
+
+                }
+
+              }
+              ?>
             </div>
           </div>
 
@@ -702,7 +714,8 @@
     </div>
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
