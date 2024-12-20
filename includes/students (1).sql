@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2024 at 10:42 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Dec 20, 2024 at 11:33 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,9 +43,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `name`, `email`, `number`, `program`, `level`, `specialization`, `created_at`) VALUES
-(1, 'mae bini', 'vanjaminmagpantay@gmail.com', '324', 'it', '23', 'dsad', '2024-12-20 01:25:28'),
-(2, 'mae bini', 'vanjaminmagpantay@gmail.com', '324', 'it', '23', 'dsad', '2024-12-20 01:25:34'),
-(3, 'mae bini', 'vanjaminmagpantay@gmail.com', '324', 'it', '23', 'dsad', '2024-12-20 01:25:48');
+(1, 'Christian Noynay', 'manu.jabulan.coc@phinmaed.com', '09979461491', 'BSIT', '3RD YEAR', 'BAM', '2024-12-20 02:20:06'),
+(2, 'Mae Jabulan', 'manu.jabulan.coc@phinmaed.com', '09979461491', 'BSIT', '3rd YEAR', 'bam', '2024-12-20 03:57:01');
 
 --
 -- Indexes for dumped tables
@@ -65,7 +64,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
