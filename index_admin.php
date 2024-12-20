@@ -369,7 +369,7 @@
               <i class="bi bi-circle"></i><span>Registration Form</span>
             </a>
           </li>
-          <li>
+          
             <a href="forms-elements.html">
               <i class="bi bi-circle"></i><span>Form Elements</span>
             </a>
