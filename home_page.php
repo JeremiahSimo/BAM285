@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>CSS Template</title>
+<title></title>
 <link rel="stylesheet" href="h1.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +28,7 @@ nav {
   float: left;
   width: 30%;
   height: 300px; /* only for demonstration, should be removed */
-  background: #ccc;
+  background: white;
   padding: 20px;
 }
 
@@ -73,21 +73,16 @@ footer {
 </head>
 <body>
 
-<h2>JESSE RAY MORCILLOS</h2>
-<p>In this example, we have created a header, two columns/boxes and a footer. On smaller screens, the columns will stack on top of each other.</p>
-<p>Resize the browser window to see the responsive effect (you will learn more about this in our next chapter - HTML Responsive.)</p>
-
 <header>
-  <h2>Cities</h2>
+  <h2>PROFILING</h2>
 </header>
 
 <section>
   <nav>
     <ul>
-      <li><a href="home_page.php?page=london">London</a></li>
-      <li><a href="home_page.php?page=paris">Paris</a></li>
-      <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
+
       <li><a href="home_page.php?page=medequiso">Medequiso</a></li>
+      <li><a href="home_page.php?page=medequiso">Eee</a></li>
     </ul>
   </nav>
   
@@ -106,8 +101,8 @@ footer {
                         include 'modules/paris.php';
                         break;
                         
-                        case 'tokyo':
-                            include 'modules/tokyo.php';
+                        case 'Eee':
+                            include 'modules/Eee.php';
                             break;
 
                             case 'medequiso':
