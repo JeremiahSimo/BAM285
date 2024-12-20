@@ -377,6 +377,12 @@
           </li>
 
           <li>
+            <a href="index_admin.php?page=lusdoc_form" class="<?php echo ($_GET['page'] ?? '') === 'lusdoc_form'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>lusdoc Form</span>
+            </a>
+          </li>
+
+          <li>
             <a href="forms-elements.html">
               <i class="bi bi-circle"></i><span>Form Elements</span>
             </a>
@@ -419,6 +425,12 @@
           <li>
             <a href="index_admin.php?page=ivan_display" class="<?php echo ($_GET['page'] ?? '') === 'ivan_display'  ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Ivan Display List</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="index_admin.php?page=lusdoc_display" class="<?php echo ($_GET['page'] ?? '') === 'lusdoc_display'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>lusdoc Display List</span>
             </a>
           </li>
 
@@ -590,7 +602,14 @@
                                       case 'ivan_display':
                                         include 'modules/ivan_display.php';
                                         break;
-  
+                                        
+                                        case 'lusdoc_form':
+                                          include 'modules/lusdoc_form.php';
+                                          break;
+                                          
+                                          case 'lusdoc_display':
+                                            include 'modules/lusdoc_display.php';
+                                            break;
 
             }
 

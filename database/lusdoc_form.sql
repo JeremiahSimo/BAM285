@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2024 at 11:03 AM
+-- Generation Time: Dec 20, 2024 at 11:05 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,50 +24,40 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ivan_form`
+-- Table structure for table `lusdoc_form`
 --
 
-CREATE TABLE `ivan_form` (
+CREATE TABLE `lusdoc_form` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `phone` varchar(20) NOT NULL,
-  `department` varchar(100) NOT NULL,
-  `position` varchar(100) NOT NULL,
-  `date_of_joining` date NOT NULL,
+  `reservation_date` date NOT NULL,
+  `num_people` int(11) NOT NULL,
+  `special_requests` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `ivan_form`
---
-
-INSERT INTO `ivan_form` (`id`, `name`, `email`, `phone`, `department`, `position`, `date_of_joining`, `created_at`) VALUES
-(1, 'dsa', 'das@asdsad', '32', 'das', 'das', '2024-12-16', '2024-12-20 09:33:45'),
-(2, 'dsa', 'ivom.castillo.coc@phinmaed.com', '4343', 'das', 'das', '2024-12-17', '2024-12-20 09:34:10'),
-(3, 'dsa', 'dsa@dasdas', 'dsa34', '4dsad', 'dsad', '2024-12-27', '2024-12-20 09:40:29');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `ivan_form`
+-- Indexes for table `lusdoc_form`
 --
-ALTER TABLE `ivan_form`
+ALTER TABLE `lusdoc_form`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `phone` (`phone`);
+  ADD KEY `idx_reservation_date` (`reservation_date`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `ivan_form`
+-- AUTO_INCREMENT for table `lusdoc_form`
 --
-ALTER TABLE `ivan_form`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `lusdoc_form`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
