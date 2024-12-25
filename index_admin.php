@@ -389,6 +389,11 @@
               <i class="bi bi-circle"></i><span>Form Validation</span>
             </a>
           </li>
+          <li>
+            <a href="reservation_form.php">
+              <i class="bi bi-circle"></i><span>Reservation Form</span>
+            </a>
+          </li>
         </ul>
       </li><!-- End Forms Nav -->
 
