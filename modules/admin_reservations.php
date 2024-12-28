@@ -164,7 +164,7 @@ try {
                     if (result.status === 'success') {
                         // Update status and amount on the page
                         $('#status_' + orderId).text(paymentStatus);
-                        $('#amount_' + orderId).text(amountPaid);
+                        $('#amount_' + orderId).text(amountPaid); // Replace N/A with entered amount
                         form.find('button').hide();  // Hide the button after successful update
                         showMessage(result.message, 'success');
                     } else {
