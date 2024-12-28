@@ -391,7 +391,15 @@
             </a>
           </li>
         </ul>
-      </li><!-- End Forms Nav -->
+      </li>
+      <li>
+            <a href="cake_order_reservation.php">
+              <i class="bi bi-circle"></i><span>Cake Order Form</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <!-- End Forms Nav -->
 
       <li class="nav-item">
         <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
@@ -572,6 +580,9 @@
                                     case 'cake_ordering':
                                       include 'modules/cake_order.php';
                                       break;
+                                      case 'cake_order_reservation':
+                                        include 'modules/cake_order_reservation.php';
+                                        break;
   
 
             }
