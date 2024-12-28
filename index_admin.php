@@ -390,15 +390,15 @@
               <i class="bi bi-circle"></i><span>Form Validation</span>
             </a>
           </li>
-        </ul>
-      </li>
-      <li>
+          <li>
             <a href="cake_order_reservation.php">
               <i class="bi bi-circle"></i><span>Cake Order Form</span>
             </a>
           </li>
         </ul>
       </li>
+     
+            
       <!-- End Forms Nav -->
 
       <li class="nav-item">
