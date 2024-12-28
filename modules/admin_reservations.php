@@ -73,7 +73,6 @@ try {
 </head>
 <body>
     <h1>Reservations Dashboard</h1>
-
     <div id="messageContainer"></div> <!-- Success/Error message container -->
 
     <table border="1" cellpadding="10" cellspacing="0">
