@@ -17,9 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
     $orderId = htmlspecialchars($_POST['orderId']);
     $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
 
-    // Debugging: Check POST Data
-    error_log("Order ID: " . $orderId . " | Payment Status: " . $paymentStatus);
-
     // Validate payment status
     $validStatuses = ['Pending', 'Completed', 'Failed', 'Canceled'];
     if (!in_array($paymentStatus, $validStatuses)) {
@@ -32,7 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
         $stmt = $pdo->prepare("UPDATE payments SET payment_status = ? WHERE order_id = ?");
         $stmt->execute([$paymentStatus, $orderId]);
 
-        // Debugging: Check if the query affected any rows
         if ($stmt->rowCount() > 0) {
             echo json_encode(['status' => 'success', 'message' => 'Payment status updated successfully!']);
         } else {
@@ -111,7 +107,7 @@ try {
                         <td><?= htmlspecialchars($reservation['order_date']); ?></td>
                         <td id="status_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['payment_status'] ?? 'Pending'); ?></td>
                         <td>
-                            <form class="updateForm" method="POST">
+                            <form class="updateForm" method="POST" data-order-id="<?= htmlspecialchars($reservation['order_id']); ?>">
                                 <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
                                 <select name="paymentStatus" required>
                                     <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
@@ -119,7 +115,7 @@ try {
                                     <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
                                     <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
                                 </select>
-                                <button type="submit" name="updatePayment">Update</button>
+                                <button type="submit" name="updatePayment" class="updateBtn">Update</button>
                             </form>
                         </td>
                     </tr>
@@ -152,10 +148,10 @@ try {
                     paymentStatus: paymentStatus
                 },
                 success: function(response) {
-                    console.log("AJAX Success: " + response);  // Debugging log
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
                         $('#status_' + orderId).text(paymentStatus);  // Update payment status in the table
+                        form.find('button').hide();  // Hide the update button after successful update
                         showMessage(result.message, 'success');
                     } else {
                         showMessage(result.message, 'error');
