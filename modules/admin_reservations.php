@@ -101,12 +101,16 @@ try {
                         <td><?= htmlspecialchars($reservation['order_date']); ?></td>
                         <td id="status_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['payment_status'] ?? 'Pending'); ?></td>
                         <td>
-                            <select class="paymentStatus" data-order-id="<?= htmlspecialchars($reservation['order_id']); ?>" onchange="updatePaymentStatus(this)">
-                                <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
-                                <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
-                                <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
-                                <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
-                            </select>
+                            <form method="POST" class="updateForm">
+                                <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
+                                <select name="paymentStatus" required>
+                                    <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                                    <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                                    <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
+                                    <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
+                                </select>
+                                <button type="submit" name="updatePayment">Update</button>
+                            </form>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -119,9 +123,13 @@ try {
     </table>
 
     <script>
-        function updatePaymentStatus(selectElement) {
-            var orderId = $(selectElement).data('order-id');
-            var paymentStatus = $(selectElement).val();
+        // Prevent default form submission and use AJAX
+        $('form.updateForm').on('submit', function(event) {
+            event.preventDefault();
+
+            var form = $(this);
+            var orderId = form.find('input[name="orderId"]').val();
+            var paymentStatus = form.find('select[name="paymentStatus"]').val();
 
             $.ajax({
                 type: "POST",
@@ -144,7 +152,7 @@ try {
                     showMessage('Error occurred while updating the payment status.', 'error');
                 }
             });
-        }
+        });
 
         function showMessage(message, type) {
             $('#messageContainer').html('<div class="message ' + type + '">' + message + '</div>');
