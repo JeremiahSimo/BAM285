@@ -129,19 +129,18 @@ try {
     </table>
 
     <script>
-        // Prevent default form submission and use AJAX
-        $('form.updateForm').on('submit', function(event) {
+        // Handle form submission via AJAX
+        $(document).on('submit', '.updateForm', function(event) {
             event.preventDefault();
 
             var form = $(this);
             var orderId = form.find('input[name="orderId"]').val();
             var paymentStatus = form.find('select[name="paymentStatus"]').val();
 
-            console.log("Submitting... Order ID: " + orderId + " Payment Status: " + paymentStatus);  // Debugging log
-
+            // Send AJAX request
             $.ajax({
                 type: "POST",
-                url: "",
+                url: "", // Current page
                 data: {
                     updatePayment: true,
                     orderId: orderId,
@@ -150,8 +149,9 @@ try {
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
-                        $('#status_' + orderId).text(paymentStatus);  // Update payment status in the table
-                        form.find('button').hide();  // Hide the update button after successful update
+                        // Update status on the page
+                        $('#status_' + orderId).text(paymentStatus);
+                        form.find('button').hide();  // Hide the button after successful update
                         showMessage(result.message, 'success');
                     } else {
                         showMessage(result.message, 'error');
@@ -163,6 +163,7 @@ try {
             });
         });
 
+        // Function to show messages
         function showMessage(message, type) {
             $('#messageContainer').html('<div class="message ' + type + '">' + message + '</div>');
         }
