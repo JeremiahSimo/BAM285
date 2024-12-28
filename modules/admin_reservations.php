@@ -17,6 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
     $orderId = htmlspecialchars($_POST['orderId']);
     $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
 
+    // Debugging: Check POST Data
+    error_log("Order ID: " . $orderId . " | Payment Status: " . $paymentStatus);
+
     // Validate payment status
     $validStatuses = ['Pending', 'Completed', 'Failed', 'Canceled'];
     if (!in_array($paymentStatus, $validStatuses)) {
@@ -25,9 +28,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
     }
 
     try {
+        // Update the payment status in the database
         $stmt = $pdo->prepare("UPDATE payments SET payment_status = ? WHERE order_id = ?");
         $stmt->execute([$paymentStatus, $orderId]);
-        echo json_encode(['status' => 'success', 'message' => 'Payment status updated successfully!']);
+
+        // Debugging: Check if the query affected any rows
+        if ($stmt->rowCount() > 0) {
+            echo json_encode(['status' => 'success', 'message' => 'Payment status updated successfully!']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'No rows updated. Check the order ID.']);
+        }
     } catch (PDOException $e) {
         echo json_encode(['status' => 'error', 'message' => 'Error updating payment status: ' . $e->getMessage()]);
     }
@@ -131,6 +141,8 @@ try {
             var orderId = form.find('input[name="orderId"]').val();
             var paymentStatus = form.find('select[name="paymentStatus"]').val();
 
+            console.log("Submitting... Order ID: " + orderId + " Payment Status: " + paymentStatus);  // Debugging log
+
             $.ajax({
                 type: "POST",
                 url: "",
@@ -140,6 +152,7 @@ try {
                     paymentStatus: paymentStatus
                 },
                 success: function(response) {
+                    console.log("AJAX Success: " + response);  // Debugging log
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
                         $('#status_' + orderId).text(paymentStatus);  // Update payment status in the table
