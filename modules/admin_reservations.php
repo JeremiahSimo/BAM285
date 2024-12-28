@@ -12,9 +12,24 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 
+// Update payment status
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
+    $orderId = htmlspecialchars($_POST['orderId']);
+    $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
+
+    try {
+        $stmt = $pdo->prepare("UPDATE payments SET payment_status = ? WHERE order_id = ?");
+        $stmt->execute([$paymentStatus, $orderId]);
+        echo "<p>Payment status updated successfully!</p>";
+    } catch (PDOException $e) {
+        echo "<p>Error updating payment status: " . $e->getMessage() . "</p>";
+    }
+}
+
 // Fetch all reservations
 try {
     $stmt = $pdo->query("SELECT 
+        o.order_id,
         c.name AS customer_name, 
         c.email, 
         c.phone, 
@@ -22,9 +37,11 @@ try {
         o.cake_size, 
         o.special_instructions, 
         o.reservation_date, 
-        o.order_date 
+        o.order_date, 
+        p.payment_status
     FROM cake_orders o
     JOIN customers c ON o.customer_id = c.customer_id
+    LEFT JOIN payments p ON o.order_id = p.order_id
     ORDER BY o.reservation_date ASC");
     $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -37,13 +54,14 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Reservations</title>
+    <title>Admin - Reservations with Payment Status</title>
 </head>
 <body>
     <h1>Reservations Dashboard</h1>
     <table border="1" cellpadding="10" cellspacing="0">
         <thead>
             <tr>
+                <th>Order ID</th>
                 <th>Customer Name</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -52,12 +70,15 @@ try {
                 <th>Special Instructions</th>
                 <th>Reservation Date</th>
                 <th>Order Date</th>
+                <th>Payment Status</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             <?php if (!empty($reservations)): ?>
                 <?php foreach ($reservations as $reservation): ?>
                     <tr>
+                        <td><?= htmlspecialchars($reservation['order_id']); ?></td>
                         <td><?= htmlspecialchars($reservation['customer_name']); ?></td>
                         <td><?= htmlspecialchars($reservation['email']); ?></td>
                         <td><?= htmlspecialchars($reservation['phone']); ?></td>
@@ -66,11 +87,24 @@ try {
                         <td><?= htmlspecialchars($reservation['special_instructions']); ?></td>
                         <td><?= htmlspecialchars($reservation['reservation_date']); ?></td>
                         <td><?= htmlspecialchars($reservation['order_date']); ?></td>
+                        <td><?= htmlspecialchars($reservation['payment_status'] ?? 'Pending'); ?></td>
+                        <td>
+                            <form method="post" action="">
+                                <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
+                                <select name="paymentStatus" required>
+                                    <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                                    <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                                    <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
+                                    <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
+                                </select>
+                                <button type="submit" name="updatePayment">Update</button>
+                            </form>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="8">No reservations found.</td>
+                    <td colspan="11">No reservations found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
