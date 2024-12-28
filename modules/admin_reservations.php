@@ -12,25 +12,33 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 
-// Update payment status (AJAX)
+// Update payment status and amount logic
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
     $orderId = htmlspecialchars($_POST['orderId']);
     $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
+    $amountPaid = htmlspecialchars($_POST['amountPaid']);
 
-    // Validate payment status
+    // Validate the payment status
     $validStatuses = ['Pending', 'Completed', 'Failed', 'Canceled'];
     if (!in_array($paymentStatus, $validStatuses)) {
         echo json_encode(['status' => 'error', 'message' => 'Invalid payment status.']);
         exit;
     }
 
-    try {
-        // Update the payment status in the database
-        $stmt = $pdo->prepare("UPDATE payments SET payment_status = ? WHERE order_id = ?");
-        $stmt->execute([$paymentStatus, $orderId]);
+    // Validate the amount (should be a valid number)
+    if (!is_numeric($amountPaid) || $amountPaid < 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid amount.']);
+        exit;
+    }
 
+    try {
+        // Update the payment status and amount in the database
+        $stmt = $pdo->prepare("UPDATE payments SET payment_status = ?, amount = ? WHERE order_id = ?");
+        $stmt->execute([$paymentStatus, $amountPaid, $orderId]);
+
+        // Check if the query affected any row
         if ($stmt->rowCount() > 0) {
-            echo json_encode(['status' => 'success', 'message' => 'Payment status updated successfully!']);
+            echo json_encode(['status' => 'success', 'message' => 'Payment status and amount updated successfully!']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'No rows updated. Check the order ID.']);
         }
@@ -52,7 +60,8 @@ try {
         o.special_instructions, 
         o.reservation_date, 
         o.order_date, 
-        p.payment_status
+        p.payment_status,
+        p.amount
     FROM cake_orders o
     JOIN customers c ON o.customer_id = c.customer_id
     LEFT JOIN payments p ON o.order_id = p.order_id
@@ -88,6 +97,7 @@ try {
                 <th>Reservation Date</th>
                 <th>Order Date</th>
                 <th>Payment Status</th>
+                <th>Amount Paid</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -105,6 +115,7 @@ try {
                         <td><?= htmlspecialchars($reservation['reservation_date']); ?></td>
                         <td><?= htmlspecialchars($reservation['order_date']); ?></td>
                         <td id="status_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['payment_status'] ?? 'Pending'); ?></td>
+                        <td id="amount_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['amount'] ?? 'N/A'); ?></td>
                         <td>
                             <form class="updateForm" method="POST" data-order-id="<?= htmlspecialchars($reservation['order_id']); ?>">
                                 <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
@@ -114,6 +125,7 @@ try {
                                     <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
                                     <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
                                 </select>
+                                <input type="number" name="amountPaid" step="0.01" min="0" value="<?= htmlspecialchars($reservation['amount']); ?>" placeholder="Amount Paid" required>
                                 <button type="submit" name="updatePayment" class="updateBtn">Update</button>
                             </form>
                         </td>
@@ -121,7 +133,7 @@ try {
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="11">No reservations found.</td>
+                    <td colspan="12">No reservations found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
@@ -135,6 +147,7 @@ try {
             var form = $(this);
             var orderId = form.find('input[name="orderId"]').val();
             var paymentStatus = form.find('select[name="paymentStatus"]').val();
+            var amountPaid = form.find('input[name="amountPaid"]').val();
 
             // Send AJAX request
             $.ajax({
@@ -143,13 +156,15 @@ try {
                 data: {
                     updatePayment: true,
                     orderId: orderId,
-                    paymentStatus: paymentStatus
+                    paymentStatus: paymentStatus,
+                    amountPaid: amountPaid
                 },
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
-                        // Update status on the page
+                        // Update status and amount on the page
                         $('#status_' + orderId).text(paymentStatus);
+                        $('#amount_' + orderId).text(amountPaid);
                         form.find('button').hide();  // Hide the button after successful update
                         showMessage(result.message, 'success');
                     } else {
