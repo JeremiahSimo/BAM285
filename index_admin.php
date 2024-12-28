@@ -411,6 +411,12 @@
               <i class="bi bi-circle"></i><span>Cake Ordering form</span>
             </a>
           </li>
+
+          <li>
+            <a href="index_admin.php?page=admin_reservations">
+              <i class="bi bi-circle"></i><span>Admin</span>
+            </a>
+          </li>
          
           <li>
             <a href="index_admin.php?page=display_members" class="<?php echo ($_GET['page'] ?? '') === 'display_members'  ? 'active' : ''; ?>">
@@ -580,8 +586,8 @@
                                     case 'cake_ordering':
                                       include 'modules/cake_order.php';
                                       break;
-                                      case 'cake_order_reservation':
-                                        include 'modules/cake_order_reservation.php';
+                                      case 'admin_reservations':
+                                        include 'modules/admin_reservations.php';
                                         break;
   
 
