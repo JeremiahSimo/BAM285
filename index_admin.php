@@ -371,7 +371,27 @@
             </a>
           </li>
           <li>
-           
+            <a href="forms-elements.html">
+              <i class="bi bi-circle"></i><span>Form Elements</span>
+            </a>
+          </li>
+          <li>
+            <a href="forms-layouts.html">
+              <i class="bi bi-circle"></i><span>Form Layouts</span>
+            </a>
+          </li>
+          <li>
+            <a href="forms-editors.html">
+              <i class="bi bi-circle"></i><span>Form Editors</span>
+            </a>
+          </li>
+          <li>
+            <a href="forms-validation.html">
+              <i class="bi bi-circle"></i><span>Form Validation</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Forms Nav -->
 
       <li class="nav-item">
         <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
