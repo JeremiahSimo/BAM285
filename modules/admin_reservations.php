@@ -12,18 +12,26 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 
-// Update payment status
+// Update payment status (AJAX)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
     $orderId = htmlspecialchars($_POST['orderId']);
     $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
 
+    // Validate payment status
+    $validStatuses = ['Pending', 'Completed', 'Failed', 'Canceled'];
+    if (!in_array($paymentStatus, $validStatuses)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid payment status.']);
+        exit;
+    }
+
     try {
         $stmt = $pdo->prepare("UPDATE payments SET payment_status = ? WHERE order_id = ?");
         $stmt->execute([$paymentStatus, $orderId]);
-        echo "<p>Payment status updated successfully!</p>";
+        echo json_encode(['status' => 'success', 'message' => 'Payment status updated successfully!']);
     } catch (PDOException $e) {
-        echo "<p>Error updating payment status: " . $e->getMessage() . "</p>";
+        echo json_encode(['status' => 'error', 'message' => 'Error updating payment status: ' . $e->getMessage()]);
     }
+    exit;
 }
 
 // Fetch all reservations
@@ -55,9 +63,13 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Reservations with Payment Status</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <h1>Reservations Dashboard</h1>
+
+    <div id="messageContainer"></div> <!-- Success/Error message container -->
+
     <table border="1" cellpadding="10" cellspacing="0">
         <thead>
             <tr>
@@ -77,7 +89,7 @@ try {
         <tbody>
             <?php if (!empty($reservations)): ?>
                 <?php foreach ($reservations as $reservation): ?>
-                    <tr>
+                    <tr id="order_<?= htmlspecialchars($reservation['order_id']); ?>">
                         <td><?= htmlspecialchars($reservation['order_id']); ?></td>
                         <td><?= htmlspecialchars($reservation['customer_name']); ?></td>
                         <td><?= htmlspecialchars($reservation['email']); ?></td>
@@ -87,18 +99,14 @@ try {
                         <td><?= htmlspecialchars($reservation['special_instructions']); ?></td>
                         <td><?= htmlspecialchars($reservation['reservation_date']); ?></td>
                         <td><?= htmlspecialchars($reservation['order_date']); ?></td>
-                        <td><?= htmlspecialchars($reservation['payment_status'] ?? 'Pending'); ?></td>
+                        <td id="status_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['payment_status'] ?? 'Pending'); ?></td>
                         <td>
-                            <form method="post" action="">
-                                <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
-                                <select name="paymentStatus" required>
-                                    <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
-                                    <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
-                                    <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
-                                    <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
-                                </select>
-                                <button type="submit" name="updatePayment">Update</button>
-                            </form>
+                            <select class="paymentStatus" data-order-id="<?= htmlspecialchars($reservation['order_id']); ?>" onchange="updatePaymentStatus(this)">
+                                <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                                <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                                <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
+                                <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
+                            </select>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -109,5 +117,38 @@ try {
             <?php endif; ?>
         </tbody>
     </table>
+
+    <script>
+        function updatePaymentStatus(selectElement) {
+            var orderId = $(selectElement).data('order-id');
+            var paymentStatus = $(selectElement).val();
+
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: {
+                    updatePayment: true,
+                    orderId: orderId,
+                    paymentStatus: paymentStatus
+                },
+                success: function(response) {
+                    var result = JSON.parse(response);
+                    if (result.status === 'success') {
+                        $('#status_' + orderId).text(paymentStatus);
+                        showMessage(result.message, 'success');
+                    } else {
+                        showMessage(result.message, 'error');
+                    }
+                },
+                error: function() {
+                    showMessage('Error occurred while updating the payment status.', 'error');
+                }
+            });
+        }
+
+        function showMessage(message, type) {
+            $('#messageContainer').html('<div class="message ' + type + '">' + message + '</div>');
+        }
+    </script>
 </body>
 </html>
