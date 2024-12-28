@@ -101,7 +101,7 @@ try {
                         <td><?= htmlspecialchars($reservation['order_date']); ?></td>
                         <td id="status_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['payment_status'] ?? 'Pending'); ?></td>
                         <td>
-                            <form method="POST" class="updateForm">
+                            <form class="updateForm" method="POST">
                                 <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
                                 <select name="paymentStatus" required>
                                     <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
@@ -142,7 +142,7 @@ try {
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
-                        $('#status_' + orderId).text(paymentStatus);
+                        $('#status_' + orderId).text(paymentStatus);  // Update payment status in the table
                         showMessage(result.message, 'success');
                     } else {
                         showMessage(result.message, 'error');
