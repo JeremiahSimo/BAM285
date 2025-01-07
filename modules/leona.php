@@ -1,21 +1,32 @@
-<div class="product-box">
-  <div class="product-item">
-    <img src="assets/img/sofa.jpg" alt="Sofa">
-    <h3>Modern Sofa</h3>
-    <p>$299</p>
-    <button onclick="addToCart('Modern Sofa')">Add to Cart</button>
-  </div>
-  <div class="product-item">
-    <img src="assets/img/armchair.jpg" alt="Chair">
-    <h3>Arm Chair</h3>
-    <p>$99</p>
-    <button onclick="addToCart('Arm Chair')">Add to Cart</button>
-  </div>
-  <div class="product-item">
-    <img src="assets/img/diningtable.jpg" alt="Chair">
-    <h3>Dining Table</h3>
-    <p>$99</p>
-    <button onclick="addToCart('Dining Table')">Add to Cart</button>
-  </div>
-  
+<?php
+// This file will display the main dish items
+?>
+
+<div class="food-items">
+    <div class="food-item">
+        <img src="path/to/chicken.jpg" alt="Chicken">
+        <h4>Chicken</h4>
+        <p>$10.00</p>
+        <form method="POST" action="home_page.php">
+            <input type="hidden" name="action" value="add_to_cart">
+            <input type="hidden" name="name" value="Chicken">
+            <input type="hidden" name="price" value="10.00">
+            <input type="hidden" name="category" value="main_dish">
+            <input type="number" name="quantity" min="1" value="1">
+            <button type="submit">Add to Cart</button>
+        </form>
+    </div>
+    <div class="food-item">
+        <img src="path/to/pasta.jpg" alt="Pasta">
+        <h4>Pasta</h4>
+        <p>$12.00</p>
+        <form method="POST" action="home_page.php">
+            <input type="hidden" name="action" value="add_to_cart">
+            <input type="hidden" name="name" value="Pasta">
+            <input type="hidden" name="price" value="12.00">
+            <input type="hidden" name="category" value="main_dish">
+            <input type="number" name="quantity" min="1" value="1">
+            <button type="submit">Add to Cart</button>
+        </form>
+    </div>
 </div>

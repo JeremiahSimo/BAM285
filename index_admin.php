@@ -491,24 +491,12 @@
         </a>
       </li><!-- End F.A.Q Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index_admin.php?page=london">
-          <i class="bi bi-envelope"></i>
-          <span>London</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index_admin.php?page=paris">
-          <i class="bi bi-card-list"></i>
-          <span>paris</span>
-        </a>
-      </li><!-- End Register Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index_admin.php?page=tokyo">
+        <a class="nav-link collapsed" href="modules/admin.php">
           <i class="bi bi-box-arrow-in-right"></i>
-          <span>tokyo</span>
+          <span>FOOD ORDERING ADMIN</span>
         </a>
       </li><!-- End Login Page Nav -->
 
@@ -556,17 +544,10 @@
             $page=$_GET['page'];
 
             switch ($page){
-                case 'london':
-                    include 'modules/london.php';
-                    break;
+              case 'admin':
+                include 'modules/admin.php';  // Include the admin.php module
+                break;
                     
-                    case 'paris':
-                        include 'modules/paris.php';
-                        break;
-                        
-                        case 'tokyo':
-                            include 'modules/tokyo.php';
-                            break;
                             case 'registration_form':
                               include 'modules/registration_form.php';
                               break;

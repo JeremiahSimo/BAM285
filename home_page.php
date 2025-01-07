@@ -1,371 +1,326 @@
+<?php
+session_start();
+
+// Clear session if "New Transaction" is triggered
+if (isset($_GET['new_transaction']) && $_GET['new_transaction'] === 'true') {
+    // Clear the cart and order number to start fresh
+    unset($_SESSION['cart']);
+    unset($_SESSION['order_number']);
+}
+
+// Initialize cart if not set
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
+
+// Add item to cart
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_to_cart') {
+    $item = [
+        'name' => $_POST['name'],
+        'price' => $_POST['price'],
+        'quantity' => $_POST['quantity'],
+    ];
+    array_push($_SESSION['cart'], $item);
+    header("Location: " . $_SERVER['PHP_SELF'] . "?category=" . $_POST['category']);
+    exit();
+}
+
+// Remove item from cart
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'remove_from_cart') {
+    $index = $_POST['index'];
+    unset($_SESSION['cart'][$index]);
+    $_SESSION['cart'] = array_values($_SESSION['cart']); // Re-index the array
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+// Checkout and generate order number
+if (isset($_POST['checkout'])) {
+    $order_number = rand(1000, 9999);
+    $_SESSION['order_number'] = $order_number;
+    header("Location: receipt.php");
+    exit();
+}
+
+// Calculate total price
+$total_price = 0;
+foreach ($_SESSION['cart'] as $item) {
+    $total_price += $item['price'] * $item['quantity'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Product Dashboard - Furniture, Clothing, Toys</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    /* Your existing CSS */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Roboto', sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background: url('assets/img/background_photo.jpg') no-repeat center center fixed;
-      background-size: cover;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    main {
-      flex: 1;
-    }
-
-    header {
-      background: linear-gradient(135deg, #333, #666);
-      color: white;
-      padding: 30px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      position: relative;
-    }
-
-    header h2 {
-      font-size: 2.8rem;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 1.4rem;
-    }
-
-    .cart {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 2rem;
-      color: white;
-      cursor: pointer;
-    }
-
-    .cart span {
-      background: red;
-      color: white;
-      border-radius: 50%;
-      padding: 5px 15px;
-      margin-left: 5px;
-      font-size: 1.2rem;
-    }
-
-    header + main {
-      margin-top: 30px;
-    }
-
-    nav {
-      float: left;
-      width: 25%;
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    nav ul {
-      list-style: none;
-    }
-
-    nav ul li {
-      margin-bottom: 20px;
-    }
-
-    nav ul li a {
-      text-decoration: none;
-      color: #333;
-      font-size: 1.3rem;
-      font-weight: bold;
-      transition: color 0.3s ease;
-    }
-
-    nav ul li a:hover {
-      color: #6a89cc;
-    }
-
-    nav ul li.dashboard {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: #333;
-    }
-
-    article {
-      float: left;
-      width: 70%;
-      background: #ffffff;
-      padding: 30px;
-      margin-left: 5%;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      min-height: 400px;
-    }
-
-    .product-box {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .product-item {
-      width: calc(33.33% - 20px);
-      background: #ffffff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-
-    .product-item:hover {
-      transform: translateY(-5px);
-    }
-
-    .product-item img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-
-    .product-item h3 {
-      font-size: 1.5rem;
-      margin: 10px 0;
-    }
-
-    .product-item p {
-      font-size: 1.2rem;
-      color: #666;
-    }
-
-    .product-item button {
-      background: #6a89cc;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      font-size: 1.1rem;
-    }
-
-    .product-item button:hover {
-      background: #a29bfe;
-    }
-
-    .cart-modal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #f9f9f9;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 30px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      z-index: 9999;
-      max-width: 500px;
-      width: 100%;
-    }
-
-    .cart-modal h3 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-    }
-
-    .cart-modal .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: red;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      font-size: 1.2rem;
-      cursor: pointer;
-    }
-
-    .cart-modal .close-btn:hover {
-      background: darkred;
-    }
-
-    .cart-modal p {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      background: #333;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: auto;
-    }
-
-  </style>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let cartCount = cart.length;
-    let cartTotal = JSON.parse(localStorage.getItem("cartTotal")) || 0;
-
-    function updateCartCount() {
-      document.getElementById("cart-count").textContent = cartCount;
-    }
-
-    function addToCart(itemName, itemPrice) {
-      cart.push({name: itemName, price: itemPrice});
-      cartCount++;
-      cartTotal += itemPrice;
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-      localStorage.setItem("cartTotal", JSON.stringify(cartTotal));
-
-      updateCartCount();
-      alert(itemName + " added to cart successfully!");
-
-      updateCartInDatabase();
-    }
-
-    function removeItemFromCart(index) {
-      const itemPrice = cart[index].price;
-      cart.splice(index, 1);
-      cartCount--;
-      cartTotal -= itemPrice;
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-      localStorage.setItem("cartTotal", JSON.stringify(cartTotal));
-
-      updateCartCount();
-      viewCart();
-      updateCartInDatabase();
-    }
-
-    function updateCartInDatabase() {
-      $.ajax({
-        url: 'update_cart.php',
-        method: 'POST',
-        data: {
-          cart: JSON.stringify(cart),
-          cartTotal: cartTotal
-        },
-        success: function(response) {
-          console.log("Cart updated in database:", response);
-        },
-        error: function(xhr, status, error) {
-          console.error("Error updating cart in database:", error);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Ordering</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-      });
-    }
 
-    function viewCart() {
-      const cartModal = document.getElementById("cart-modal");
-      const cartItemsContainer = document.getElementById("cart-items");
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
 
-      if (cartCount === 0) {
-        alert("Your cart is empty.");
-        return;
-      }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
 
-      cartItemsContainer.innerHTML = "";
-      cart.forEach((item, index) => {
-        const cartItemDiv = document.createElement("div");
-        cartItemDiv.classList.add("item");
-        cartItemDiv.innerHTML = `
-          <span>${item.name} - $${item.price}</span>
-          <button onclick="removeItemFromCart(${index})">Delete</button>
-        `;
-        cartItemsContainer.appendChild(cartItemDiv);
-      });
+        header h2 {
+            font-size: 2.5rem;
+        }
 
-      document.getElementById("cart-total-price").textContent = `$${cartTotal.toFixed(2)}`;
-      cartModal.style.display = "block";
-    }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            margin-top: auto;
+        }
 
-    function closeCart() {
-      document.getElementById("cart-modal").style.display = "none";
-    }
+        nav {
+            width: 250px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            position: fixed;
+            top: 80px;
+        }
 
-    function checkout() {
-      alert("Proceeding to checkout...");
-    }
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-    window.onload = updateCartCount;
-  </script>
+        nav ul li {
+            font-size: 1.2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #6a89cc;
+            color: white;
+        }
+
+        main {
+            margin-left: 270px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .food-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 foods per row */
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .food-item {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .food-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .food-item h4 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .food-item p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .food-item input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #6a89cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #4f6fbb;
+        }
+
+        .cart {
+            margin-top: 40px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .cart-item p {
+            font-size: 1.2rem;
+        }
+
+        .cart-item span {
+            font-weight: bold;
+        }
+
+        .cart-total {
+            font-size: 1.4rem;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .checkout-btn:hover {
+            background-color: darkred;
+        }
+
+        .cancel-btn {
+            background-color: transparent;
+            color: red;
+            font-size: 1.5rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cancel-btn:hover {
+            color: darkred;
+        }
+
+        .cart-item button {
+            margin-left: 10px;
+            padding: 8px 12px;
+        }
+
+    </style>
 </head>
 <body>
 
 <header>
-  <h2>Welcome to Our Product Dashboard</h2>
-  <p>Explore a wide range of Furniture, Clothing, and Toys</p>
-  <div class="cart" onclick="viewCart()">
-    🛒 Cart <span id="cart-count">0</span>
-  </div>
+    <h2>Welcome to Our Food Ordering Website</h2>
 </header>
 
-<main>
-  <section>
-    <nav>
-      <ul>
-        <li class="dashboard">Dashboard</li>
-        <li><a href="home_page.php?product=furniture">Furniture</a></li>
-        <li><a href="home_page.php?product=clothing">Clothing</a></li>
-        <li><a href="home_page.php?product=toys">Toys</a></li>
-      </ul>
-    </nav>
+<nav>
+    <ul>
+        <li><a href="?category=main_dish">Main Dish</a></li>
+        <li><a href="?category=side_dish">Side Dish</a></li>
+        <li><a href="?category=drink">Drinks</a></li>
+    </ul>
+</nav>
 
-    <article>
-      <?php
-      if (isset($_GET['product'])) {
-          $product = htmlspecialchars($_GET['product']);
-          switch ($product) {
-              case 'furniture':
-                  include 'modules/leona.php';
-                  break;
-              case 'clothing':
-                  include 'modules/caamino.php';
-                  break;
-              case 'toys':
-                  include 'modules/pagula.php';
-                  break;
-              default:
-                  echo "<p>Invalid product selection. Please choose a valid category.</p>";
-          }
-      } else {
-          echo "<p>Select a category from the left menu to explore our products!</p>";
-      }
-      ?>
-    </article>
-  </section>
+<main>
+    <?php
+    // Check which category is selected
+    if (isset($_GET['category'])) {
+        $category = $_GET['category'];
+
+        if ($category == 'main_dish') {
+            include('modules/leona.php');
+        } elseif ($category == 'side_dish') {
+            include('modules/caamino.php');
+        } elseif ($category == 'drink') {
+            include('modules/pagula.php');
+        }
+    } else {
+        echo '<h3>Select a category from the left menu</h3>';
+    }
+    ?>
+
+    <!-- Cart Display -->
+    <div class="cart">
+        <h3>Your Cart</h3>
+        <?php if (count($_SESSION['cart']) > 0): ?>
+            <?php foreach ($_SESSION['cart'] as $index => $item): ?>
+                <div class="cart-item">
+                    <p><?= $item['name'] ?> x <?= $item['quantity'] ?> - $<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
+                    <form method="POST" action="">
+                        <input type="hidden" name="index" value="<?= $index ?>">
+                        <input type="hidden" name="action" value="remove_from_cart">
+                        <button type="submit" class="cancel-btn">&times;</button>
+                    </form>
+                </div>
+            <?php endforeach; ?>
+            <div class="cart-total">
+                Total: $<?= number_format($total_price, 2) ?>
+            </div>
+        <?php else: ?>
+            <p>Your cart is empty.</p>
+        <?php endif; ?>
+    </div>
+
 </main>
 
-<div id="cart-modal" class="cart-modal">
-  <button class="close-btn" onclick="closeCart()">×</button>
-  <h3>Your Cart</h3>
-  <div id="cart-items"></div>
-  <p>Total: <span id="cart-total-price"></span></p>
-  <button style="background-color: red; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer;" onclick="checkout()">Proceed to Checkout</button>
-</div>
-
 <footer>
-  <p>&copy; 2025 Product Dashboard | All Rights Reserved</p>
+    <p>&copy; 2025 Food Ordering Website</p>
 </footer>
+
+<!-- Checkout Button -->
+<?php if (count($_SESSION['cart']) > 0): ?>
+    <form method="POST" action="">
+        <button type="submit" name="checkout" class="checkout-btn">Checkout</button>
+    </form>
+<?php endif; ?>
 
 </body>
 </html>
