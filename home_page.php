@@ -293,7 +293,7 @@ foreach ($_SESSION['cart'] as $item) {
         <?php if (count($_SESSION['cart']) > 0): ?>
             <?php foreach ($_SESSION['cart'] as $index => $item): ?>
                 <div class="cart-item">
-                    <p><?= $item['name'] ?> x <?= $item['quantity'] ?> - $<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
+                    <p><?= $item['name'] ?> x <?= $item['quantity'] ?> - ₱ <?= number_format($item['price'] * $item['quantity'], 2) ?></p>
                     <form method="POST" action="">
                         <input type="hidden" name="index" value="<?= $index ?>">
                         <input type="hidden" name="action" value="remove_from_cart">

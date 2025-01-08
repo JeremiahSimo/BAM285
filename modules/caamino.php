@@ -1,12 +1,12 @@
 <?php
-// This file will display the side dish items
+
 ?>
 
 <div class="food-items">
     <div class="food-item">
         <img src="path/to/fries.jpg" alt="Fries">
         <h4>Fries</h4>
-        <p>$3.00</p>
+        <p>49.00</p>
         <form method="POST" action="home_page.php">
             <input type="hidden" name="action" value="add_to_cart">
             <input type="hidden" name="name" value="Fries">
@@ -19,7 +19,7 @@
     <div class="food-item">
         <img src="path/to/salad.jpg" alt="Salad">
         <h4>Salad</h4>
-        <p>$5.00</p>
+        <p>60.00</p>
         <form method="POST" action="home_page.php">
             <input type="hidden" name="action" value="add_to_cart">
             <input type="hidden" name="name" value="Salad">

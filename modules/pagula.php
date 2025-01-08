@@ -6,7 +6,7 @@
     <div class="food-item">
         <img src="path/to/cola.jpg" alt="Cola">
         <h4>Cola</h4>
-        <p>$2.00</p>
+        <p>21.00</p>
         <form method="POST" action="home_page.php">
             <input type="hidden" name="action" value="add_to_cart">
             <input type="hidden" name="name" value="Cola">
@@ -19,7 +19,7 @@
     <div class="food-item">
         <img src="path/to/juice.jpg" alt="Juice">
         <h4>Juice</h4>
-        <p>$3.50</p>
+        <p>35.00</p>
         <form method="POST" action="home_page.php">
             <input type="hidden" name="action" value="add_to_cart">
             <input type="hidden" name="name" value="Juice">
