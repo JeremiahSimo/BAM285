@@ -1,4 +1,6 @@
-<?php
+
+ <?php
+ // Include the database connection file
  include "includes/connection.php";
 
  if(isset($_POST["btn_submit"])){
@@ -10,15 +12,14 @@
 VALUES (' $name', '$email', '$address')";
 
 if ($conn->query($sql) === TRUE) {
-  echo "New record created successfully";
+  echo '<script>alert("New record created successfully")</script>';
 } else {
   echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
 $conn->close();
  }
-
-?>
+ ?>
              
              
              <h5 class="card-title">Registration Form</h5>

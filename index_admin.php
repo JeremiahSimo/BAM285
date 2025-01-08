@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +9,9 @@
   <title>Tables / Data - NiceAdmin Bootstrap Template</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
+
+
+  
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -364,11 +368,17 @@
           <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'registration_form' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
+        
         <li>
             <a href="index_admin.php?page=registration_form" class="<?php echo ($_GET['page'] ?? '') === 'registration_form'  ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Registration Form</span>
             </a>
           </li>
+          <li>
+            <a href="index_admin.php?page=student" class="<?php echo ($_GET['page'] ?? '') === 'student'  ? 'active' : ''; ?>">
+                <i class="bi bi-circle"></i><span>Student Form</span>
+            </a>
+        </li>
           <li>
             <a href="forms-elements.html">
               <i class="bi bi-circle"></i><span>Form Elements</span>
@@ -389,6 +399,7 @@
               <i class="bi bi-circle"></i><span>Form Validation</span>
             </a>
           </li>
+          
         </ul>
       </li><!-- End Forms Nav -->
 
@@ -398,8 +409,8 @@
         </a>
         <ul id="tables-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'display_members' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
           <li>
-            <a href="index_admin.php?page=sendlove">
-              <i class="bi bi-circle"></i><span>Send love form</span>
+            <a href="index_admin.php?page=cake_ordering">
+              <i class="bi bi-circle"></i><span>Cake Ordering form</span>
             </a>
           </li>
          
@@ -480,24 +491,12 @@
         </a>
       </li><!-- End F.A.Q Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index_admin.php?page=london">
-          <i class="bi bi-envelope"></i>
-          <span>London</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index_admin.php?page=paris">
-          <i class="bi bi-card-list"></i>
-          <span>paris</span>
-        </a>
-      </li><!-- End Register Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index_admin.php?page=tokyo">
+        <a class="nav-link collapsed" href="modules/admin.php">
           <i class="bi bi-box-arrow-in-right"></i>
-          <span>tokyo</span>
+          <span>FOOD ORDERING ADMIN</span>
         </a>
       </li><!-- End Login Page Nav -->
 
@@ -545,17 +544,10 @@
             $page=$_GET['page'];
 
             switch ($page){
-                case 'london':
-                    include 'modules/london.php';
-                    break;
+              case 'admin':
+                include 'modules/admin.php';  // Include the admin.php module
+                break;
                     
-                    case 'paris':
-                        include 'modules/paris.php';
-                        break;
-                        
-                        case 'tokyo':
-                            include 'modules/tokyo.php';
-                            break;
                             case 'registration_form':
                               include 'modules/registration_form.php';
                               break;
@@ -568,11 +560,15 @@
                                   case 'display_members':
                                     include 'modules/registered_member.php';
                                     break;
+                                    case 'cake_ordering':
+                                      include 'modules/cake_order.php';
+                                      break;
   
 
             }
 
         }
+      
     ?>
             </div>
           </div>
