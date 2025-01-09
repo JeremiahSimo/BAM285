@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "form_db";
+$database = "db_daycare";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password,$database);

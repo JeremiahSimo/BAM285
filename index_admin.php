@@ -372,6 +372,24 @@
           </li>
 
           <li>
+            <a href="index_admin.php?page=enroll" class="<?php echo ($_GET['page'] ?? '') === 'enroll'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Enrollment Form</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="index_admin.php?page=attendance" class="<?php echo ($_GET['page'] ?? '') === 'attendance'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Attendance Form</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="index_admin.php?page=feedback" class="<?php echo ($_GET['page'] ?? '') === 'feedback'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Feedback Form</span>
+            </a>
+          </li>
+
+          <li>
             <a href="index_admin.php?page=student_form" class="<?php echo ($_GET['page'] ?? '') === 'student_form'  ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Student Form</span>
             </a>
@@ -455,8 +473,26 @@
         </a>
         <ul id="tables-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'display_members' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
           <li>
-            <a href="index_admin.php?page=sendlove">
-              <i class="bi bi-circle"></i><span>Send love form</span>
+            <a href="index_admin.php?page=cake_ordering">
+              <i class="bi bi-circle"></i><span>Cake Ordering form</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="index_admin.php?page=enrolled" class="<?php echo ($_GET['page'] ?? '') === 'enrolled'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Enrolled Children</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="index_admin.php?page=attendance_display" class="<?php echo ($_GET['page'] ?? '') === 'attendance_display'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Attendance Display</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="index_admin.php?page=feedback_display" class="<?php echo ($_GET['page'] ?? '') === 'feedback_display'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Feedback Display</span>
             </a>
           </li>
          
@@ -646,7 +682,6 @@
                                   case 'display_members':
                                     include 'modules/registered_member.php';
                                     break;
-
                                     case 'employee_address_form':
                                       include 'modules/employee_address_form.php';
                                       break;
@@ -670,8 +705,27 @@
                                               case 'student_forms':
                                                 include 'modules/new_student.php';
                                                 break;
-  
-
+                                    case 'cake_ordering':
+                                      include 'modules/cake_order.php';
+                                      break;
+                                      case 'enroll':
+                                        include 'modules/enroll.php';
+                                        break;
+                                        case 'attendance':
+                                          include 'modules/attendance.php';
+                                          break;
+                                          case 'enrolled':
+                                            include 'modules/enrolled.php';
+                                            break;
+                                            case 'attendance_display':
+                                              include 'modules/display_attendance.php';
+                                              break;
+                                              case 'feedback':
+                                                include 'modules/feedback.php';
+                                                break;
+                                                case 'feedback_display':
+                                                  include 'modules/feedback_display.php';
+                                                  break;
             }
 
         }
