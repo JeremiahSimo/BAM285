@@ -92,12 +92,12 @@ foreach ($cart as $item) {
             <?php foreach ($cart as $item): ?>
                 <div class="item">
                     <span><?= $item['name'] ?> (x<?= $item['quantity'] ?>)</span>
-                    <span>$<?= number_format($item['price'] * $item['quantity'], 2) ?></span>
+                    <span>₱<?= number_format($item['price'] * $item['quantity'], 2) ?></span>
                 </div>
             <?php endforeach; ?>
         </div>
 
-        <p><strong>Total Price: $<?= number_format($total_price, 2) ?></strong></p>
+        <p><strong>Total Price: <?= number_format($total_price, 2) ?></strong></p>
         <p>Your order has been successfully processed. Kindly pay in Cashier and wait for your food. Thank you!</p>
     </div>
 

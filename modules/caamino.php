@@ -1,12 +1,18 @@
 <?php
-// This file will display the side dish items
+
 ?>
 
 <div class="food-items">
     <div class="food-item">
+<<<<<<< HEAD
         <img src="path/to/jolly_crispy_fries_regular.jpg" alt="Jolly Crispy Fries (Regular)">
         <h4>Jolly Crispy Fries (Regular)</h4>
         <p>₱40</p>
+=======
+        <img src="path/to/fries.jpg" alt="Fries">
+        <h4>Fries</h4>
+        <p>49.00</p>
+>>>>>>> 680706cff6c1c968465c6b4a9c7239bb7655fb43
         <form method="POST" action="home_page.php">
             <input type="hidden" name="action" value="add_to_cart">
             <input type="hidden" name="name" value="Jolly Crispy Fries (Regular)">
@@ -17,9 +23,15 @@
         </form>
     </div>
     <div class="food-item">
+<<<<<<< HEAD
         <img src="path/to/jolly_crispy_fries_large.jpg" alt="Jolly Crispy Fries (Large)">
         <h4>Jolly Crispy Fries (Large)</h4>
         <p>₱65</p>
+=======
+        <img src="path/to/salad.jpg" alt="Salad">
+        <h4>Salad</h4>
+        <p>60.00</p>
+>>>>>>> 680706cff6c1c968465c6b4a9c7239bb7655fb43
         <form method="POST" action="home_page.php">
             <input type="hidden" name="action" value="add_to_cart">
             <input type="hidden" name="name" value="Jolly Crispy Fries (Large)">

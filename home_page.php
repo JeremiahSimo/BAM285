@@ -3,7 +3,6 @@ session_start();
 
 // Clear session if "New Transaction" is triggered
 if (isset($_GET['new_transaction']) && $_GET['new_transaction'] === 'true') {
-    // Clear the cart and order number to start fresh
     unset($_SESSION['cart']);
     unset($_SESSION['order_number']);
 }
@@ -34,12 +33,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     exit();
 }
 
-// Checkout and generate order number
+// Database connection
+$host = 'localhost'; // Replace with your database host
+$dbname = 'food_ordering_system'; // Replace with your database name
+$username = 'root'; // Replace with your database username
+$password = ''; // Replace with your database password
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+// Checkout and save order to the database
 if (isset($_POST['checkout'])) {
-    $order_number = rand(1000, 9999);
-    $_SESSION['order_number'] = $order_number;
-    header("Location: receipt.php");
-    exit();
+    try {
+        $pdo->beginTransaction();
+
+        // Generate order number
+        $order_number = rand(1000, 9999);
+
+        // Calculate total price
+        $total_price = 0;
+        foreach ($_SESSION['cart'] as $item) {
+            $total_price += $item['price'] * $item['quantity'];
+        }
+
+        // Insert into `orders` table
+        $stmt = $pdo->prepare("INSERT INTO orders (order_number, total_price) VALUES (?, ?)");
+        $stmt->execute([$order_number, $total_price]);
+
+        // Get the last inserted order ID
+        $order_id = $pdo->lastInsertId();
+
+        // Insert each cart item into `order_items`
+        $stmt = $pdo->prepare("INSERT INTO order_items (order_id, name, price, quantity) VALUES (?, ?, ?, ?)");
+        foreach ($_SESSION['cart'] as $item) {
+            $stmt->execute([$order_id, $item['name'], $item['price'], $item['quantity']]);
+        }
+
+        $pdo->commit();
+
+        $_SESSION['order_number'] = $order_number;
+        $_SESSION['cart'] = []; // Clear cart
+        header("Location: receipt.php");
+        exit();
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        die("Transaction failed: " . $e->getMessage());
+    }
 }
 
 // Calculate total price
@@ -271,10 +314,8 @@ foreach ($_SESSION['cart'] as $item) {
 
 <main>
     <?php
-    // Check which category is selected
     if (isset($_GET['category'])) {
         $category = $_GET['category'];
-
         if ($category == 'main_dish') {
             include('modules/leona.php');
         } elseif ($category == 'side_dish') {
@@ -287,40 +328,33 @@ foreach ($_SESSION['cart'] as $item) {
     }
     ?>
 
-    <!-- Cart Display -->
     <div class="cart">
         <h3>Your Cart</h3>
         <?php if (count($_SESSION['cart']) > 0): ?>
             <?php foreach ($_SESSION['cart'] as $index => $item): ?>
-                <div class="cart-item">
-                    <p><?= $item['name'] ?> x <?= $item['quantity'] ?> - $<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
+                <div>
+                    <p><?= $item['name'] ?> x <?= $item['quantity'] ?> - ₱<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
                     <form method="POST" action="">
                         <input type="hidden" name="index" value="<?= $index ?>">
                         <input type="hidden" name="action" value="remove_from_cart">
-                        <button type="submit" class="cancel-btn">&times;</button>
+                        <button type="submit">&times;</button>
                     </form>
                 </div>
             <?php endforeach; ?>
-            <div class="cart-total">
-                Total: $<?= number_format($total_price, 2) ?>
-            </div>
+            <p>Total: ₱<?= number_format($total_price, 2) ?></p>
         <?php else: ?>
             <p>Your cart is empty.</p>
         <?php endif; ?>
     </div>
-
 </main>
-
 <footer>
     <p>&copy; 2025 Food Ordering Website</p>
 </footer>
 
-<!-- Checkout Button -->
 <?php if (count($_SESSION['cart']) > 0): ?>
     <form method="POST" action="">
         <button type="submit" name="checkout" class="checkout-btn">Checkout</button>
     </form>
 <?php endif; ?>
-
 </body>
 </html>
