@@ -94,6 +94,7 @@ foreach ($_SESSION['cart'] as $item) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -180,7 +181,8 @@ foreach ($_SESSION['cart'] as $item) {
 
         .food-items {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 foods per row */
+            grid-template-columns: repeat(3, 1fr);
+            /* 3 foods per row */
             gap: 20px;
         }
 
@@ -240,9 +242,12 @@ foreach ($_SESSION['cart'] as $item) {
             background-color: #fff;
             padding: 20px;
             box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-            height: 300px; /* Set a fixed height */
-            overflow-y: auto; /* Enable scrolling if content overflows */
-            display: none; /* Initially hidden */
+            height: 300px;
+            /* Set a fixed height */
+            overflow-y: auto;
+            /* Enable scrolling if content overflows */
+            display: none;
+            /* Initially hidden */
             transition: transform 0.3s ease-in-out;
         }
 
@@ -310,80 +315,82 @@ foreach ($_SESSION['cart'] as $item) {
         .cart-toggle-btn:hover {
             background-color: #4f6fbb;
         }
-
     </style>
 </head>
+
 <body>
 
-<header>
-    <h2>Welcome to Our Food Ordering Website</h2>
-</header>
+    <header>
+        <h2>Welcome to Our Food Ordering Website</h2>
+    </header>
 
-<nav>
-    <ul>
-        <li><a href="?category=main_dish">Main Dish</a></li>
-        <li><a href="?category=side_dish">Side Dish</a></li>
-        <li><a href="?category=drink">Drinks</a></li>
-    </ul>
-    <!-- Cart Toggle Button below the menu -->
-    <button class="cart-toggle-btn" onclick="toggleCart()">Toggle Cart</button>
-</nav>
+    <nav>
+        <ul>
+            <li><a href="?category=main_dish">Main Dish</a></li>
+            <li><a href="?category=side_dish">Side Dish</a></li>
+            <li><a href="?category=drink">Drinks</a></li>
+        </ul>
+        <!-- Cart Toggle Button below the menu -->
+        <button class="cart-toggle-btn" onclick="toggleCart()">Toggle Cart</button>
+    </nav>
 
-<main>
-    <?php
-    if (isset($_GET['category'])) {
-        $category = $_GET['category'];
-        if ($category == 'main_dish') {
-            include('modules/leona.php');
-        } elseif ($category == 'side_dish') {
-            include('modules/caamino.php');
-        } elseif ($category == 'drink') {
-            include('modules/pagula.php');
+    <main>
+        <?php
+        if (isset($_GET['category'])) {
+            $category = $_GET['category'];
+            if ($category == 'main_dish') {
+                include('modules/leona.php');
+            } elseif ($category == 'side_dish') {
+                include('modules/caamino.php');
+            } elseif ($category == 'drink') {
+                include('modules/pagula.php');
+            }
+        } else {
+            echo '<h3>Select a category from the left menu</h3>';
         }
-    } else {
-        echo '<h3>Select a category from the left menu</h3>';
-    }
-    ?>
-</main>
+        ?>
+    </main>
 
-<!-- Cart section -->
-<div class="cart">
-    <h3>Your Cart</h3>
+    <!-- Cart section -->
+    <div class="cart">
+        <h3>Your Cart</h3>
+        <?php if (count($_SESSION['cart']) > 0): ?>
+            <?php foreach ($_SESSION['cart'] as $index => $item): ?>
+                <div class="cart-item">
+                    <p><?= $item['name'] ?> x <?= $item['quantity'] ?> -
+                        ₱<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
+                    <form method="POST" action="">
+                        <input type="hidden" name="index" value="<?= $index ?>">
+                        <input type="hidden" name="action" value="remove_from_cart">
+                        <button type="submit">&times;</button>
+                    </form>
+                </div>
+            <?php endforeach; ?>
+            <p class="cart-total">Total: ₱<?= number_format($total_price, 2) ?></p>
+        <?php else: ?>
+            <p>Your cart is empty.</p>
+        <?php endif; ?>
+    </div>
+
+    <!-- Always Visible Checkout button -->
     <?php if (count($_SESSION['cart']) > 0): ?>
-        <?php foreach ($_SESSION['cart'] as $index => $item): ?>
-            <div class="cart-item">
-                <p><?= $item['name'] ?> x <?= $item['quantity'] ?> - ₱<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
-                <form method="POST" action="">
-                    <input type="hidden" name="index" value="<?= $index ?>">
-                    <input type="hidden" name="action" value="remove_from_cart">
-                    <button type="submit">&times;</button>
-                </form>
-            </div>
-        <?php endforeach; ?>
-        <p class="cart-total">Total: ₱<?= number_format($total_price, 2) ?></p>
-    <?php else: ?>
-        <p>Your cart is empty.</p>
+        <form method="POST" action="">
+            <button type="submit" name="checkout" class="checkout-btn">Checkout</button>
+        </form>
     <?php endif; ?>
-</div>
 
-<!-- Always Visible Checkout button -->
-<?php if (count($_SESSION['cart']) > 0): ?>
-    <form method="POST" action="">
-        <button type="submit" name="checkout" class="checkout-btn">Checkout</button>
-    </form>
-<?php endif; ?>
+    <footer>
+        <p>&copy; 2025 Food Ordering Website</p>
+    </footer>
 
-<footer>
-    <p>&copy; 2025 Food Ordering Website</p>
-</footer>
-
-<script>
-    function toggleCart() {
-        const cart = document.querySelector('.cart');
-        const isCartVisible = cart.style.display === 'block';
-        cart.style.display = isCartVisible ? 'none' : 'block';
-    }
-</script>
+    <script>
+        function toggleCart() {
+            const cart = document.querySelector('.cart');
+            const isCartVisible = cart.style.display === 'block';
+            cart.style.display = isCartVisible ? 'none' : 'block';
+        }
+    </script>
 
 </body>
+
 </html>
