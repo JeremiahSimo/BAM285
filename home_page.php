@@ -175,13 +175,13 @@ foreach ($_SESSION['cart'] as $item) {
             background-color: #f4f4f4;
             flex-grow: 1;
             overflow-y: auto;
+            margin-bottom: 100px;
         }
 
         .food-items {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 foods per row */
+            grid-template-columns: repeat(3, 1fr); /* 3 foods per row */
             gap: 20px;
-            margin-bottom: 40px;
         }
 
         .food-item {
@@ -194,10 +194,9 @@ foreach ($_SESSION['cart'] as $item) {
         }
 
         .food-item img {
-            width: 100%;
-            height: 150px;
+            width: 350px;
+            height: 350px;
             object-fit: cover;
-            margin-bottom: 10px;
         }
 
         .food-item h4 {
@@ -233,13 +232,18 @@ foreach ($_SESSION['cart'] as $item) {
         }
 
         .cart {
-            margin-top: 40px;
             position: fixed;
-            bottom: 0;
-            width: 100%;
+            bottom: 80px;
+            left: 270px;
+            width: 80%;
+            max-width: 400px;
             background-color: #fff;
             padding: 20px;
             box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+            height: 300px; /* Set a fixed height */
+            overflow-y: auto; /* Enable scrolling if content overflows */
+            display: none; /* Initially hidden */
+            transition: transform 0.3s ease-in-out;
         }
 
         .cart-item {
@@ -270,9 +274,10 @@ foreach ($_SESSION['cart'] as $item) {
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
+            font-size: 1.5rem;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            text-align: center;
         }
 
         .checkout-btn:hover {
@@ -291,9 +296,19 @@ foreach ($_SESSION['cart'] as $item) {
             color: darkred;
         }
 
-        .cart-item button {
-            margin-left: 10px;
-            padding: 8px 12px;
+        .cart-toggle-btn {
+            padding: 10px 20px;
+            background-color: #6a89cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .cart-toggle-btn:hover {
+            background-color: #4f6fbb;
         }
 
     </style>
@@ -310,6 +325,8 @@ foreach ($_SESSION['cart'] as $item) {
         <li><a href="?category=side_dish">Side Dish</a></li>
         <li><a href="?category=drink">Drinks</a></li>
     </ul>
+    <!-- Cart Toggle Button below the menu -->
+    <button class="cart-toggle-btn" onclick="toggleCart()">Toggle Cart</button>
 </nav>
 
 <main>
@@ -327,34 +344,46 @@ foreach ($_SESSION['cart'] as $item) {
         echo '<h3>Select a category from the left menu</h3>';
     }
     ?>
-
-    <div class="cart">
-        <h3>Your Cart</h3>
-        <?php if (count($_SESSION['cart']) > 0): ?>
-            <?php foreach ($_SESSION['cart'] as $index => $item): ?>
-                <div>
-                    <p><?= $item['name'] ?> x <?= $item['quantity'] ?> - ₱<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
-                    <form method="POST" action="">
-                        <input type="hidden" name="index" value="<?= $index ?>">
-                        <input type="hidden" name="action" value="remove_from_cart">
-                        <button type="submit">&times;</button>
-                    </form>
-                </div>
-            <?php endforeach; ?>
-            <p>Total: ₱<?= number_format($total_price, 2) ?></p>
-        <?php else: ?>
-            <p>Your cart is empty.</p>
-        <?php endif; ?>
-    </div>
 </main>
-<footer>
-    <p>&copy; 2025 Food Ordering Website</p>
-</footer>
 
+<!-- Cart section -->
+<div class="cart">
+    <h3>Your Cart</h3>
+    <?php if (count($_SESSION['cart']) > 0): ?>
+        <?php foreach ($_SESSION['cart'] as $index => $item): ?>
+            <div class="cart-item">
+                <p><?= $item['name'] ?> x <?= $item['quantity'] ?> - ₱<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
+                <form method="POST" action="">
+                    <input type="hidden" name="index" value="<?= $index ?>">
+                    <input type="hidden" name="action" value="remove_from_cart">
+                    <button type="submit">&times;</button>
+                </form>
+            </div>
+        <?php endforeach; ?>
+        <p class="cart-total">Total: ₱<?= number_format($total_price, 2) ?></p>
+    <?php else: ?>
+        <p>Your cart is empty.</p>
+    <?php endif; ?>
+</div>
+
+<!-- Always Visible Checkout button -->
 <?php if (count($_SESSION['cart']) > 0): ?>
     <form method="POST" action="">
         <button type="submit" name="checkout" class="checkout-btn">Checkout</button>
     </form>
 <?php endif; ?>
+
+<footer>
+    <p>&copy; 2025 Food Ordering Website</p>
+</footer>
+
+<script>
+    function toggleCart() {
+        const cart = document.querySelector('.cart');
+        const isCartVisible = cart.style.display === 'block';
+        cart.style.display = isCartVisible ? 'none' : 'block';
+    }
+</script>
+
 </body>
 </html>
