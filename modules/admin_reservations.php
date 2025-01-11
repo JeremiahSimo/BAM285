@@ -12,7 +12,41 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 
-// Update payment status logic
+// Function to fetch orders based on status
+function getOrdersByStatus($pdo, $statusFilter) {
+    $statusQuery = $statusFilter === 'All' ? "" : "WHERE p.payment_status = ?";
+    $sql = "SELECT 
+                o.order_id,
+                c.name AS customer_name, 
+                c.email, 
+                c.phone, 
+                o.cake_flavor, 
+                o.cake_size, 
+                o.special_instructions, 
+                o.reservation_date, 
+                o.order_date, 
+                p.payment_status,
+                p.amount
+            FROM cake_orders o
+            JOIN customers c ON o.customer_id = c.customer_id
+            LEFT JOIN payments p ON o.order_id = p.order_id
+            $statusQuery
+            ORDER BY o.reservation_date ASC";
+
+    try {
+        $stmt = $pdo->prepare($sql);
+        if ($statusFilter !== 'All') {
+            $stmt->execute([$statusFilter]);
+        } else {
+            $stmt->execute();
+        }
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Error fetching orders: " . $e->getMessage());
+    }
+}
+
+// Handle status updates
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
     $orderId = htmlspecialchars($_POST['orderId']);
     $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
@@ -40,38 +74,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
     exit;
 }
 
-// Get status filter from URL (default is 'All')
+// Fetch the status filter from URL (default to 'All')
 $statusFilter = isset($_GET['status']) ? $_GET['status'] : 'All';
-$statusQuery = $statusFilter == 'All' ? "" : "WHERE p.payment_status = ?";
-$sql = "SELECT 
-            o.order_id,
-            c.name AS customer_name, 
-            c.email, 
-            c.phone, 
-            o.cake_flavor, 
-            o.cake_size, 
-            o.special_instructions, 
-            o.reservation_date, 
-            o.order_date, 
-            p.payment_status,
-            p.amount
-        FROM cake_orders o
-        JOIN customers c ON o.customer_id = c.customer_id
-        LEFT JOIN payments p ON o.order_id = p.order_id
-        $statusQuery
-        ORDER BY o.reservation_date ASC";
 
-try {
-    $stmt = $pdo->prepare($sql);
-    if ($statusFilter != 'All') {
-        $stmt->execute([$statusFilter]);
-    } else {
-        $stmt->execute();
-    }
-    $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Error fetching reservations: " . $e->getMessage());
-}
+// Get orders based on status
+$reservations = getOrdersByStatus($pdo, $statusFilter);
 ?>
 
 <!DOCTYPE html>
@@ -86,56 +93,6 @@ try {
             font-weight: bold;
             color: blue;
         }
-        body {
-            font-family: Arial, sans-serif;
-        }
-        nav {
-            margin-bottom: 20px;
-            background-color: #f4f4f4;
-            padding: 10px;
-        }
-        nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-        nav a.active {
-            color: #007BFF;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        #messageContainer {
-            margin-bottom: 20px;
-        }
-        .message {
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid transparent;
-        }
-        .message.success {
-            color: #155724;
-            background-color: #d4edda;
-            border-color: #c3e6cb;
-        }
-        .message.error {
-            color: #721c24;
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
-        }
-
     </style>
 </head>
 <body>
