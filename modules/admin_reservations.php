@@ -142,7 +142,6 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
             background-color: #f8d7da;
             border-color: #f5c6cb;
         }
-
     </style>
 </head>
 <body>
@@ -159,7 +158,7 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
     <div id="messageContainer"></div> <!-- Success/Error message container -->
 
     <!-- Table of Orders -->
-    <table border="1" cellpadding="10" cellspacing="0">
+    <table>
         <thead>
             <tr>
                 <th>Order ID</th>
@@ -193,7 +192,6 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                                 <select name="paymentStatus" required>
                                     <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
                                     <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
-                                  
                                     <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
                                 </select>
                                 <button type="submit" name="updatePayment" class="updateBtn">Update</button>
@@ -229,7 +227,7 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
                         showMessage(result.message, 'success');
-                        // Reload the page with the selected status filter (e.g., Pending, Completed, etc.)
+                        // Reload the page with the selected status filter
                         window.location.href = "?status=" + paymentStatus;
                     } else {
                         showMessage(result.message, 'error');
