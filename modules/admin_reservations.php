@@ -229,8 +229,8 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
                         showMessage(result.message, 'success');
-                        // Optional: Reload the page with the current status filter
-                        window.location.href = "?status=" + "<?= $statusFilter ?>";
+                        // Reload the page with the selected status filter (e.g., Pending, Completed, etc.)
+                        window.location.href = "?status=" + paymentStatus;
                     } else {
                         showMessage(result.message, 'error');
                     }
