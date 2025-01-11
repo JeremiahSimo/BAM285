@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php 
-$con=mysqli_connect("localhost","root","","myhmsdb");
+$con=mysqli_connect("localhost","root","","hospital_db");
 
 include('newfunc.php');
 
