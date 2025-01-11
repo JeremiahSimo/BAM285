@@ -186,7 +186,7 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                         <td><?= htmlspecialchars($reservation['special_instructions']); ?></td>
                         <td><?= htmlspecialchars($reservation['reservation_date']); ?></td>
                         <td><?= htmlspecialchars($reservation['order_date']); ?></td>
-                        <td>A
+                        <td>
                             <?php if ($statusFilter !== 'All'): ?>
                                 <form class="updateForm" method="POST" data-order-id="<?= htmlspecialchars($reservation['order_id']); ?>">
                                     <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
