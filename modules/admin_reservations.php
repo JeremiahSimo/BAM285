@@ -171,7 +171,6 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                 <th>Special Instructions</th>
                 <th>Reservation Date</th>
                 <th>Order Date</th>
-                <th>Payment Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
