@@ -12,6 +12,34 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 
+// Handle status updates
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
+    $orderId = htmlspecialchars($_POST['orderId']);
+    $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
+
+    // Validate payment status
+    $validStatuses = ['Pending', 'Completed', 'Failed', 'Canceled'];
+    if (!in_array($paymentStatus, $validStatuses)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid payment status.']);
+        exit;
+    }
+
+    try {
+        // Update the payment status
+        $stmt = $pdo->prepare("UPDATE payments SET payment_status = ? WHERE order_id = ?");
+        $stmt->execute([$paymentStatus, $orderId]);
+
+        if ($stmt->rowCount() > 0) {
+            echo json_encode(['status' => 'success', 'message' => 'Payment status updated successfully!']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'No rows updated. Check the order ID.']);
+        }
+    } catch (PDOException $e) {
+        echo json_encode(['status' => 'error', 'message' => 'Error updating payment status: ' . $e->getMessage()]);
+    }
+    exit;
+}
+
 // Function to fetch orders based on status
 function getOrdersByStatus($pdo, $statusFilter) {
     $statusQuery = $statusFilter === 'All' ? "" : "WHERE p.payment_status = ?";
@@ -44,34 +72,6 @@ function getOrdersByStatus($pdo, $statusFilter) {
     } catch (PDOException $e) {
         die("Error fetching orders: " . $e->getMessage());
     }
-}
-
-// Handle status updates
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
-    $orderId = htmlspecialchars($_POST['orderId']);
-    $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
-
-    // Validate payment status
-    $validStatuses = ['Pending', 'Completed', 'Failed', 'Canceled'];
-    if (!in_array($paymentStatus, $validStatuses)) {
-        echo json_encode(['status' => 'error', 'message' => 'Invalid payment status.']);
-        exit;
-    }
-
-    try {
-        // Update the payment status
-        $stmt = $pdo->prepare("UPDATE payments SET payment_status = ? WHERE order_id = ?");
-        $stmt->execute([$paymentStatus, $orderId]);
-
-        if ($stmt->rowCount() > 0) {
-            echo json_encode(['status' => 'success', 'message' => 'Payment status updated successfully!']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'No rows updated. Check the order ID.']);
-        }
-    } catch (PDOException $e) {
-        echo json_encode(['status' => 'error', 'message' => 'Error updating payment status: ' . $e->getMessage()]);
-    }
-    exit;
 }
 
 // Fetch the status filter from URL (default to 'All')
@@ -187,7 +187,6 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                         <td><?= htmlspecialchars($reservation['special_instructions']); ?></td>
                         <td><?= htmlspecialchars($reservation['reservation_date']); ?></td>
                         <td><?= htmlspecialchars($reservation['order_date']); ?></td>
-                        <td id="status_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['payment_status'] ?? 'Pending'); ?></td>
                         <td>
                             <form class="updateForm" method="POST" data-order-id="<?= htmlspecialchars($reservation['order_id']); ?>">
                                 <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
@@ -204,7 +203,7 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="11">No reservations found.</td>
+                    <td colspan="10">No reservations found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
@@ -229,10 +228,7 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
-                        // Update the status text on the page
-                        $('#status_' + orderId).text(paymentStatus);
                         showMessage(result.message, 'success');
-
                         // Optional: Reload the page with the current status filter
                         window.location.href = "?status=" + "<?= $statusFilter ?>";
                     } else {
