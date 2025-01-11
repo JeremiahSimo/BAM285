@@ -26,8 +26,7 @@ $query = "SELECT
     o.special_instructions, 
     o.reservation_date, 
     o.order_date, 
-    p.payment_status,
-    p.amount
+    p.payment_status
 FROM cake_orders o
 JOIN customers c ON o.customer_id = c.customer_id
 LEFT JOIN payments p ON o.order_id = p.order_id";
@@ -54,14 +53,13 @@ try {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
     $orderId = htmlspecialchars($_POST['orderId']);
     $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
-    $amountPaid = htmlspecialchars($_POST['amountPaid']);
 
     try {
-        $stmt = $pdo->prepare("UPDATE payments SET payment_status = ?, amount = ? WHERE order_id = ?");
-        $stmt->execute([$paymentStatus, $amountPaid, $orderId]);
+        $stmt = $pdo->prepare("UPDATE payments SET payment_status = ? WHERE order_id = ?");
+        $stmt->execute([$paymentStatus, $orderId]);
 
         if ($stmt->rowCount() > 0) {
-            echo json_encode(['status' => 'success', 'message' => 'Payment updated successfully!', 'paymentStatus' => $paymentStatus, 'amount' => $amountPaid]);
+            echo json_encode(['status' => 'success', 'message' => 'Payment updated successfully!', 'paymentStatus' => $paymentStatus]);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'No changes were made.']);
         }
@@ -157,7 +155,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
                 <th>Reservation Date</th>
                 <th>Order Date</th>
                 <th>Payment Status</th>
-                <th>Amount Paid</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -175,7 +172,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
                         <td><?= htmlspecialchars($reservation['reservation_date']); ?></td>
                         <td><?= htmlspecialchars($reservation['order_date']); ?></td>
                         <td id="status_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['payment_status'] ?? 'Pending'); ?></td>
-                        <td id="amount_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['amount'] ?? '0.00'); ?></td>
                         <td>
                             <form class="updateForm" method="POST" data-order-id="<?= htmlspecialchars($reservation['order_id']); ?>">
                                 <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
@@ -184,7 +180,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
                                     <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
                                     <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
                                 </select>
-                                <input type="number" name="amountPaid" step="0.01" min="0" value="<?= htmlspecialchars($reservation['amount'] ?? '0.00'); ?>" placeholder="Amount Paid" required>
                                 <button type="submit" name="updatePayment" class="updateBtn">Update</button>
                             </form>
                         </td>
@@ -192,7 +187,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="12">No reservations found for the selected filter.</td>
+                    <td colspan="11">No reservations found for the selected filter.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
@@ -205,7 +200,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
             var form = $(this);
             var orderId = form.find('input[name="orderId"]').val();
             var paymentStatus = form.find('select[name="paymentStatus"]').val();
-            var amountPaid = form.find('input[name="amountPaid"]').val();
 
             $.ajax({
                 type: "POST",
@@ -213,14 +207,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
                 data: {
                     updatePayment: true,
                     orderId: orderId,
-                    paymentStatus: paymentStatus,
-                    amountPaid: amountPaid
+                    paymentStatus: paymentStatus
                 },
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
                         $('#status_' + orderId).text(paymentStatus);
-                        $('#amount_' + orderId).text(amountPaid);
                         showMessage(result.message, 'success');
                     } else {
                         showMessage(result.message, 'error');
