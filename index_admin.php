@@ -363,14 +363,15 @@
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'registration_form' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
+        <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'panong_forms' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
         <li>
-            <a href="index_admin.php?page=registration_form" class="<?php echo ($_GET['page'] ?? '') === 'registration_form'  ? 'active' : ''; ?>">
-              <i class="bi bi-circle"></i><span>Registration Form</span>
+            <a href="index_admin.php?page=panong_forms" class="<?php echo ($_GET['page'] ?? '') === 'panong_forms'  ? 'active' : ''; ?>">
+              <i class="bi bi-circle"></i><span>Panong Form</span>
             </a>
           </li>
           <li>
-            <a href="lipao.php">
+          
+          <a href="index_admin.php?page=lipao_forms" class="<?php echo ($_GET['page'] ?? '') === 'lipao_forms'  ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Lipao Form</span>
             </a>
           </li>
@@ -481,9 +482,9 @@
       </li><!-- End F.A.Q Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index_admin.php?page=london">
+        <a class="nav-link collapsed" href="index_admin.php?page=panong">
           <i class="bi bi-envelope"></i>
-          <span>London</span>
+          <span>Job Application</span>
         </a>
       </li><!-- End Contact Page Nav -->
 
@@ -495,9 +496,9 @@
       </li><!-- End Register Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index_admin.php?page=tokyo">
+        <a class="nav-link collapsed" href="index_admin.php?page=lipao" >
           <i class="bi bi-box-arrow-in-right"></i>
-          <span>tokyo</span>
+          <span>Dating App Form</span>
         </a>
       </li><!-- End Login Page Nav -->
 
@@ -545,12 +546,12 @@
             $page=$_GET['page'];
 
             switch ($page){
-                case 'london':
-                    include 'modules/london.php';
+                case 'panong':
+                    include 'modules/panong_forms.php';
                     break;
                     
-                    case 'paris':
-                        include 'modules/paris.php';
+                    case 'lipao':
+                        include 'modules/lipao_forms.php';
                         break;
                         
                         case 'tokyo':

@@ -1,5 +1,5 @@
 <?php
- include "includes/connection.php";
+ 
 
  if(isset($_POST["btn_submit"])){
     $name=$_POST["input_fullname"];
