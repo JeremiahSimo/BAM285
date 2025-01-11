@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
         $stmt->execute([$paymentStatus, $orderId]);
 
         if ($stmt->rowCount() > 0) {
-            echo json_encode(['status' => 'success', 'message' => 'Payment status updated successfully!', 'redirect' => "?status=$paymentStatus"]);
+            echo json_encode(['status' => 'success', 'message' => 'Payment status updated successfully!']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'No rows updated. Check the order ID.']);
         }
@@ -142,6 +142,7 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
             background-color: #f8d7da;
             border-color: #f5c6cb;
         }
+
     </style>
 </head>
 <body>
@@ -158,7 +159,7 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
     <div id="messageContainer"></div> <!-- Success/Error message container -->
 
     <!-- Table of Orders -->
-    <table>
+    <table border="1" cellpadding="10" cellspacing="0">
         <thead>
             <tr>
                 <th>Order ID</th>
@@ -187,18 +188,16 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                         <td><?= htmlspecialchars($reservation['reservation_date']); ?></td>
                         <td><?= htmlspecialchars($reservation['order_date']); ?></td>
                         <td>
-                            <?php if ($statusFilter !== 'All'): ?>
-                                <form class="updateForm" method="POST" data-order-id="<?= htmlspecialchars($reservation['order_id']); ?>">
-                                    <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
-                                    <select name="paymentStatus" required>
-                                        <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
-                                        <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
-                                        <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
-                                        <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
-                                    </select>
-                                    <button type="submit" name="updatePayment" class="updateBtn">Update</button>
-                                </form>
-                            <?php endif; ?>
+                            <form class="updateForm" method="POST" data-order-id="<?= htmlspecialchars($reservation['order_id']); ?>">
+                                <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
+                                <select name="paymentStatus" required>
+                                    <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                                    <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                                    <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
+                                    <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
+                                </select>
+                                <button type="submit" name="updatePayment" class="updateBtn">Update</button>
+                            </form>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -230,8 +229,8 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
                         showMessage(result.message, 'success');
-                        // Redirect to the appropriate status page
-                        window.location.href = result.redirect;
+                        // Reload the page with the selected status filter (e.g., Pending, Completed, etc.)
+                        window.location.href = "?status=" + paymentStatus;
                     } else {
                         showMessage(result.message, 'error');
                     }
