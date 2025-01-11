@@ -405,15 +405,29 @@
           </li>
          
           <li>
-            <a href="index_admin.php?page=display_members" class="<?php echo ($_GET['page'] ?? '') === 'display_members'  ? 'active' : ''; ?>">
+          <a href="index_admin.php?page=display_members" class="<?php echo ($_GET['page'] ?? '') === 'display_members' || ($_GET['page'] ?? '') === 'view_app' ||($_GET['page'] ?? '') === 'user_view'  ||($_GET['page'] ?? '') === 'contact'? 'active' : ''; ?>">
+</a>
+
               <i class="bi bi-circle"></i><span>Registered Members List</span>
             </a>
           </li>
+
           <li>
             <a href="index_admin.php?page=register">
               <i class="bi bi-circle"></i><span>Personal information form</span>
             </a>
           </li>
+          <li>
+            <a href="index_admin.php?page=view_app">
+              <i class="bi bi-circle"></i><span>View App</span>
+            </a>
+          </li>
+          <li>
+            <a href="index_admin.php?page=user_view">
+              <i class="bi bi-circle"></i><span>User View</span>
+            </a>
+          </li>
+
         </ul>
       
       </li>
@@ -489,9 +503,9 @@
       </li><!-- End Contact Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index_admin.php?page=paris">
+        <a class="nav-link collapsed" href="index_admin.php?page=contact">
           <i class="bi bi-card-list"></i>
-          <span>paris</span>
+          <span>Contact Us</span>
         </a>
       </li><!-- End Register Page Nav -->
 
@@ -586,8 +600,16 @@
                                         include 'modules/panong_forms.php';
                                         break;
 
-
-                                  
+                                        case 'view_app' :
+                                          include 'modules/app_view.php';
+                                          break;
+                                          case 'user_view' :
+                                            include 'modules/user_view.php';
+                                            break;
+                                            case 'contact' :
+                                              include 'modules/contact_us.php';
+                                              break;
+  
 
             }
 
