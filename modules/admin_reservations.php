@@ -230,7 +230,6 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
                         showMessage(result.message, 'success');
-                        // Redirect to the appropriate status page
                         window.location.href = result.redirect;
                     } else {
                         showMessage(result.message, 'error');
