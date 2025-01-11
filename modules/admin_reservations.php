@@ -93,6 +93,58 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
             font-weight: bold;
             color: blue;
         }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+        nav {
+            margin-bottom: 20px;
+            background-color: #f4f4f4;
+            padding: 10px;
+        }
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        nav a.active {
+            color: #007BFF;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        #messageContainer {
+            margin-bottom: 20px;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid transparent;
+        }
+        .message.success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .message.error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+
     </style>
 </head>
 <body>
