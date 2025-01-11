@@ -580,7 +580,7 @@
                                       include 'modules/display1.php';
                                       break;
                                       case 'Mysystem':
-                                        include 'mysytem.php';
+                                        include 'mysystem.php';
                                         break;
                           
 
