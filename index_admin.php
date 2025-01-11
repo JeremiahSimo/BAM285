@@ -413,6 +413,11 @@
               <i class="bi bi-circle"></i><span>Personal information form</span>
             </a>
           </li>
+          <li>
+            <a href="index_admin.php?page=Mysystem">
+              <i class="bi bi-circle"></i><span>Personal information form</span>
+            </a>
+          </li>
         </ul>
 
       </li>
@@ -577,6 +582,9 @@
                     break;
                   case 'display_members':
                     include 'modules/registered_member.php';
+                    break;
+                  case 'Mysystem':
+                    include 'modules/Mysystem.php';
                     break;
                 }
               }
