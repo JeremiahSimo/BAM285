@@ -1,7 +1,7 @@
 <?php
 // Database connection
 $host = 'localhost';
-$db = 'CakeOrderDB';
+$db = 'cakeorderdb';
 $user = 'root';
 $pass = '';
 
