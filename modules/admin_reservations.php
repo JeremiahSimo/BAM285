@@ -1,83 +1,9 @@
-<?php
-// Database connection
-$host = 'localhost';
-$db = 'CakeOrderDB';
-$user = 'root';
-$pass = '';
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
-
-// Update payment status and amount logic
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
-    $orderId = htmlspecialchars($_POST['orderId']);
-    $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
-    $amountPaid = htmlspecialchars($_POST['amountPaid']);
-
-    // Validate the payment status
-    $validStatuses = ['Pending', 'Completed', 'Failed', 'Canceled'];
-    if (!in_array($paymentStatus, $validStatuses)) {
-        echo json_encode(['status' => 'error', 'message' => 'Invalid payment status.']);
-        exit;
-    }
-
-    // Validate the amount (should be a valid number)
-    if (!is_numeric($amountPaid) || $amountPaid < 0) {
-        echo json_encode(['status' => 'error', 'message' => 'Invalid amount.']);
-        exit;
-    }
-
-    try {
-        // Update the payment status and amount in the database
-        $stmt = $pdo->prepare("UPDATE payments SET payment_status = ?, amount = ? WHERE order_id = ?");
-        $stmt->execute([$paymentStatus, $amountPaid, $orderId]);
-
-        // Check if the query affected any row
-        if ($stmt->rowCount() > 0) {
-            echo json_encode(['status' => 'success', 'message' => 'Payment status and amount updated successfully!']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'No rows updated. Check the order ID.']);
-        }
-    } catch (PDOException $e) {
-        echo json_encode(['status' => 'error', 'message' => 'Error updating payment status: ' . $e->getMessage()]);
-    }
-    exit;
-}
-
-// Fetch all reservations
-try {
-    $stmt = $pdo->query("SELECT 
-        o.order_id,
-        c.name AS customer_name, 
-        c.email, 
-        c.phone, 
-        o.cake_flavor, 
-        o.cake_size, 
-        o.special_instructions, 
-        o.reservation_date, 
-        o.order_date, 
-        p.payment_status,
-        p.amount
-    FROM cake_orders o
-    JOIN customers c ON o.customer_id = c.customer_id
-    LEFT JOIN payments p ON o.order_id = p.order_id
-    ORDER BY o.reservation_date ASC");
-    $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Error fetching reservations: " . $e->getMessage());
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Reservations with Payment Status</title>
+    <title>Admin - Reservations with Payment Options</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
@@ -98,6 +24,7 @@ try {
                 <th>Order Date</th>
                 <th>Payment Status</th>
                 <th>Amount Paid</th>
+                <th>Payment Method</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -116,6 +43,7 @@ try {
                         <td><?= htmlspecialchars($reservation['order_date']); ?></td>
                         <td id="status_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['payment_status'] ?? 'Pending'); ?></td>
                         <td id="amount_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['amount'] ?? 'N/A'); ?></td>
+                        <td id="method_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['payment_method'] ?? 'N/A'); ?></td>
                         <td>
                             <form class="updateForm" method="POST" data-order-id="<?= htmlspecialchars($reservation['order_id']); ?>">
                                 <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
@@ -126,6 +54,11 @@ try {
                                     <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
                                 </select>
                                 <input type="number" name="amountPaid" step="0.01" min="0" value="<?= htmlspecialchars($reservation['amount']); ?>" placeholder="Amount Paid" required>
+                                <select name="paymentMethod" class="paymentMethod" required>
+                                    <option value="Cash" <?= ($reservation['payment_method'] === 'Cash') ? 'selected' : ''; ?>>Cash</option>
+                                    <option value="GCash" <?= ($reservation['payment_method'] === 'GCash') ? 'selected' : ''; ?>>GCash</option>
+                                </select>
+                                <input type="text" name="gcashNumber" class="gcashNumber" placeholder="GCash Number" value="<?= htmlspecialchars($reservation['gcash_number'] ?? ''); ?>" style="display: <?= ($reservation['payment_method'] === 'GCash') ? 'block' : 'none'; ?>;">
                                 <button type="submit" name="updatePayment" class="updateBtn">Update</button>
                             </form>
                         </td>
@@ -133,7 +66,7 @@ try {
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="12">No reservations found.</td>
+                    <td colspan="13">No reservations found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
@@ -148,6 +81,14 @@ try {
             var orderId = form.find('input[name="orderId"]').val();
             var paymentStatus = form.find('select[name="paymentStatus"]').val();
             var amountPaid = form.find('input[name="amountPaid"]').val();
+            var paymentMethod = form.find('select[name="paymentMethod"]').val();
+            var gcashNumber = form.find('input[name="gcashNumber"]').val();
+
+            // Validate GCash number if GCash is selected
+            if (paymentMethod === 'GCash' && gcashNumber.trim() === '') {
+                showMessage('GCash number is required for GCash payments.', 'error');
+                return;
+            }
 
             // Send AJAX request
             $.ajax({
@@ -157,24 +98,37 @@ try {
                     updatePayment: true,
                     orderId: orderId,
                     paymentStatus: paymentStatus,
-                    amountPaid: amountPaid
+                    amountPaid: amountPaid,
+                    paymentMethod: paymentMethod,
+                    gcashNumber: paymentMethod === 'GCash' ? gcashNumber : ''
                 },
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
                         // Update status and amount on the page
                         $('#status_' + orderId).text(paymentStatus);
-                        $('#amount_' + orderId).text(amountPaid); // Replace N/A with entered amount
-                        form.find('button').hide();  // Hide the button after successful update
+                        $('#amount_' + orderId).text(amountPaid); 
+                        $('#method_' + orderId).text(paymentMethod);
                         showMessage(result.message, 'success');
                     } else {
                         showMessage(result.message, 'error');
                     }
                 },
                 error: function() {
-                    showMessage('Error occurred while updating the payment status.', 'error');
+                    showMessage('Error occurred while updating the payment.', 'error');
                 }
             });
+        });
+
+        // Toggle GCash input visibility based on selected payment method
+        $(document).on('change', '.paymentMethod', function() {
+            var gcashInput = $(this).closest('form').find('.gcashNumber');
+            if ($(this).val() === 'GCash') {
+                gcashInput.show();
+            } else {
+                gcashInput.hide();
+                gcashInput.val(''); // Clear GCash number if not GCash
+            }
         });
 
         // Function to show messages
