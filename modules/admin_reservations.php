@@ -12,45 +12,35 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 
-// Handle payment status and amount updates
+// Update payment status and amount logic
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
     $orderId = htmlspecialchars($_POST['orderId']);
     $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
     $amountPaid = htmlspecialchars($_POST['amountPaid']);
 
-    // Validate payment status
-    $validStatuses = ['Pending', 'Completed', 'Failed', 'Canceled'];
-    if (!in_array($paymentStatus, $validStatuses)) {
-        echo json_encode(['status' => 'error', 'message' => 'Invalid payment status.']);
-        exit;
-    }
-
-    // Validate amount
-    if (!is_numeric($amountPaid) || $amountPaid < 0) {
-        echo json_encode(['status' => 'error', 'message' => 'Invalid amount entered.']);
-        exit;
-    }
+    // Debugging: Log received data
+    error_log("Received data: Order ID=$orderId, Status=$paymentStatus, Amount=$amountPaid");
 
     try {
-        // Update payment in database
+        // Update the payment status and amount in the database
         $stmt = $pdo->prepare("UPDATE payments SET payment_status = ?, amount = ? WHERE order_id = ?");
         $stmt->execute([$paymentStatus, $amountPaid, $orderId]);
 
         if ($stmt->rowCount() > 0) {
-            echo json_encode(['status' => 'success', 'message' => 'Payment updated successfully!']);
+            echo json_encode(['status' => 'success', 'message' => 'Payment status and amount updated successfully!']);
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'No changes made. Check the order ID.']);
+            echo json_encode(['status' => 'error', 'message' => 'No rows updated. Check the order ID.']);
         }
     } catch (PDOException $e) {
-        echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
+        echo json_encode(['status' => 'error', 'message' => 'Error updating payment status: ' . $e->getMessage()]);
     }
     exit;
 }
 
-// Fetch all orders
+// Fetch all reservations
 try {
     $stmt = $pdo->query("SELECT 
-        o.order_id, 
+        o.order_id,
         c.name AS customer_name, 
         c.email, 
         c.phone, 
@@ -59,15 +49,15 @@ try {
         o.special_instructions, 
         o.reservation_date, 
         o.order_date, 
-        p.payment_status, 
-        p.amount 
+        p.payment_status,
+        p.amount
     FROM cake_orders o
     JOIN customers c ON o.customer_id = c.customer_id
     LEFT JOIN payments p ON o.order_id = p.order_id
     ORDER BY o.reservation_date ASC");
-    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Error fetching orders: " . $e->getMessage());
+    die("Error fetching reservations: " . $e->getMessage());
 }
 ?>
 
@@ -76,12 +66,12 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Payment Management</title>
+    <title>Admin - Reservations with Payment Status</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <h1>Admin Dashboard</h1>
-    <div id="messageContainer"></div>
+    <h1>Reservations Dashboard</h1>
+    <div id="messageContainer"></div> <!-- Success/Error message container -->
 
     <table border="1" cellpadding="10" cellspacing="0">
         <thead>
@@ -97,70 +87,93 @@ try {
                 <th>Order Date</th>
                 <th>Payment Status</th>
                 <th>Amount Paid</th>
-                <th>Actions</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($orders as $order): ?>
-                <tr id="order_<?= htmlspecialchars($order['order_id']); ?>">
-                    <td><?= htmlspecialchars($order['order_id']); ?></td>
-                    <td><?= htmlspecialchars($order['customer_name']); ?></td>
-                    <td><?= htmlspecialchars($order['email']); ?></td>
-                    <td><?= htmlspecialchars($order['phone']); ?></td>
-                    <td><?= htmlspecialchars($order['cake_flavor']); ?></td>
-                    <td><?= htmlspecialchars($order['cake_size']); ?></td>
-                    <td><?= htmlspecialchars($order['special_instructions']); ?></td>
-                    <td><?= htmlspecialchars($order['reservation_date']); ?></td>
-                    <td><?= htmlspecialchars($order['order_date']); ?></td>
-                    <td id="status_<?= htmlspecialchars($order['order_id']); ?>"><?= htmlspecialchars($order['payment_status'] ?? 'Pending'); ?></td>
-                    <td id="amount_<?= htmlspecialchars($order['order_id']); ?>"><?= htmlspecialchars($order['amount'] ?? '0.00'); ?></td>
-                    <td>
-                        <form class="updateForm" method="POST">
-                            <input type="hidden" name="orderId" value="<?= htmlspecialchars($order['order_id']); ?>">
-                            <select name="paymentStatus" required>
-                                <option value="Pending" <?= ($order['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
-                                <option value="Completed" <?= ($order['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
-                                <option value="Failed" <?= ($order['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
-                                <option value="Canceled" <?= ($order['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
-                            </select>
-                            <input type="number" name="amountPaid" step="0.01" min="0" value="<?= htmlspecialchars($order['amount'] ?? '0.00'); ?>" required>
-                            <button type="submit" name="updatePayment">Update</button>
-                        </form>
-                    </td>
+            <?php if (!empty($reservations)): ?>
+                <?php foreach ($reservations as $reservation): ?>
+                    <tr id="order_<?= htmlspecialchars($reservation['order_id']); ?>">
+                        <td><?= htmlspecialchars($reservation['order_id']); ?></td>
+                        <td><?= htmlspecialchars($reservation['customer_name']); ?></td>
+                        <td><?= htmlspecialchars($reservation['email']); ?></td>
+                        <td><?= htmlspecialchars($reservation['phone']); ?></td>
+                        <td><?= htmlspecialchars($reservation['cake_flavor']); ?></td>
+                        <td><?= htmlspecialchars($reservation['cake_size']); ?></td>
+                        <td><?= htmlspecialchars($reservation['special_instructions']); ?></td>
+                        <td><?= htmlspecialchars($reservation['reservation_date']); ?></td>
+                        <td><?= htmlspecialchars($reservation['order_date']); ?></td>
+                        <td id="status_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['payment_status'] ?? 'Pending'); ?></td>
+                        <td id="amount_<?= htmlspecialchars($reservation['order_id']); ?>"><?= htmlspecialchars($reservation['amount'] ?? '0.00'); ?></td>
+                        <td>
+                            <form class="updateForm" method="POST" data-order-id="<?= htmlspecialchars($reservation['order_id']); ?>">
+                                <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
+                                <select name="paymentStatus" required>
+                                    <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                                    <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                                    <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
+                                    <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
+                                </select>
+                                <input type="number" name="amountPaid" step="0.01" min="0" value="<?= htmlspecialchars($reservation['amount'] ?? '0.00'); ?>" placeholder="Amount Paid" required>
+                                <button type="submit" name="updatePayment" class="updateBtn">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="12">No reservations found.</td>
                 </tr>
-            <?php endforeach; ?>
+            <?php endif; ?>
         </tbody>
     </table>
 
     <script>
-       $(document).on('submit', '.updateForm', function(e) {
-    e.preventDefault();
+        // Handle form submission via AJAX
+        $(document).on('submit', '.updateForm', function(event) {
+            event.preventDefault();
 
-    const form = $(this);
-    const orderId = form.find('input[name="orderId"]').val();
-    const paymentStatus = form.find('select[name="paymentStatus"]').val();
-    const amountPaid = form.find('input[name="amountPaid"]').val();
+            var form = $(this);
+            var orderId = form.find('input[name="orderId"]').val();
+            var paymentStatus = form.find('select[name="paymentStatus"]').val();
+            var amountPaid = form.find('input[name="amountPaid"]').val();
 
-    // Send an AJAX POST request
-    $.post("", { updatePayment: true, orderId, paymentStatus, amountPaid }, function(response) {
-        const result = JSON.parse(response);
+            console.log("Submitting: ", { orderId, paymentStatus, amountPaid }); // Debugging
 
-        if (result.status === 'success') {
-            // Update the table row dynamically
-            $(`#status_${orderId}`).text(paymentStatus);
-            $(`#amount_${orderId}`).text(amountPaid);
-            form.find('button').hide();  // Hide the button to prevent redundant updates
-            $('#messageContainer').html(`<p style="color:green;">${result.message}</p>`);
-        } else {
-            // Show an error message
-            $('#messageContainer').html(`<p style="color:red;">${result.message}</p>`);
+            // Send AJAX request
+            $.ajax({
+                type: "POST",
+                url: "", // Current page
+                data: {
+                    updatePayment: true,
+                    orderId: orderId,
+                    paymentStatus: paymentStatus,
+                    amountPaid: amountPaid
+                },
+                success: function(response) {
+                    console.log("Server response:", response); // Debugging
+                    var result = JSON.parse(response);
+
+                    if (result.status === 'success') {
+                        $('#status_' + orderId).text(paymentStatus);
+                        $('#amount_' + orderId).text(amountPaid);
+                        form.find('button').hide(); // Hide the button after successful update
+                        showMessage(result.message, 'success');
+                    } else {
+                        showMessage(result.message, 'error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error:", status, error);
+                    showMessage('Error occurred while updating the payment status.', 'error');
+                }
+            });
+        });
+
+        // Function to show messages
+        function showMessage(message, type) {
+            $('#messageContainer').html('<div class="message ' + type + '">' + message + '</div>');
         }
-    }).fail(function() {
-        // Handle any AJAX errors
-        $('#messageContainer').html('<p style="color:red;">Error processing the request.</p>');
-    });
-});
-
     </script>
 </body>
 </html>
