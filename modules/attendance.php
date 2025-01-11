@@ -20,7 +20,7 @@ if (isset($_POST['submit_attendance'])) {
     // Loop through all children and insert their attendance status
     foreach ($_POST['attendance_status'] as $child_id => $attendance_status) {
         // Insert or update attendance record for each child
-        $stmt = $conn->prepare("INSERT INTO Attendance (date, child_id, check_in, check_out, attendance_status) 
+        $stmt = $conn->prepare("INSERT INTO attendance (date, child_id, check_in, check_out, attendance_status) 
                                 VALUES (?, ?, ?, ?, ?) 
                                 ON DUPLICATE KEY UPDATE check_in = ?, check_out = ?, attendance_status = ?");
         $stmt->bind_param(
@@ -138,7 +138,13 @@ $conn->close();
 <!-- JavaScript for Gender Selection -->
 <script>
     document.getElementById('gender').addEventListener('change', function() {
-        const gender = this.value;
-        window.location.href = `?gender=${gender}`;
-    });
+    const gender = this.value;
+    const currentUrl = window.location.href;
+    const url = new URL(currentUrl);
+    
+    // Update the gender parameter, but keep the rest of the URL intact
+    url.searchParams.set('gender', gender);
+    window.location.href = url.toString();
+});
+
 </script>

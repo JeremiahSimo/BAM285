@@ -10,36 +10,53 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if the student_id is passed in the GET request
-if (isset($_GET['student_id'])) {
-    $student_id = $_GET['student_id'];
+// Handle AJAX request for fetching full_name
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
 
-    // Fetch the student's name based on the ID
-    $sql = "SELECT full_name FROM Children WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $student_id);
-    $stmt->execute();
-    $stmt->bind_result($full_name);
-    $stmt->fetch();
+    // Fetch the student's full_name based on the ID
+    $sql = "SELECT full_name FROM children WHERE id = ?";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $stmt->bind_result($full_name);
+        $stmt->fetch();
 
-    // Return the student's name as JSON
-    if ($full_name) {
-        echo json_encode(['full_name' => $full_name]);
+        // Return the student's full_name as JSON
+        echo json_encode($full_name ? ['full_name' => $full_name] : null);
+
+        $stmt->close();
     } else {
-        echo json_encode(null);  // Return null if no student found
+        echo json_encode(['error' => 'Database query error']);
     }
-
-    $stmt->close();
-} else {
-    echo json_encode(null); // Return null if student_id is not provided
+    $conn->close();
+    exit;
 }
 
-$conn->close();
+if (isset($_POST['submit_feedback'])) {
+    $student_id = $_POST['student_id'];
+    $good_at = $_POST['good_at'];
+    $overall_feedback = $_POST['overall_feedback'];
+
+    // Prepare SQL query with placeholders for the parameters (no date_submitted)
+    $stmt = $conn->prepare("INSERT INTO feedback (good_at, overall_feedback, student_id) VALUES (?, ?, ?)");
+
+    // Bind the parameters (using 's' for string and 'i' for integer)
+    $stmt->bind_param("ssi", $good_at, $overall_feedback, $student_id);
+
+    // Execute the statement and check if successful
+    if ($stmt->execute()) {
+        echo "<p class='alert alert-success'>Feedback submitted successfully!</p>";
+    } else {
+        echo "<p class='alert alert-danger'>Error: " . $stmt->error . "</p>";
+    }
+
+    // Close the prepared statement and connection
+    $stmt->close();
+    $conn->close();
+}
+
 ?>
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -53,16 +70,15 @@ $conn->close();
     <div class="container mt-5">
         <h2 class="text-center">Student Feedback Form</h2>
 
-        <form action="feedback.php" method="POST">
-    <div class="form-group">
-        <label for="student_id">Student ID:</label>
-        <input type="number" id="student_id" name="student_id" class="form-control" required>
-    </div>
-
+        <form action="index_admin.php?page=feedback" method="POST">
+            <div class="form-group">
+                <label for="id">Student ID:</label>
+                <input type="number" id="id" name="student_id" class="form-control" required>
+            </div>
 
             <div class="form-group">
-                <label for="student_name">Student Name:</label>
-                <input type="text" id="student_name" name="student_name" class="form-control" readonly required>
+                <label for="full_name">Full Name:</label>
+                <input type="text" id="full_name" name="student_name" class="form-control" readonly required>
             </div>
 
             <div class="form-group">
@@ -82,70 +98,30 @@ $conn->close();
     </div>
 
     <script>
-        // Event listener to detect changes in the student_id input field
-        document.getElementById('student_id').addEventListener('input', function() {
-    const student_id = this.value;
+    document.getElementById('id').addEventListener('input', function () {
+        const id = this.value;
 
-    if (student_id) {
-        // Make AJAX request to fetch student name based on the entered ID
-        fetch(`get_student_name.php?student_id=${student_id}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data) {
-                    document.getElementById('student_name').value = data.full_name;
-                } else {
-                    document.getElementById('student_name').value = 'No student found';
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching student name:', error);
-                document.getElementById('student_name').value = 'Error fetching data';
-            });
-    } else {
-        document.getElementById('student_name').value = '';  // Clear if no ID entered
-    }
-});
-
+        if (id) {
+            fetch(`modules/feedback.php?id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.full_name) {
+                        document.getElementById('full_name').value = data.full_name;
+                    } else {
+                        document.getElementById('full_name').value = 'No student found';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching full name:', error);
+                    document.getElementById('full_name').value = 'Error fetching data';
+                });
+        } else {
+            document.getElementById('full_name').value = ''; // Clear field if no ID
+        }
+    });
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-
-<?php
-// Check if the form is submitted
-if (isset($_POST['submit_feedback'])) {
-    // Get form data
-    $student_id = $_POST['student_id'];
-    $student_name = $_POST['student_name'];
-    $good_at = $_POST['good_at'];
-    $overall_feedback = $_POST['overall_feedback'];
-
-    // Database connection
-    $host = 'localhost';
-    $db = 'db_daycare';
-    $user = 'root';
-    $pass = '';
-
-    $conn = new mysqli($host, $user, $pass, $db);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Insert feedback into the database
-    $stmt = $conn->prepare("INSERT INTO Feedback (student_name, student_id, good_at, overall_feedback) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $student_name, $student_id, $good_at, $overall_feedback);
-
-    if ($stmt->execute()) {
-        echo "<p class='alert alert-success'>Feedback submitted successfully!</p>";
-    } else {
-        echo "<p class='alert alert-danger'>Error: " . $stmt->error . "</p>";
-    }
-
-    $stmt->close();
-    $conn->close();
-}
-?>
