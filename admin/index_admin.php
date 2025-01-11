@@ -1,6 +1,7 @@
-
 <?php
 include 'connection.php';
+
+/*
 session_start(); // Start session
 
 // Check if the user is logged in
@@ -9,21 +10,21 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
-// Fetch logged-in user's details
+// Fetch logged-in admin's details from the `admin` table
 $email = $_SESSION['email'];
-$query = "SELECT * FROM users WHERE email = ?";
-$stmt = mysqli_prepare($con, $query);
-mysqli_stmt_bind_param($stmt, "s", $email);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
+$query = "SELECT * FROM admin WHERE email = '$email'";
+$result = mysqli_query($con, $query);
 
-if ($result && mysqli_num_rows($result) > 0) {
+// Check if the admin exists in the database
+if (mysqli_num_rows($result) > 0) {
     $user = mysqli_fetch_assoc($result);
 } else {
-    // Handle the case where the user is not found
-    echo "<script>alert('User not found. Please log in again.'); window.location.href='logout.php';</script>";
+    echo "<script>alert('Invalid session. Please log in again.'); window.location.href='index.php';</script>";
     exit();
 }
+
+*/
+
 ?>
 
 
@@ -62,14 +63,22 @@ if ($result && mysqli_num_rows($result) > 0) {
     <div class="d-flex align-items-center justify-content-between">
         <a href="index_admin.php?page=dashboard" class="logo d-flex align-items-center">
             <img src="assets/img/logo.png" alt="" style="max-height: 40px;">
-            <span class="d-none d-lg-block" style="color: #000; font-weight: bold;">User Dashboard</span>
+            <span class="d-none d-lg-block" style="color: #000; font-weight: bold;">Admin Dashboard</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
-    <div class="d-flex align-items-center">
-        <span class="ms-auto me-3" style="color: #000;">Logged in as User: <strong><?php echo $user['name']; ?></strong> (<?php echo $user['email']; ?>)</span>
-        <a href="logout.php" class="btn btn-outline-dark btn-sm">Logout</a>
-    </div>
+
+    <!-- user profile -->
+<!-- 
+<div class="d-flex align-items-center">
+    <span class="ms-auto me-3" style="color: #000;">Logged in as: <strong> 
+    <?php echo $user['name']; ?></strong> (<?php echo $user['email']; ?>)</span>
+    <a href="logout.php" class="btn btn-outline-dark btn-sm">Logout</a>
+</div>
+-->
+
+
+
 </header>
 
 
@@ -86,26 +95,48 @@ if ($result && mysqli_num_rows($result) > 0) {
 </li>
 
 <li class="nav-item">
-    <a class="nav-link collapsed" href="index_admin.php?page=apply_leave">
+    <a class="nav-link collapsed" href="index_admin.php?page=add_employee">
         <i class="bi bi-person-plus"></i> <!-- Add Employee Icon -->
-        <span>Apply Leave</span>
+        <span>Add Employee</span>
     </a>
 </li>
 
 <li class="nav-item">
-    <a class="nav-link collapsed" href="index_admin.php?page=approve_leave">
+    <a class="nav-link collapsed" href="index_admin.php?page=approve_leaves">
         <i class="bi bi-check-circle"></i> <!-- Approve Leaves Icon -->
-        <span>Request Leave Status</span>
+        <span>Request Leaves Status</span>
     </a>
 </li>
 
 <li class="nav-item">
-    <a class="nav-link collapsed" href="index_admin.php?page=pending_leave">
+    <a class="nav-link collapsed" href="index_admin.php?page=pending_leaves">
         <i class="bi bi-hourglass-split"></i> <!-- Pending Leaves Icon -->
-        <span>Pending Leave</span>
+        <span>Pending Leaves</span>
     </a>
 </li>
 
+<li class="nav-item">
+    <a class="nav-link collapsed" href="index_admin.php?page=disapproved">
+    <i class="bi bi-x-circle-fill"></i>
+    
+        <span>Disapproved Leaves</span>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a class="nav-link collapsed" href="index_admin.php?page=total_leaves">
+        <i class="bi bi-list-task"></i> <!-- Total Leaves Icon -->
+        <span>Total Leaves</span>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link collapsed" href="index_admin.php?page=view_employee">
+        <i class="bi bi-people"></i> <!-- View Employees Icon -->
+        <span>View Employees</span>
+    </a>
+</li>
 
 
 
@@ -137,25 +168,41 @@ if ($result && mysqli_num_rows($result) > 0) {
             $page=$_GET['page'];
 
                                             switch ($page){
+  
 
                                               case 'dashboard':
                                                 include 'dashboard.php';
-                                                 break;
-  
-                                              case 'apply_leave':
-                                                include 'apply_leave.php';
-                                                 break;
-                                                
+                                                break;
+                                               
+                                              case 'add_employee':
+                                                include 'add_employee.php';
+                                                break;
 
-                                                case 'approve_leave':
-                                                  include 'approve_leave.php';
+                                                case 'approve_leaves':
+                                                  include 'approve_leaves.php';
                                                   break;
 
-                                                  case 'pending_leave':
-                                                    include 'pending_leave.php';
+                                                  case 'pending_leaves':
+                                                    include 'pending_leaves.php';
                                                     break;
                                                 
+                                                    case 'total_leaves':
+                                                      include 'total_leaves.php';
+                                                      break;
 
+                                                      case 'view_employee':
+                                                        include 'view_employee.php';  
+                                                        break;
+
+                                                        case 'disapproved':
+                                                          include 'disapproved.php';  
+                                                          break;
+  
+
+
+                                                        case 'view_employee_details':
+                                                          include 'view_employees_details.php';
+                                                          break;
   
 
                                                   
