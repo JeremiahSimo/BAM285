@@ -93,7 +93,6 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
             font-weight: bold;
             color: blue;
         }
-
         body {
             font-family: Arial, sans-serif;
         }
@@ -143,7 +142,6 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
             background-color: #f8d7da;
             border-color: #f5c6cb;
         }
-
 
     </style>
 </head>
@@ -197,6 +195,7 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                                 <select name="paymentStatus" required>
                                     <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
                                     <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                                    <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
                                     <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
                                 </select>
                                 <button type="submit" name="updatePayment" class="updateBtn">Update</button>
@@ -231,11 +230,12 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
-                        $('#status_' + orderId).text(paymentStatus); // Update status text
+                        // Update the status text on the page
+                        $('#status_' + orderId).text(paymentStatus);
                         showMessage(result.message, 'success');
 
-                        // Reload the page to reflect the filter correctly
-                        window.location.href = "?status=" + "<?= $statusFilter ?>"; // This reloads the page with the same filter applied
+                        // Optional: Reload the page with the current status filter
+                        window.location.href = "?status=" + "<?= $statusFilter ?>";
                     } else {
                         showMessage(result.message, 'error');
                     }
