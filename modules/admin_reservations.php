@@ -1,7 +1,7 @@
 <?php
 // Database connection
 $host = 'localhost';
-$db = 'cakeorderdb';
+$db = 'CakeOrderDB';
 $user = 'root';
 $pass = '';
 
@@ -13,30 +13,53 @@ try {
 }
 
 // Handle status updates
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updateStatus'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
     $orderId = htmlspecialchars($_POST['orderId']);
-    $newStatus = htmlspecialchars($_POST['status']);
+    $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
+
+    // Validate payment status
+    $validStatuses = ['Pending', 'Completed', 'Failed', 'Canceled'];
+    if (!in_array($paymentStatus, $validStatuses)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid payment status.']);
+        exit;
+    }
 
     try {
-        // Update the status in the database
-        $stmt = $pdo->prepare("UPDATE orders SET status = ? WHERE order_id = ?");
-        $stmt->execute([$newStatus, $orderId]);
+        // Update the payment status
+        $stmt = $pdo->prepare("UPDATE payments SET payment_status = ? WHERE order_id = ?");
+        $stmt->execute([$paymentStatus, $orderId]);
 
         if ($stmt->rowCount() > 0) {
-            echo json_encode(['status' => 'success', 'message' => 'Order status updated successfully!']);
+            echo json_encode(['status' => 'success', 'message' => 'Payment status updated successfully!']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'No rows updated. Check the order ID.']);
         }
     } catch (PDOException $e) {
-        echo json_encode(['status' => 'error', 'message' => 'Error updating order status: ' . $e->getMessage()]);
+        echo json_encode(['status' => 'error', 'message' => 'Error updating payment status: ' . $e->getMessage()]);
     }
     exit;
 }
 
 // Function to fetch orders based on status
 function getOrdersByStatus($pdo, $statusFilter) {
-    $statusQuery = $statusFilter === 'All' ? "" : "WHERE status = ?";
-    $sql = "SELECT * FROM orders $statusQuery ORDER BY reservation_date ASC";
+    $statusQuery = $statusFilter === 'All' ? "" : "WHERE p.payment_status = ?";
+    $sql = "SELECT 
+                o.order_id,
+                c.name AS customer_name, 
+                c.email, 
+                c.phone, 
+                o.cake_flavor, 
+                o.cake_size, 
+                o.special_instructions, 
+                o.reservation_date, 
+                o.order_date, 
+                p.payment_status,
+                p.amount
+            FROM cake_orders o
+            JOIN customers c ON o.customer_id = c.customer_id
+            LEFT JOIN payments p ON o.order_id = p.order_id
+            $statusQuery
+            ORDER BY o.reservation_date ASC";
 
     try {
         $stmt = $pdo->prepare($sql);
@@ -55,7 +78,7 @@ function getOrdersByStatus($pdo, $statusFilter) {
 $statusFilter = isset($_GET['status']) ? $_GET['status'] : 'All';
 
 // Get orders based on status
-$orders = getOrdersByStatus($pdo, $statusFilter);
+$reservations = getOrdersByStatus($pdo, $statusFilter);
 ?>
 
 <!DOCTYPE html>
@@ -63,9 +86,13 @@ $orders = getOrdersByStatus($pdo, $statusFilter);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Order Management</title>
+    <title>Admin - Reservations with Payment Status</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
+        nav a.active {
+            font-weight: bold;
+            color: blue;
+        }
         body {
             font-family: Arial, sans-serif;
         }
@@ -97,6 +124,9 @@ $orders = getOrdersByStatus($pdo, $statusFilter);
         th {
             background-color: #f4f4f4;
         }
+        #messageContainer {
+            margin-bottom: 20px;
+        }
         .message {
             padding: 10px;
             margin-bottom: 10px;
@@ -112,10 +142,11 @@ $orders = getOrdersByStatus($pdo, $statusFilter);
             background-color: #f8d7da;
             border-color: #f5c6cb;
         }
+
     </style>
 </head>
 <body>
-    <h1>Order Management</h1>
+    <h1>Reservations Dashboard</h1>
 
     <!-- Navigation Bar -->
     <nav>
@@ -128,7 +159,7 @@ $orders = getOrdersByStatus($pdo, $statusFilter);
     <div id="messageContainer"></div> <!-- Success/Error message container -->
 
     <!-- Table of Orders -->
-    <table>
+    <table border="1" cellpadding="10" cellspacing="0">
         <thead>
             <tr>
                 <th>Order ID</th>
@@ -144,34 +175,35 @@ $orders = getOrdersByStatus($pdo, $statusFilter);
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($orders)): ?>
-                <?php foreach ($orders as $order): ?>
-                    <tr id="order_<?= htmlspecialchars($order['order_id']); ?>">
-                        <td><?= htmlspecialchars($order['order_id']); ?></td>
-                        <td><?= htmlspecialchars($order['customer_name']); ?></td>
-                        <td><?= htmlspecialchars($order['email']); ?></td>
-                        <td><?= htmlspecialchars($order['phone']); ?></td>
-                        <td><?= htmlspecialchars($order['cake_flavor']); ?></td>
-                        <td><?= htmlspecialchars($order['cake_size']); ?></td>
-                        <td><?= htmlspecialchars($order['special_instructions']); ?></td>
-                        <td><?= htmlspecialchars($order['reservation_date']); ?></td>
-                        <td><?= htmlspecialchars($order['order_date']); ?></td>
+            <?php if (!empty($reservations)): ?>
+                <?php foreach ($reservations as $reservation): ?>
+                    <tr id="order_<?= htmlspecialchars($reservation['order_id']); ?>">
+                        <td><?= htmlspecialchars($reservation['order_id']); ?></td>
+                        <td><?= htmlspecialchars($reservation['customer_name']); ?></td>
+                        <td><?= htmlspecialchars($reservation['email']); ?></td>
+                        <td><?= htmlspecialchars($reservation['phone']); ?></td>
+                        <td><?= htmlspecialchars($reservation['cake_flavor']); ?></td>
+                        <td><?= htmlspecialchars($reservation['cake_size']); ?></td>
+                        <td><?= htmlspecialchars($reservation['special_instructions']); ?></td>
+                        <td><?= htmlspecialchars($reservation['reservation_date']); ?></td>
+                        <td><?= htmlspecialchars($reservation['order_date']); ?></td>
                         <td>
-                            <form class="updateForm" method="POST" data-order-id="<?= htmlspecialchars($order['order_id']); ?>">
-                                <input type="hidden" name="orderId" value="<?= htmlspecialchars($order['order_id']); ?>">
-                                <select name="status" required>
-                                    <option value="Pending" <?= ($order['status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
-                                    <option value="Completed" <?= ($order['status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
-                                    <option value="Canceled" <?= ($order['status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
+                            <form class="updateForm" method="POST" data-order-id="<?= htmlspecialchars($reservation['order_id']); ?>">
+                                <input type="hidden" name="orderId" value="<?= htmlspecialchars($reservation['order_id']); ?>">
+                                <select name="paymentStatus" required>
+                                    <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                                    <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                                    <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
+                                    <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
                                 </select>
-                                <button type="submit" name="updateStatus" class="updateBtn">Update</button>
+                                <button type="submit" name="updatePayment" class="updateBtn">Update</button>
                             </form>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="10">No orders found.</td>
+                    <td colspan="10">No reservations found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
@@ -183,30 +215,35 @@ $orders = getOrdersByStatus($pdo, $statusFilter);
 
             var form = $(this);
             var orderId = form.find('input[name="orderId"]').val();
-            var status = form.find('select[name="status"]').val();
+            var paymentStatus = form.find('select[name="paymentStatus"]').val();
 
             $.ajax({
                 type: "POST",
                 url: "",
                 data: {
-                    updateStatus: true,
+                    updatePayment: true,
                     orderId: orderId,
-                    status: status
+                    paymentStatus: paymentStatus
                 },
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
-                        alert(result.message);
-                        window.location.href = "?status=" + status;
+                        showMessage(result.message, 'success');
+                        // Reload the page with the selected status filter (e.g., Pending, Completed, etc.)
+                        window.location.href = "?status=" + paymentStatus;
                     } else {
-                        alert(result.message);
+                        showMessage(result.message, 'error');
                     }
                 },
                 error: function() {
-                    alert('Error occurred while updating the order status.');
+                    showMessage('Error occurred while updating the payment status.', 'error');
                 }
             });
         });
+
+        function showMessage(message, type) {
+            $('#messageContainer').html('<div class="message ' + type + '">' + message + '</div>');
+        }
     </script>
 </body>
 </html>
