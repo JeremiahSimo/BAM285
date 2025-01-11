@@ -12,37 +12,8 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 
-// Handle status updates
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
-    $orderId = htmlspecialchars($_POST['orderId']);
-    $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
-
-    // Validate payment status
-    $validStatuses = ['Pending', 'Completed', 'Failed', 'Canceled'];
-    if (!in_array($paymentStatus, $validStatuses)) {
-        echo json_encode(['status' => 'error', 'message' => 'Invalid payment status.']);
-        exit;
-    }
-
-    try {
-        // Update the payment status
-        $stmt = $pdo->prepare("UPDATE payments SET payment_status = ? WHERE order_id = ?");
-        $stmt->execute([$paymentStatus, $orderId]);
-
-        if ($stmt->rowCount() > 0) {
-            echo json_encode(['status' => 'success', 'message' => 'Payment status updated successfully!']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'No rows updated. Check the order ID.']);
-        }
-    } catch (PDOException $e) {
-        echo json_encode(['status' => 'error', 'message' => 'Error updating payment status: ' . $e->getMessage()]);
-    }
-    exit;
-}
-
 // Function to fetch orders based on status
 function getOrdersByStatus($pdo, $statusFilter) {
-    // Adjust SQL query based on status filter
     $statusQuery = $statusFilter === 'All' ? "" : "WHERE p.payment_status = ?";
     $sql = "SELECT 
                 o.order_id,
@@ -75,10 +46,10 @@ function getOrdersByStatus($pdo, $statusFilter) {
     }
 }
 
-// Fetch the status filter from URL (default to 'All')
+// Fetch the status filter from the URL (default to 'All')
 $statusFilter = isset($_GET['status']) ? $_GET['status'] : 'All';
 
-// Get orders based on status
+// Get orders based on the selected status filter
 $reservations = getOrdersByStatus($pdo, $statusFilter);
 ?>
 
@@ -87,13 +58,9 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Reservations with Payment Status</title>
+    <title>Admin - Orders</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
-        nav a.active {
-            font-weight: bold;
-            color: blue;
-        }
         body {
             font-family: Arial, sans-serif;
         }
@@ -150,12 +117,11 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
 
     <!-- Navigation Bar -->
     <nav>
-    <a href="admin_reservations.php?status=All" class="<?= $statusFilter === 'All' ? 'active' : ''; ?>">All Orders</a>
-    <a href="pending_orders.php?status=Pending" class="<?= $statusFilter === 'Pending' ? 'active' : ''; ?>">Pending</a>
-    <a href="admin_reservations.php?status=Completed" class="<?= $statusFilter === 'Completed' ? 'active' : ''; ?>">Completed</a>
-    <a href="admin_reservations.php?status=Canceled" class="<?= $statusFilter === 'Canceled' ? 'active' : ''; ?>">Canceled</a>
-</nav>
-
+        <a href="pending_orders.php?status=All" class="<?= $statusFilter === 'All' ? 'active' : ''; ?>">All Orders</a>
+        <a href="pending_orders.php?status=Pending" class="<?= $statusFilter === 'Pending' ? 'active' : ''; ?>">Pending</a>
+        <a href="pending_orders.php?status=Completed" class="<?= $statusFilter === 'Completed' ? 'active' : ''; ?>">Completed</a>
+        <a href="pending_orders.php?status=Canceled" class="<?= $statusFilter === 'Canceled' ? 'active' : ''; ?>">Canceled</a>
+    </nav>
 
     <div id="messageContainer"></div> <!-- Success/Error message container -->
 
@@ -229,7 +195,7 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
                         showMessage(result.message, 'success');
-                        window.location.href = "?status=" + paymentStatus;
+                        window.location.href = "?status=" + paymentStatus;  // Refresh the page with updated filter
                     } else {
                         showMessage(result.message, 'error');
                     }
