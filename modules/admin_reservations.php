@@ -151,7 +151,7 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
     <!-- Navigation Bar -->
     <nav>
     <a href="admin_reservations.php?status=All" class="<?= $statusFilter === 'All' ? 'active' : ''; ?>">All Orders</a>
-    <a href="pending_orders.php?status=Pending" class="<?= $statusFilter === 'Pending' ? 'active' : ''; ?>">Pending</a>
+    <a href="pages/pending_orders.php?status=Pending" class="<?= $statusFilter === 'Pending' ? 'active' : ''; ?>">Pending</a>
     <a href="admin_reservations.php?status=Completed" class="<?= $statusFilter === 'Completed' ? 'active' : ''; ?>">Completed</a>
     <a href="admin_reservations.php?status=Canceled" class="<?= $statusFilter === 'Canceled' ? 'active' : ''; ?>">Canceled</a>
 </nav>
