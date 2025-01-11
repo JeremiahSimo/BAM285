@@ -12,9 +12,10 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 
-// Function to fetch orders based on status
+// Function to fetch orders by status (specifically for 'Pending' here)
 function getOrdersByStatus($pdo, $statusFilter) {
-    $statusQuery = $statusFilter === 'All' ? "" : "WHERE p.payment_status = ?";
+    // We fetch only 'Pending' orders for this page
+    $statusQuery = "WHERE p.payment_status = ?";
     $sql = "SELECT 
                 o.order_id,
                 c.name AS customer_name, 
@@ -35,21 +36,15 @@ function getOrdersByStatus($pdo, $statusFilter) {
 
     try {
         $stmt = $pdo->prepare($sql);
-        if ($statusFilter !== 'All') {
-            $stmt->execute([$statusFilter]);
-        } else {
-            $stmt->execute();
-        }
+        $stmt->execute([$statusFilter]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         die("Error fetching orders: " . $e->getMessage());
     }
 }
 
-// Fetch the status filter from the URL (default to 'All')
-$statusFilter = isset($_GET['status']) ? $_GET['status'] : 'All';
-
-// Get orders based on the selected status filter
+// Fetch the 'Pending' orders from the database
+$statusFilter = 'Pending'; // Always show 'Pending' orders on this page
 $reservations = getOrdersByStatus($pdo, $statusFilter);
 ?>
 
@@ -58,7 +53,7 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Orders</title>
+    <title>Pending Orders</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         body {
@@ -113,14 +108,14 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
     </style>
 </head>
 <body>
-    <h1>Reservations Dashboard</h1>
+    <h1>Pending Orders</h1>
 
     <!-- Navigation Bar -->
     <nav>
-        <a href="pending_orders.php?status=All" class="<?= $statusFilter === 'All' ? 'active' : ''; ?>">All Orders</a>
-        <a href="pending_orders.php?status=Pending" class="<?= $statusFilter === 'Pending' ? 'active' : ''; ?>">Pending</a>
-        <a href="pending_orders.php?status=Completed" class="<?= $statusFilter === 'Completed' ? 'active' : ''; ?>">Completed</a>
-        <a href="pending_orders.php?status=Canceled" class="<?= $statusFilter === 'Canceled' ? 'active' : ''; ?>">Canceled</a>
+        <a href="pending_orders.php?status=Pending" class="active">Pending</a>
+        <a href="admin_reservations.php?status=All">All Orders</a>
+        <a href="admin_reservations.php?status=Completed">Completed</a>
+        <a href="admin_reservations.php?status=Canceled">Canceled</a>
     </nav>
 
     <div id="messageContainer"></div> <!-- Success/Error message container -->
@@ -169,46 +164,10 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="10">No reservations found.</td>
+                    <td colspan="10">No pending reservations found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
     </table>
-
-    <script>
-        $(document).on('submit', '.updateForm', function(event) {
-            event.preventDefault();
-
-            var form = $(this);
-            var orderId = form.find('input[name="orderId"]').val();
-            var paymentStatus = form.find('select[name="paymentStatus"]').val();
-
-            $.ajax({
-                type: "POST",
-                url: "",
-                data: {
-                    updatePayment: true,
-                    orderId: orderId,
-                    paymentStatus: paymentStatus
-                },
-                success: function(response) {
-                    var result = JSON.parse(response);
-                    if (result.status === 'success') {
-                        showMessage(result.message, 'success');
-                        window.location.href = "?status=" + paymentStatus;  // Refresh the page with updated filter
-                    } else {
-                        showMessage(result.message, 'error');
-                    }
-                },
-                error: function() {
-                    showMessage('Error occurred while updating the payment status.', 'error');
-                }
-            });
-        });
-
-        function showMessage(message, type) {
-            $('#messageContainer').html('<div class="message ' + type + '">' + message + '</div>');
-        }
-    </script>
 </body>
 </html>
