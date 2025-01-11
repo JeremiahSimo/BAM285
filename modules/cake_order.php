@@ -21,8 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cakeSize = htmlspecialchars($_POST['cakeSize']);
     $instructions = htmlspecialchars($_POST['instructions']);
     $reservationDate = htmlspecialchars($_POST['reservationDate']);
-    $paymentMethod = htmlspecialchars($_POST['paymentMethod']);
-    $gcashNumber = htmlspecialchars($_POST['gcashNumber'] ?? null);
     $amount = ($cakeSize === "Small") ? 250.00 : (($cakeSize === "Medium") ? 400.00 : 600.00);
 
     try {
@@ -38,10 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $orderId = $pdo->lastInsertId();
 
         // Insert payment details
-        $stmt = $pdo->prepare("INSERT INTO payments (order_id, amount, payment_method, gcash_number) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$orderId, $amount, $paymentMethod, $paymentMethod === "GCash" ? $gcashNumber : null]);
+        $stmt = $pdo->prepare("INSERT INTO payments (order_id, amount, payment_status) VALUES (?, ?, ?)");
+        $stmt->execute([$orderId, $amount, 'Pending']);
 
-        echo "<h2>Order placed successfully!</h2>";
+        echo "<h2>Order placed successfully with payment status as Pending!</h2>";
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
