@@ -133,29 +133,34 @@ try {
     </table>
 
     <script>
-        $(document).on('submit', '.updateForm', function(e) {
-            e.preventDefault();
+       $(document).on('submit', '.updateForm', function(e) {
+    e.preventDefault();
 
-            const form = $(this);
-            const orderId = form.find('input[name="orderId"]').val();
-            const paymentStatus = form.find('select[name="paymentStatus"]').val();
-            const amountPaid = form.find('input[name="amountPaid"]').val();
+    const form = $(this);
+    const orderId = form.find('input[name="orderId"]').val();
+    const paymentStatus = form.find('select[name="paymentStatus"]').val();
+    const amountPaid = form.find('input[name="amountPaid"]').val();
 
-            $.post("", { updatePayment: true, orderId, paymentStatus, amountPaid }, function(response) {
-                const result = JSON.parse(response);
+    // Send an AJAX POST request
+    $.post("", { updatePayment: true, orderId, paymentStatus, amountPaid }, function(response) {
+        const result = JSON.parse(response);
 
-                if (result.status === 'success') {
-                    $(`#status_${orderId}`).text(paymentStatus);
-                    $(`#amount_${orderId}`).text(amountPaid);
-                    form.find('button').hide(); 
-                    $('#messageContainer').html(`<p style="color:green;">${result.message}</p>`);
-                } else {
-                    $('#messageContainer').html(`<p style="color:red;">${result.message}</p>`);
-                }
-            }).fail(function() {
-                $('#messageContainer').html('<p style="color:red;">Error processing the request.</p>');
-            });
-        });
+        if (result.status === 'success') {
+            // Update the table row dynamically
+            $(`#status_${orderId}`).text(paymentStatus);
+            $(`#amount_${orderId}`).text(amountPaid);
+            form.find('button').hide();  // Hide the button to prevent redundant updates
+            $('#messageContainer').html(`<p style="color:green;">${result.message}</p>`);
+        } else {
+            // Show an error message
+            $('#messageContainer').html(`<p style="color:red;">${result.message}</p>`);
+        }
+    }).fail(function() {
+        // Handle any AJAX errors
+        $('#messageContainer').html('<p style="color:red;">Error processing the request.</p>');
+    });
+});
+
     </script>
 </body>
 </html>
