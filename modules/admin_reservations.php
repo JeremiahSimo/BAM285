@@ -12,61 +12,64 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 
-// Handle payment status filter
-$statusFilter = isset($_GET['status']) ? htmlspecialchars($_GET['status']) : 'All';
-
-// Build the query based on the filter
-$query = "SELECT 
-    o.order_id,
-    c.name AS customer_name, 
-    c.email, 
-    c.phone, 
-    o.cake_flavor, 
-    o.cake_size, 
-    o.special_instructions, 
-    o.reservation_date, 
-    o.order_date, 
-    p.payment_status
-FROM cake_orders o
-JOIN customers c ON o.customer_id = c.customer_id
-LEFT JOIN payments p ON o.order_id = p.order_id";
-
-if ($statusFilter !== 'All') {
-    $query .= " WHERE p.payment_status = :statusFilter";
-}
-$query .= " ORDER BY o.reservation_date ASC";
-
-try {
-    $stmt = $pdo->prepare($query);
-
-    if ($statusFilter !== 'All') {
-        $stmt->bindParam(':statusFilter', $statusFilter);
-    }
-
-    $stmt->execute();
-    $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Error fetching reservations: " . $e->getMessage());
-}
-
-// Update payment logic
+// Update payment status logic
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
     $orderId = htmlspecialchars($_POST['orderId']);
     $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
 
+    // Validate payment status
+    $validStatuses = ['Pending', 'Completed', 'Failed', 'Canceled'];
+    if (!in_array($paymentStatus, $validStatuses)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid payment status.']);
+        exit;
+    }
+
     try {
+        // Update the payment status
         $stmt = $pdo->prepare("UPDATE payments SET payment_status = ? WHERE order_id = ?");
         $stmt->execute([$paymentStatus, $orderId]);
 
         if ($stmt->rowCount() > 0) {
-            echo json_encode(['status' => 'success', 'message' => 'Payment updated successfully!', 'paymentStatus' => $paymentStatus]);
+            echo json_encode(['status' => 'success', 'message' => 'Payment status updated successfully!']);
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'No changes were made.']);
+            echo json_encode(['status' => 'error', 'message' => 'No rows updated. Check the order ID.']);
         }
     } catch (PDOException $e) {
-        echo json_encode(['status' => 'error', 'message' => 'Error updating payment: ' . $e->getMessage()]);
+        echo json_encode(['status' => 'error', 'message' => 'Error updating payment status: ' . $e->getMessage()]);
     }
     exit;
+}
+
+// Fetch all reservations
+$statusFilter = isset($_GET['status']) ? $_GET['status'] : 'All';
+$statusQuery = $statusFilter == 'All' ? "" : "WHERE p.payment_status = ?";
+$sql = "SELECT 
+            o.order_id,
+            c.name AS customer_name, 
+            c.email, 
+            c.phone, 
+            o.cake_flavor, 
+            o.cake_size, 
+            o.special_instructions, 
+            o.reservation_date, 
+            o.order_date, 
+            p.payment_status,
+            p.amount
+        FROM cake_orders o
+        JOIN customers c ON o.customer_id = c.customer_id
+        LEFT JOIN payments p ON o.order_id = p.order_id
+        $statusQuery
+        ORDER BY o.reservation_date ASC";
+try {
+    $stmt = $pdo->prepare($sql);
+    if ($statusFilter != 'All') {
+        $stmt->execute([$statusFilter]);
+    } else {
+        $stmt->execute();
+    }
+    $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error fetching reservations: " . $e->getMessage());
 }
 ?>
 
@@ -75,64 +78,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Reservations</title>
+    <title>Admin - Reservations with Payment Status</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        nav {
-            margin-bottom: 20px;
-            background-color: #f4f4f4;
-            padding: 10px;
-        }
-        nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-        nav a.active {
-            color: #007BFF;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        #messageContainer {
-            margin-bottom: 20px;
-        }
-        .message {
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid transparent;
-        }
-        .message.success {
-            color: #155724;
-            background-color: #d4edda;
-            border-color: #c3e6cb;
-        }
-        .message.error {
-            color: #721c24;
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
-        }
-    </style>
 </head>
 <body>
     <h1>Reservations Dashboard</h1>
 
-    <!-- Navigation Bar -->
     <nav>
         <a href="?status=All" class="<?= $statusFilter === 'All' ? 'active' : ''; ?>">Orders</a>
         <a href="?status=Pending" class="<?= $statusFilter === 'Pending' ? 'active' : ''; ?>">Pending</a>
@@ -142,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
 
     <div id="messageContainer"></div> <!-- Success/Error message container -->
 
-    <table>
+    <table border="1" cellpadding="10" cellspacing="0">
         <thead>
             <tr>
                 <th>Order ID</th>
@@ -155,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
                 <th>Reservation Date</th>
                 <th>Order Date</th>
                 <th>Payment Status</th>
-                <th>Action</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -178,6 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
                                 <select name="paymentStatus" required>
                                     <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
                                     <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                                    <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
                                     <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
                                 </select>
                                 <button type="submit" name="updatePayment" class="updateBtn">Update</button>
@@ -187,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="11">No reservations found for the selected filter.</td>
+                    <td colspan="11">No reservations found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
@@ -212,8 +164,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
-                        $('#status_' + orderId).text(paymentStatus);
+                        $('#status_' + orderId).text(paymentStatus); // Update status text
                         showMessage(result.message, 'success');
+
+                        // Redirect to the appropriate page based on selected status
+                        window.location.href = "?status=" + paymentStatus; // This will redirect to the chosen payment status page
                     } else {
                         showMessage(result.message, 'error');
                     }
