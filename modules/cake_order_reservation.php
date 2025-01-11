@@ -21,6 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cakeSize = htmlspecialchars($_POST['cakeSize']);
     $instructions = htmlspecialchars($_POST['instructions']);
     $reservationDate = htmlspecialchars($_POST['reservationDate']);
+    $paymentMethod = htmlspecialchars($_POST['paymentMethod']);
+    $gcashNumber = htmlspecialchars($_POST['gcashNumber'] ?? null);
+    $amount = ($cakeSize === "Small") ? 250.00 : (($cakeSize === "Medium") ? 400.00 : 600.00);
 
     try {
         // Insert customer details
@@ -31,6 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Insert order details
         $stmt = $pdo->prepare("INSERT INTO cake_orders (customer_id, cake_flavor, cake_size, special_instructions, reservation_date) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([$customerId, $cakeFlavor, $cakeSize, $instructions, $reservationDate]);
+
+        $orderId = $pdo->lastInsertId();
+
+        // Insert payment details
+        $stmt = $pdo->prepare("INSERT INTO payments (order_id, amount, payment_method, gcash_number) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$orderId, $amount, $paymentMethod, $paymentMethod === "GCash" ? $gcashNumber : null]);
 
         echo "<h2>Order placed successfully!</h2>";
     } catch (PDOException $e) {
@@ -45,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cake Order Reservation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <h1>Cake Order Reservation</h1>
@@ -68,11 +78,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label for="cakeSize">Cake Size:</label><br>
         <input type="radio" id="small" name="cakeSize" value="Small" required>
-        <label for="small">Small</label><br>
+        <label for="small">Small - ₱250.00</label><br>
         <input type="radio" id="medium" name="cakeSize" value="Medium">
-        <label for="medium">Medium</label><br>
+        <label for="medium">Medium - ₱400.00</label><br>
         <input type="radio" id="large" name="cakeSize" value="Large">
-        <label for="large">Large</label><br><br>
+        <label for="large">Large - ₱600.00</label><br><br>
 
         <label for="instructions">Special Instructions:</label><br>
         <textarea id="instructions" name="instructions" rows="4" cols="40"></textarea><br><br>
@@ -80,7 +90,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="reservationDate">Reservation Date:</label><br>
         <input type="date" id="reservationDate" name="reservationDate" required><br><br>
 
+        <label for="paymentMethod">Payment Method:</label><br>
+        <select id="paymentMethod" name="paymentMethod" required>
+            <option value="Cash">Cash</option>
+            <option value="GCash">GCash</option>
+        </select><br><br>
+
+        <div id="gcashNumberDiv" style="display: none;">
+            <label for="gcashNumber">GCash Number:</label><br>
+            <input type="text" id="gcashNumber" name="gcashNumber" placeholder="Enter GCash Number"><br><br>
+        </div>
+
         <button type="submit">Submit Reservation</button>
     </form>
+
+    <script>
+        // Show/hide GCash number field based on selected payment method
+        $(document).on('change', '#paymentMethod', function() {
+            if ($(this).val() === 'GCash') {
+                $('#gcashNumberDiv').show();
+                $('#gcashNumber').attr('required', true);
+            } else {
+                $('#gcashNumberDiv').hide();
+                $('#gcashNumber').removeAttr('required').val('');
+            }
+        });
+    </script>
 </body>
 </html>
