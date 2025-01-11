@@ -579,7 +579,7 @@
                                     case 'display':
                                       include 'modules/display1.php';
                                       break;
-                                      case 'Mysystem':
+                                      case 'mysystem':
                                         include 'mysystem.php';
                                         break;
                           
