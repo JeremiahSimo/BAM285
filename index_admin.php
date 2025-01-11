@@ -364,7 +364,7 @@
           <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse <?php echo ($_GET['page'] ?? '') === 'registration_form' ? 'show' : ''; ?>" data-bs-parent="#sidebar-nav">
-        <li>
+          <li>
             <a href="index_admin.php?page=registration_form" class="<?php echo ($_GET['page'] ?? '') === 'registration_form'  ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Registration Form</span>
             </a>
@@ -402,7 +402,7 @@
               <i class="bi bi-circle"></i><span>Send love form</span>
             </a>
           </li>
-         
+
           <li>
             <a href="index_admin.php?page=display_members" class="<?php echo ($_GET['page'] ?? '') === 'display_members'  ? 'active' : ''; ?>">
               <i class="bi bi-circle"></i><span>Registered Members List</span>
@@ -414,9 +414,9 @@
             </a>
           </li>
         </ul>
-      
+
       </li>
-     <!-- End Tables Nav -->
+      <!-- End Tables Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
@@ -513,7 +513,17 @@
           <i class="bi bi-file-earmark"></i>
           <span>Blank</span>
         </a>
-      </li><!-- End Blank Page Nav -->
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-blank.html">
+          <i class="bi bi-file-earmark"></i>
+          <span>My System</span>
+        </a>
+      </li>
+
+
+      <!-- End Blank Page Nav -->
 
     </ul>
 
@@ -538,42 +548,39 @@
 
           <div class="card">
             <div class="card-body">
-             
-                  <!-- content area -->
-                  <?php
-        if (isset($_GET['page'])){
-            $page=$_GET['page'];
 
-            switch ($page){
-                case 'london':
+              <!-- content area -->
+              <?php
+              if (isset($_GET['page'])) {
+                $page = $_GET['page'];
+
+                switch ($page) {
+                  case 'london':
                     include 'modules/london.php';
                     break;
-                    
-                    case 'paris':
-                        include 'modules/paris.php';
-                        break;
-                        
-                        case 'tokyo':
-                            include 'modules/tokyo.php';
-                            break;
-                            case 'registration_form':
-                              include 'modules/registration_form.php';
-                              break;
-                              case 'sendlove':
-                                include 'modules/form.php';
-                                break;
-                                case 'register':
-                                  include 'modules/register.php';
-                                  break;
-                                  case 'display_members':
-                                    include 'modules/registered_member.php';
-                                    break;
-  
 
-            }
+                  case 'paris':
+                    include 'modules/paris.php';
+                    break;
 
-        }
-    ?>
+                  case 'tokyo':
+                    include 'modules/tokyo.php';
+                    break;
+                  case 'registration_form':
+                    include 'modules/registration_form.php';
+                    break;
+                  case 'sendlove':
+                    include 'modules/form.php';
+                    break;
+                  case 'register':
+                    include 'modules/register.php';
+                    break;
+                  case 'display_members':
+                    include 'modules/registered_member.php';
+                    break;
+                }
+              }
+              ?>
             </div>
           </div>
 
