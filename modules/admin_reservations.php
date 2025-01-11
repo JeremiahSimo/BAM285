@@ -42,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
 
 // Function to fetch orders based on status
 function getOrdersByStatus($pdo, $statusFilter) {
+    // Adjust SQL query based on status filter
     $statusQuery = $statusFilter === 'All' ? "" : "WHERE p.payment_status = ?";
     $sql = "SELECT 
                 o.order_id,
@@ -227,7 +228,6 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
                         showMessage(result.message, 'success');
-                        // Reload the page with the selected status filter
                         window.location.href = "?status=" + paymentStatus;
                     } else {
                         showMessage(result.message, 'error');
