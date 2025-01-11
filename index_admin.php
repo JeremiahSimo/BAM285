@@ -398,6 +398,11 @@
             </a>
           </li>
           <li>
+            <a href="index_admin.php?page=mysystem">
+              <i class="bi bi-circle"></i><span>MySystem</span>
+            </a>
+          </li>
+          <li>
             <a href="index_admin.php?page=registration_form" class="active">
               <i class="bi bi-circle"></i><span>Registration Form</span>
             </a>
@@ -574,8 +579,8 @@
                                     case 'display':
                                       include 'modules/display1.php';
                                       break;
-                                      case 'contact':
-                                        include 'modules/contact.php';
+                                      case 'Mysystem':
+                                        include 'mysytem.php';
                                         break;
                           
 
