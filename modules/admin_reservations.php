@@ -50,7 +50,7 @@ try {
     die("Error fetching reservations: " . $e->getMessage());
 }
 
-// Update payment logic remains the same as the previous code
+// Update payment logic
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
     $orderId = htmlspecialchars($_POST['orderId']);
     $paymentStatus = htmlspecialchars($_POST['paymentStatus']);
@@ -61,12 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
         $stmt->execute([$paymentStatus, $amountPaid, $orderId]);
 
         if ($stmt->rowCount() > 0) {
-            echo json_encode(['status' => 'success', 'message' => 'Payment status and amount updated successfully!']);
+            echo json_encode(['status' => 'success', 'message' => 'Payment updated successfully!', 'paymentStatus' => $paymentStatus, 'amount' => $amountPaid]);
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'No rows updated. Check the order ID.']);
+            echo json_encode(['status' => 'error', 'message' => 'No changes were made.']);
         }
     } catch (PDOException $e) {
-        echo json_encode(['status' => 'error', 'message' => 'Error updating payment status: ' . $e->getMessage()]);
+        echo json_encode(['status' => 'error', 'message' => 'Error updating payment: ' . $e->getMessage()]);
     }
     exit;
 }
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Reservations with Payment Status</title>
+    <title>Admin - Reservations</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         body {
@@ -182,7 +182,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
                                 <select name="paymentStatus" required>
                                     <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
                                     <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
-                                    <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
                                     <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
                                 </select>
                                 <input type="number" name="amountPaid" step="0.01" min="0" value="<?= htmlspecialchars($reservation['amount'] ?? '0.00'); ?>" placeholder="Amount Paid" required>
@@ -222,7 +221,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updatePayment'])) {
                     if (result.status === 'success') {
                         $('#status_' + orderId).text(paymentStatus);
                         $('#amount_' + orderId).text(amountPaid);
-                        form.find('button').hide();
                         showMessage(result.message, 'success');
                     } else {
                         showMessage(result.message, 'error');
