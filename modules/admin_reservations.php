@@ -193,7 +193,7 @@ $reservations = getOrdersByStatus($pdo, $statusFilter);
                                 <select name="paymentStatus" required>
                                     <option value="Pending" <?= ($reservation['payment_status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
                                     <option value="Completed" <?= ($reservation['payment_status'] === 'Completed') ? 'selected' : ''; ?>>Completed</option>
-                                    <option value="Failed" <?= ($reservation['payment_status'] === 'Failed') ? 'selected' : ''; ?>>Failed</option>
+                                  
                                     <option value="Canceled" <?= ($reservation['payment_status'] === 'Canceled') ? 'selected' : ''; ?>>Canceled</option>
                                 </select>
                                 <button type="submit" name="updatePayment" class="updateBtn">Update</button>
