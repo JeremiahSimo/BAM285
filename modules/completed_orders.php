@@ -12,7 +12,7 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 
-// Function to fetch completed orders
+// Fetch completed orders from the database
 function getCompletedOrders($pdo) {
     $sql = "SELECT 
                 o.order_id,
@@ -42,7 +42,7 @@ function getCompletedOrders($pdo) {
 }
 
 // Get completed orders
-$reservations = getCompletedOrders($pdo);
+$completedOrders = getCompletedOrders($pdo);
 ?>
 
 <!DOCTYPE html>
@@ -52,8 +52,17 @@ $reservations = getCompletedOrders($pdo);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Completed Orders</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
         table, th, td {
             border: 1px solid #ddd;
+        }
+        th, td {
             padding: 10px;
             text-align: left;
         }
@@ -82,19 +91,19 @@ $reservations = getCompletedOrders($pdo);
         </tr>
     </thead>
     <tbody>
-        <?php if (!empty($reservations)): ?>
-            <?php foreach ($reservations as $reservation): ?>
+        <?php if (!empty($completedOrders)): ?>
+            <?php foreach ($completedOrders as $order): ?>
                 <tr>
-                    <td><?= htmlspecialchars($reservation['order_id']); ?></td>
-                    <td><?= htmlspecialchars($reservation['customer_name']); ?></td>
-                    <td><?= htmlspecialchars($reservation['email']); ?></td>
-                    <td><?= htmlspecialchars($reservation['phone']); ?></td>
-                    <td><?= htmlspecialchars($reservation['cake_flavor']); ?></td>
-                    <td><?= htmlspecialchars($reservation['cake_size']); ?></td>
-                    <td><?= htmlspecialchars($reservation['special_instructions']); ?></td>
-                    <td><?= htmlspecialchars($reservation['reservation_date']); ?></td>
-                    <td><?= htmlspecialchars($reservation['order_date']); ?></td>
-                    <td><?= htmlspecialchars($reservation['payment_status']); ?></td>
+                    <td><?= htmlspecialchars($order['order_id']); ?></td>
+                    <td><?= htmlspecialchars($order['customer_name']); ?></td>
+                    <td><?= htmlspecialchars($order['email']); ?></td>
+                    <td><?= htmlspecialchars($order['phone']); ?></td>
+                    <td><?= htmlspecialchars($order['cake_flavor']); ?></td>
+                    <td><?= htmlspecialchars($order['cake_size']); ?></td>
+                    <td><?= htmlspecialchars($order['special_instructions']); ?></td>
+                    <td><?= htmlspecialchars($order['reservation_date']); ?></td>
+                    <td><?= htmlspecialchars($order['order_date']); ?></td>
+                    <td><?= htmlspecialchars($order['payment_status']); ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
