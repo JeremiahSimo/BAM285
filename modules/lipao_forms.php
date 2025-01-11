@@ -14,7 +14,8 @@
 </head>
 <body>
     <h2>Sign Up for the Dating App</h2>
-    <form method="POST" action="connect2.php">
+    <form method="POST" action="php/connect2.php">
+
         <label for="full_name">Full Name:</label>
         <input type="text" id="full_name" name="full_name" required><br><br>
 

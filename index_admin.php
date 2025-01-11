@@ -574,6 +574,21 @@
                                       break;
   
 
+                                  case 'lipao' :
+                                    include 'modules/lipao.php' ;
+                                    break;
+      
+                                    case 'morcillos' :
+                                      include 'modules/morcillos_forms.php';
+                                      break;
+      
+                                      case 'panong' :
+                                        include 'modules/panong_forms.php';
+                                        break;
+
+
+                                  
+
             }
 
         }

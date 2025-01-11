@@ -12,9 +12,23 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+<<<<<<< HEAD
 }
 
 /* Style the header */
+=======
+<<<<<<< HEAD
+  margin: 0;
+  padding: 0;
+}
+
+
+=======
+}
+
+/* Style the header */
+>>>>>>> 25397eae6e75891659ee3c7b874f71aa51a33c0c
+>>>>>>> 248437d5805fe1b3c4bd0ba0df4c3165c45c448b
 header {
   background-color: #666;
   padding: 30px;
@@ -23,6 +37,25 @@ header {
   color: white;
 }
 
+<<<<<<< HEAD
+/* Create two columns/boxes that floats next to each other */
+=======
+<<<<<<< HEAD
+
+>>>>>>> 248437d5805fe1b3c4bd0ba0df4c3165c45c448b
+nav {
+  float: left;
+  width: 30%;
+  height: 300px; /* only for demonstration, should be removed */
+  background: #ccc;
+  padding: 20px;
+}
+
+<<<<<<< HEAD
+/* Style the list inside the menu */
+=======
+
+=======
 /* Create two columns/boxes that floats next to each other */
 nav {
   float: left;
@@ -33,6 +66,8 @@ nav {
 }
 
 /* Style the list inside the menu */
+>>>>>>> 25397eae6e75891659ee3c7b874f71aa51a33c0c
+>>>>>>> 248437d5805fe1b3c4bd0ba0df4c3165c45c448b
 nav ul {
   list-style-type: none;
   padding: 0;
@@ -43,26 +78,64 @@ article {
   padding: 20px;
   width: 70%;
   background-color: #f1f1f1;
+<<<<<<< HEAD
   height: 300px; /* only for demonstration, should be removed */
 }
 
 /* Clear floats after the columns */
+=======
+<<<<<<< HEAD
+  min-height: calc(100vh - 130px); 
+}
+
+
+=======
+  height: 300px; /* only for demonstration, should be removed */
+}
+
+/* Clear floats after the columns */
+>>>>>>> 25397eae6e75891659ee3c7b874f71aa51a33c0c
+>>>>>>> 248437d5805fe1b3c4bd0ba0df4c3165c45c448b
 section::after {
   content: "";
   display: table;
   clear: both;
 }
 
+<<<<<<< HEAD
 /* Style the footer */
+=======
+<<<<<<< HEAD
+
+=======
+/* Style the footer */
+>>>>>>> 25397eae6e75891659ee3c7b874f71aa51a33c0c
+>>>>>>> 248437d5805fe1b3c4bd0ba0df4c3165c45c448b
 footer {
   background-color: #777;
   padding: 10px;
   text-align: center;
   color: white;
+<<<<<<< HEAD
 }
 
 
 /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+=======
+<<<<<<< HEAD
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+
+=======
+}
+
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+>>>>>>> 25397eae6e75891659ee3c7b874f71aa51a33c0c
+>>>>>>> 248437d5805fe1b3c4bd0ba0df4c3165c45c448b
 @media (max-width: 600px) {
   nav, article {
     width: 100%;
@@ -87,12 +160,45 @@ footer {
       <li><a href="home_page.php?page=london">London</a></li>
       <li><a href="home_page.php?page=paris">Paris</a></li>
       <li><a href="home_page.php?page=tokyo">Tokyo</a></li>
+<<<<<<< HEAD
       <li><a href="home_page.php?page=lipao">Lipao</a></li>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <li><a href="home_page.php?page=lipao">Lipao</a></li>
+      <li><a href="home_page.php?page=morcillos">Morcillos Form</a></li>
+      <li><a href="home_page.php?page=panong">Panong Form</a></li>
+=======
+=======
+>>>>>>> 606ae2b26ac88e92b36e4544ff2d2f126c548b20
+      <li><a href="home_page.php?page=panong">Panong</a></li>
+      <li><a href="home_page.php?page=magpantay">Magpantay</a></li>
+       <li><a href="home_page.php?page=clemena">Clemeña</a></li>
+       <li><a href="home_page.php?page=Arazo">Arazo</a></li>
+       <li><a href="home_page.php?page=Baterna">Junel</a></li>
+<<<<<<< HEAD
+>>>>>>> 27411fa8aacd73fff39989013b7c8bc8855ececc
+=======
+>>>>>>> 606ae2b26ac88e92b36e4544ff2d2f126c548b20
+=======
+      <li><a href="home_page.php?page=morcillos">Morcillos</a></li>
+>>>>>>> 25397eae6e75891659ee3c7b874f71aa51a33c0c
+>>>>>>> 248437d5805fe1b3c4bd0ba0df4c3165c45c448b
     </ul>
   </nav>
   
   <article>
    <!-- content area -->
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+
+
+=======
+>>>>>>> 25397eae6e75891659ee3c7b874f71aa51a33c0c
+>>>>>>> 248437d5805fe1b3c4bd0ba0df4c3165c45c448b
     <?php
         if (isset($_GET['page'])){
             $page=$_GET['page'];
@@ -109,11 +215,64 @@ footer {
                         case 'tokyo':
                             include 'modules/tokyo.php';
                             break;
+<<<<<<< HEAD
                             
+<<<<<<< HEAD
+                            case 'lipao' :
+                              include 'modules/lipao.php' ;
+                              break;
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
                             case 'lipao' :
                               include 'modules/lipao.php' ;
                               break;
 
+                              case 'morcillos' :
+                                include 'modules/morcillos_forms.php';
+                                break;
+
+                                case 'panong' :
+                                  include 'modules/panong_forms.php';
+                                  break;
+
+                              
+=======
+=======
+>>>>>>> 606ae2b26ac88e92b36e4544ff2d2f126c548b20
+                        case 'caamiño':
+                          include 'modules/panong2.php';
+                          break;
+
+                          case 'magpantay':
+                            include 'modules/magpantay.php';
+                            break;
+
+                            case 'clemena':
+                            include 'modules/clemenajohnrey.php';
+                            break;
+
+                            case 'Arazo':
+                              include 'modules/Arazo.php';
+                              break;
+
+                              case 'Baterna':
+                                include 'modules/Baterna.php';
+                                break;
+  
+
+<<<<<<< HEAD
+>>>>>>> 27411fa8aacd73fff39989013b7c8bc8855ececc
+=======
+>>>>>>> 606ae2b26ac88e92b36e4544ff2d2f126c548b20
+>>>>>>> 248437d5805fe1b3c4bd0ba0df4c3165c45c448b
+
+=======
+                            case 'morcillos':
+                              include 'modules/morcillos.php';
+                              break;
+
+>>>>>>> 25397eae6e75891659ee3c7b874f71aa51a33c0c
             }
 
         }
