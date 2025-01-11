@@ -82,6 +82,10 @@ try {
     <title>Admin - Reservations with Payment Status</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
+        nav a.active {
+            font-weight: bold;
+            color: blue;
+        }
         body {
             font-family: Arial, sans-serif;
         }
@@ -131,12 +135,13 @@ try {
             background-color: #f8d7da;
             border-color: #f5c6cb;
         }
-    </style>
 
+    </style>
 </head>
 <body>
     <h1>Reservations Dashboard</h1>
 
+    <!-- Navigation Bar -->
     <nav>
         <a href="?status=All" class="<?= $statusFilter === 'All' ? 'active' : ''; ?>">All Orders</a>
         <a href="?status=Pending" class="<?= $statusFilter === 'Pending' ? 'active' : ''; ?>">Pending</a>
@@ -146,6 +151,7 @@ try {
 
     <div id="messageContainer"></div> <!-- Success/Error message container -->
 
+    <!-- Table of Orders -->
     <table border="1" cellpadding="10" cellspacing="0">
         <thead>
             <tr>
@@ -220,8 +226,8 @@ try {
                         $('#status_' + orderId).text(paymentStatus); // Update status text
                         showMessage(result.message, 'success');
 
-                        // Redirect to the appropriate page based on selected status
-                        window.location.href = "?status=" + paymentStatus; // This will redirect to the chosen payment status page
+                        // Reload the page to reflect the filter correctly
+                        window.location.href = "?status=" + "<?= $statusFilter ?>"; // This reloads the page with the same filter applied
                     } else {
                         showMessage(result.message, 'error');
                     }
