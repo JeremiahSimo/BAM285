@@ -2,10 +2,7 @@
 include 'connection.php';
 
 // Check if the user is logged in
-if (!isset($_SESSION['email'])) {
-    echo "<script>alert('Please log in first'); window.location.href='index.php';</script>";
-    exit();
-}
+
 ?>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">

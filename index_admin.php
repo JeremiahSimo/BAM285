@@ -1,6 +1,7 @@
 
 <?php
 include 'connection.php';
+
 session_start(); // Start session
 
 // Check if the user is logged in
@@ -24,6 +25,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     echo "<script>alert('User not found. Please log in again.'); window.location.href='logout.php';</script>";
     exit();
 }
+
 ?>
 
 

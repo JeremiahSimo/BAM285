@@ -8,7 +8,7 @@
         /* Custom CSS for Glowing Effects */
         body {
             background: url("https://th.bing.com/th/id/R.e9ea962e02082e7e2c7f3815a71a8364?rik=j34ZRvwSEhWP6A&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f07%2fFree-4k-Backgrounds-Screen-Download.jpg&ehk=z%2f7Q4nlcVzNOT4%2f8vtJUjBFs3p%2fzurkacBEpNuTsIqM%3d&risl=&pid=ImgRaw&r=0") no-repeat center center fixed;
-background-size: cover;
+        background-size: cover;
 
             font-family: Arial, sans-serif;
             color: white;
@@ -67,6 +67,26 @@ background-size: cover;
 </head>
 <body>
 
+<?php 
+if (isset($_POST['submit'])) {
+    $user = $_POST['email'];
+    $password = md5($_POST['password']); // Encrypt password
+
+    $sql = "SELECT * FROM users WHERE email = '$user' AND password = '$password'";
+    $run = mysqli_query($con, $sql);
+    $check = mysqli_num_rows($run);
+
+    if ($check == 1) {
+        session_start();
+        $_SESSION['email'] = $user;
+        echo "<script>window.open('index_admin.php?page=dashboard', '_self');</script>";
+    } else {
+        echo "<script>alert('Invalid Email or Password'); window.open('index.php', '_self');</script>";
+    }
+}
+?>
+
+
     <!-- Header -->
     <header id="main-header" class="bg-danger py-2 text-white">
         <div class="container">
@@ -115,21 +135,3 @@ background-size: cover;
 </body>
 </html>
 
-<?php 
-if (isset($_POST['submit'])) {
-    $user = $_POST['email'];
-    $password = md5($_POST['password']); // Encrypt password
-
-    $sql = "SELECT * FROM users WHERE email = '$user' AND password = '$password'";
-    $run = mysqli_query($con, $sql);
-    $check = mysqli_num_rows($run);
-
-    if ($check == 1) {
-        session_start();
-        $_SESSION['email'] = $user;
-        echo "<script>window.open('index_admin.php?page=dashboard', '_self');</script>";
-    } else {
-        echo "<script>alert('Invalid Email or Password'); window.open('index.php', '_self');</script>";
-    }
-}
-?>
