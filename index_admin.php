@@ -574,6 +574,9 @@
                                     case 'display':
                                       include 'modules/display1.php';
                                       break;
+                                      case 'contact':
+                                        include 'modules/contact.php';
+                                        break;
                           
 
             }
