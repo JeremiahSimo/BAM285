@@ -55,8 +55,7 @@
                                     echo "upload/noimage.jpg";
                                 } else {
                                     echo $pfrow['photo'];
-                                } ?>"
-                                    height="225px;" width="100%">
+                                } ?>" height="225px;" width="100%">
                             </div>
                             <div class="panel-footer text-center">
                                 &#x20A8; <?php echo number_format($pfrow['price'], 2); ?>
@@ -106,11 +105,10 @@
                                         echo "upload/noimage.jpg";
                                     } else {
                                         echo $prow['photo'];
-                                    } ?>"
-                                        height="225px;" width="100%">
+                                    } ?>" height="225px;" width="100%">
                                 </div>
                                 <div class="panel-footer text-center">
-                                    &#x20A8; <?php echo number_format($prow['price'], 2); ?>
+                                    <?php echo number_format($prow['price'], 2); ?>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +132,7 @@
     </div>
 </body>
 <footer>
-    <center>Thanks to Neovic | Brought To You By code-projects.org</center>
+    <center> No Copyrights. 2024-2025</center>
 </footer>
 
 </html>
